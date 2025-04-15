@@ -15,24 +15,45 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Scene\GameMainScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Scene\SceneManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Utility\InputControl.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="source\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="source\fps.cpp">
+    <ClCompile Include="source\Utility\fps.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="source\inputCtrl.cpp">
+    <ClCompile Include="source\Utility\inputCtrl.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\fps.h">
+    <ClInclude Include="source\Scene\GameMainScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="source\inputCtrl.h">
+    <ClInclude Include="source\Scene\SceneBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="source\main.h">
+    <ClInclude Include="source\Scene\SceneManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Utility\InputControl.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Utility\Vector2D.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Utility\fps.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Utility\inputCtrl.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

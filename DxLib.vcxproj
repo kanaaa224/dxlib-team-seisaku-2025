@@ -18,6 +18,23 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Scene\GameMainScene.cpp" />
+    <ClCompile Include="source\Scene\SceneManager.cpp" />
+    <ClCompile Include="source\Utility\fps.cpp" />
+    <ClCompile Include="source\Utility\InputControl.cpp" />
+    <ClCompile Include="source\Utility\inputCtrl.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\Scene\GameMainScene.h" />
+    <ClInclude Include="source\Scene\SceneBase.h" />
+    <ClInclude Include="source\Scene\SceneManager.h" />
+    <ClInclude Include="source\Utility\fps.h" />
+    <ClInclude Include="source\Utility\InputControl.h" />
+    <ClInclude Include="source\Utility\inputCtrl.h" />
+    <ClInclude Include="source\Utility\Vector2D.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -138,16 +155,6 @@
       <AdditionalLibraryDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="source\fps.cpp" />
-    <ClCompile Include="source\inputCtrl.cpp" />
-    <ClCompile Include="source\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="source\fps.h" />
-    <ClInclude Include="source\inputCtrl.h" />
-    <ClInclude Include="source\main.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
