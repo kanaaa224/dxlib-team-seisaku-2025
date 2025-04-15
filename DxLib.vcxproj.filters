@@ -21,9 +21,6 @@
     <ClCompile Include="source\Scene\SceneManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="source\Utility\InputControl.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="source\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -42,9 +39,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\Scene\SceneManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Utility\InputControl.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\Utility\Vector2D.h">
