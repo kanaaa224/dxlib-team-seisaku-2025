@@ -1,6 +1,6 @@
 ﻿#include"DxLib.h"
-#include"../Utility/fps.h"
-#include"../Utility/inputCtrl.h"
+#include"../Utility/FPS.h"
+#include"../Utility/InputCtrl.h"
 #include"SceneManager.h"
 #include"GameMainScene.h"
 
