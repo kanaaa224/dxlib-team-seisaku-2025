@@ -20,20 +20,29 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp" />
-    <ClCompile Include="source\Scene\GameMainScene.cpp" />
+    <ClCompile Include="source\Objects\GameObjectBase.cpp" />
+    <ClCompile Include="source\Scene\InGameScene.cpp" />
+    <ClCompile Include="source\Scene\TitleScene.cpp" />
     <ClCompile Include="source\Scene\SceneManager.cpp" />
     <ClCompile Include="source\Utility\Collision.cpp" />
     <ClCompile Include="source\Utility\FPS.cpp" />
     <ClCompile Include="source\Utility\InputCtrl.cpp" />
+    <ClCompile Include="source\Utility\ProjectConfig.cpp" />
+    <ClCompile Include="source\Utility\ResourceManager.cpp" />
     <ClCompile Include="source\Utility\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\Scene\GameMainScene.h" />
+    <ClInclude Include="source\Objects\GameObject.h" />
+    <ClInclude Include="source\Objects\GameObjectBase.h" />
+    <ClInclude Include="source\Scene\InGameScene.h" />
+    <ClInclude Include="source\Scene\TitleScene.h" />
     <ClInclude Include="source\Scene\SceneBase.h" />
     <ClInclude Include="source\Scene\SceneManager.h" />
     <ClInclude Include="source\Utility\Collision.h" />
     <ClInclude Include="source\Utility\FPS.h" />
     <ClInclude Include="source\Utility\InputCtrl.h" />
+    <ClInclude Include="source\Utility\ProjectConfig.h" />
+    <ClInclude Include="source\Utility\ResourceManager.h" />
     <ClInclude Include="source\Utility\Vector2D.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

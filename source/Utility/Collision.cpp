@@ -43,14 +43,8 @@ void Collision::SetHitObjectType(const std::vector<eObjectType>& FUNC_hitobjectt
 
 bool Collision::IsCheckHitTarget(eObjectType FUNC_hitobject) const
 {
-	// K p    I u W F N g ^ C v     [ v    
-	for (eObjectType type : hit_object_type)
-	{
-		// K      ^ C v Ȃ TRUE
-		if (type == FUNC_hitobject)
-		{
-			return true;
-		}
+	for (eObjectType type : hit_object_type) {
+		if (type == FUNC_hitobject) return true;
 	}
 
 	return false;
@@ -67,8 +61,7 @@ bool Collision::CheckCollision(const Collision& other) const
 	if (A_min.x < B_max.x &&
 		A_max.x > B_min.x &&
 		A_min.y < B_max.y &&
-		A_max.y > B_min.y)
-	{
+		A_max.y > B_min.y) {
 		return true;
 	}
 

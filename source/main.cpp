@@ -1,32 +1,36 @@
 ﻿#include"DxLib.h"
 #include"Scene/SceneManager.h"
 
-//メイン関数（プログラムはここから始まります）
-int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
+int WINAPI WinMain(
+	_In_ HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPSTR lpCmdLine,
+	_In_ int nShowCm)
 {
-	//例外処理（異常が発生したら、catch分に飛びます）
-	try
-	{
-		//シーンマネージャー機能の生成
-		SceneManager manager;
+	SceneManager* scene_manager = nullptr;
 
-		//シーンマネージャー機能の初期化処理
-		manager.Initialize();
+	int result = 0;
 
-		//シーンマネージャー機能の更新処理
-		manager.Update();
+	try {
+		scene_manager = new SceneManager();
 
-		//シーンマネージャー機能の終了処理
-		manager.Finalize();
+		scene_manager->WakeUp();
+		scene_manager->Run();
+		scene_manager->Shutdown();
 	}
-	catch (const char* err_log)
-	{
-		//エラー発生内容の出力
-		OutputDebugString(err_log);
+	catch (const char* error_log) {
+		OutputDebugString(error_log);
 
-		//エラー終了を通知
-		return -1;
+		result = -1;
 	}
-	//正常終了を通知
-	return 0;
+
+	if (scene_manager != nullptr) {
+		scene_manager->Shutdown();
+
+		delete scene_manager;
+
+		scene_manager = nullptr;
+	}
+
+	return result;
 }
