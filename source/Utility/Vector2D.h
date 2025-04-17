@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-//2次元ベクトルクラス
 class Vector2D
 {
 public:
@@ -8,99 +7,54 @@ public:
 	float y;
 
 public:
-	Vector2D() : x(0.0f), y(0.0f)
-	{
-
-	}
-
-	Vector2D(float scalar) : x(scalar), y(scalar)
-	{
-
-	}
-
-	Vector2D(float mx, float my) : x(mx), y(my)
-	{
-
-	}
+	Vector2D() : x(0.0f), y(0.0f) {}
+	Vector2D(float scalar) : x(scalar), y(scalar) {}
+	Vector2D(float mx, float my) : x(mx), y(my) {}
+	~Vector2D() {}
 
 public:
-	//演算子オーバーロード
-	Vector2D& operator = (const Vector2D& location)
+	Vector2D& operator = (const Vector2D& v)
 	{
-		this->x = location.x;
-		this->y = location.y;
+		this->x = v.x;
+		this->y = v.y;
 
 		return *this;
 	}
 
-	const Vector2D operator + (const Vector2D& location)
+	const Vector2D operator + (const Vector2D& v) const
 	{
-		float x = this->x + location.x;
-		float y = this->y + location.y;
-
-		return Vector2D(x, y);
+		return Vector2D(this->x + v.x, this->y + v.y);
 	}
 
-	const Vector2D operator - (const Vector2D& location)
+	Vector2D& operator += (const Vector2D& v)
 	{
-		float x = this->x - location.x;
-		float y = this->y - location.y;
-
-		return Vector2D(x, y);
-	}
-
-	const Vector2D operator * (const float& scalar)
-	{
-		float x = this->x * scalar;
-		float y = this->y * scalar;
-
-		return Vector2D(x, y);
-	}
-
-	const Vector2D operator * (const Vector2D& location)
-	{
-		float x = this->x * location.x;
-		float y = this->y * location.y;
-
-		return Vector2D(x, y);
-	}
-
-	const Vector2D operator / (const float& scalar)
-	{
-		if (scalar < 1e-6f)
-		{
-			return Vector2D(0.0f);
-		}
-		return Vector2D(this->x / scalar, this->y / scalar);
-	}
-
-	const Vector2D operator / (const Vector2D& location)
-	{
-		if (location.x < 1e-6f)
-		{
-			return Vector2D(0.0f);
-		}
-		if (location.y < 1e-6f)
-		{
-			return Vector2D(0.0f);
-		}
-		return Vector2D(this->x / location.x, this->y / location.y);
-	}
-
-	Vector2D& operator += (const Vector2D& location)
-	{
-		this->x += location.x;
-		this->y += location.y;
+		this->x += v.x;
+		this->y += v.y;
 
 		return *this;
 	}
 
-	Vector2D& operator -= (const Vector2D& location)
+	const Vector2D operator - (const Vector2D& v) const
 	{
-		this->x -= location.x;
-		this->y -= location.y;
+		return Vector2D(this->x - v.x, this->y - v.y);
+	}
+
+	Vector2D& operator -= (const Vector2D& v)
+	{
+		this->x -= v.x;
+		this->y -= v.y;
 
 		return *this;
+	}
+
+	const Vector2D operator * (const float& scalar) const
+	{
+		return Vector2D(this->x * scalar, this->y * scalar);
+	}
+
+	const Vector2D operator * (const Vector2D& v) const
+	{
+		return Vector2D(this->x * v.x, this->y * v.y);
 	}
 
 	Vector2D& operator *= (const float& scalar)
@@ -111,46 +65,34 @@ public:
 		return *this;
 	}
 
-	Vector2D& operator *= (const Vector2D& location)
+	Vector2D& operator *= (const Vector2D& v)
 	{
-		this->x *= location.x;
-		this->y *= location.y;
+		this->x *= v.x;
+		this->y *= v.y;
 
 		return *this;
 	}
 
-	Vector2D& operator /= (const float& scalar)
-	{
-		if (scalar < 1e-6f)
-		{
-			this->x = 0.0f;
-			this->y = 0.0f;
-		}
-		else
-		{
-			this->x /= scalar;
-			this->y /= scalar;
-		}
-		return *this;
-	}
+	const Vector2D operator / (const float& scalar) const;
 
-	Vector2D operator /= (const Vector2D& location)
-	{
-		if (location.x < 1e-6f)
-		{
-			this->x = 0.0f;
-			this->y = 0.0f;
-		}
-		else if (location.y < 1e-6f)
-		{
-			this->x = 0.0f;
-			this->y = 0.0f;
-		}
-		else
-		{
-			this->x /= location.x;
-			this->y /= location.y;
-		}
-		return *this;
-	}
+	const Vector2D operator / (const Vector2D& v) const;
+
+	Vector2D& operator /= (const float& scalar);
+
+	Vector2D& operator /= (const Vector2D& v);
+
+public:
+	float SqrLength() const;
+	float Length() const;
+
+	Vector2D Normalize() const;
+
+	static float Dot(const Vector2D& a);
+	static float Dot(const Vector2D& a, const Vector2D& b);
+
+	static float Cross(const Vector2D& a, const Vector2D& b);
+
+	static Vector2D Lerp(const Vector2D& a, const Vector2D& b, const float t);
+
+	static float Distance(const Vector2D& a, const Vector2D& b);
 };
