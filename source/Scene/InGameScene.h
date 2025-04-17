@@ -4,6 +4,9 @@
 
 class InGameScene : public SceneBase
 {
+private:
+	//class Player* player;
+
 public:
 	InGameScene();
 	virtual ~InGameScene();

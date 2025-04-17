@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Objects\GameObjectBase.cpp" />
+    <ClCompile Include="source\Objects\Player.cpp" />
     <ClCompile Include="source\Scene\InGameScene.cpp" />
     <ClCompile Include="source\Scene\TitleScene.cpp" />
     <ClCompile Include="source\Scene\SceneManager.cpp" />
@@ -34,6 +35,7 @@
   <ItemGroup>
     <ClInclude Include="source\Objects\GameObject.h" />
     <ClInclude Include="source\Objects\GameObjectBase.h" />
+    <ClInclude Include="source\Objects\Player.h" />
     <ClInclude Include="source\Scene\InGameScene.h" />
     <ClInclude Include="source\Scene\TitleScene.h" />
     <ClInclude Include="source\Scene\SceneBase.h" />

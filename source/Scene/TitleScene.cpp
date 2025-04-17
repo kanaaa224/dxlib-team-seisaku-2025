@@ -11,6 +11,8 @@ TitleScene::~TitleScene() {}
 void TitleScene::Initialize()
 {
 	ResourceManager* rm = ResourceManager::GetInstance();
+
+	return __super::Initialize();
 }
 
 eSceneType TitleScene::Update(const float& delta_second)
@@ -26,11 +28,13 @@ void TitleScene::Draw() const
 
 	DrawFormatString(10, 40, GetColor(255, 255, 255), "This is the Title.");
 	DrawFormatString(10, 60, GetColor(255, 255, 255), "Press Enter or A button: GameMain");
+
+	return __super::Draw();
 }
 
 void TitleScene::Finalize()
 {
-	__super::Finalize();
+	return __super::Finalize();
 }
 
 const eSceneType TitleScene::GetNowSceneType() const
