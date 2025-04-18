@@ -1,21 +1,21 @@
 #include "Vector2D.h"
 #include <math.h>
 
-const Vector2D Vector2D::operator/(const float& scalar) const
+const Vector2D Vector2D::operator / (const float& scalar) const
 {
 	if (fabsf(scalar) < 1.0e-6f) return Vector2D(0.0f);
 
 	return Vector2D(this->x / scalar, this->y / scalar);
 }
 
-const Vector2D Vector2D::operator/(const Vector2D& v) const
+const Vector2D Vector2D::operator / (const Vector2D& v) const
 {
 	if (fabsf(v.x) < 1.0e-6f || fabsf(v.y) < 1.0e-6f) return Vector2D(0.0f);
 
 	return Vector2D(this->x / v.x, this->y / v.y);
 }
 
-Vector2D& Vector2D::operator/=(const float& scalar)
+Vector2D& Vector2D::operator /= (const float& scalar)
 {
 	if (fabsf(scalar) < 1.0e-6f) {
 		this->x = 0.0f;
@@ -29,7 +29,7 @@ Vector2D& Vector2D::operator/=(const float& scalar)
 	return *this;
 }
 
-Vector2D& Vector2D::operator/=(const Vector2D& v)
+Vector2D& Vector2D::operator /= (const Vector2D& v)
 {
 	if (fabsf(v.x) < 1.0e-6f || fabsf(v.y) < 1.0e-6f) {
 		this->x = 0.0f;

@@ -57,7 +57,7 @@ void Player::Initialize()
 
 	is_on_ground = true;
 	scroll_offset = 0.0f;
-	ground_y = 500.0f;
+	ground_y = 400.0f;
 
 	image = move_animation[0];
 
@@ -114,11 +114,8 @@ void Player::Update(float delta_second)
 		) {
 			player_state = ePlayerState::move;
 		}
-		else if (
-			InputCtrl::GetKeyState(KEY_INPUT_SPACE) ||
-
-			InputCtrl::GetButtonState(XINPUT_BUTTON_A)
-		) {
+		else if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) || InputCtrl::GetButtonState(XINPUT_BUTTON_A)) 
+		{
 			player_state = ePlayerState::jump;
 
 			//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
@@ -160,9 +157,35 @@ void Player::Update(float delta_second)
 		break;
 
 	case ePlayerState::jump:
-		Movement(delta_second);
 
+		//Movement(delta_second);
 		//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
+
+		if (!is_on_ground) velocity.y += D_GRAVITY * delta_second;
+
+		//重力速度の計算
+		g_velocity += D_GRAVITY / 444.0f;
+		velocity.y += g_velocity;
+
+		this->velocity.y -= 1.0f; //ジャンプ力
+
+		if (location.y + velocity.y * delta_second > ground_y) {
+
+			location.y = ground_y;
+
+			velocity.y = 0.0f;
+			g_velocity = 0.0f;
+
+			is_on_ground = true;
+
+			player_state = ePlayerState::idle;
+		}
+
+
+
+
+		/*Vector2D collisionPosition = collision.GetPosition();
+		collision.SetPosition(location);*/
 
 		break;
 
@@ -176,6 +199,7 @@ void Player::Update(float delta_second)
 void Player::Draw(const Vector2D& screen_offset) const
 {
 	//DrawRotaGraph(location.x, location.y, 1.0, image, TRUE, flip_flag);
+	DrawFormatString(0, 120, GetColor(255, 255, 255), "PlayerState: %0.0f", velocity.y);
 	__super::Draw(screen_offset);
 }
 
@@ -277,12 +301,7 @@ void Player::Movement(float delta_second)
 		player_state = ePlayerState::move;
 	}
 
-	else if (
-		InputCtrl::GetKeyState(KEY_INPUT_D) ||
-		InputCtrl::GetKeyState(KEY_INPUT_RIGHT) ||
-
-		InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT)
-	) {
+	else if (InputCtrl::GetKeyState(KEY_INPUT_D) || InputCtrl::GetKeyState(KEY_INPUT_RIGHT) || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT)) {
 		velocity.x = 0.8f;
 
 		flip_flag = false;
@@ -312,11 +331,7 @@ void Player::Movement(float delta_second)
 		player_state = ePlayerState::move;
 	}
 
-	else if (
-		InputCtrl::GetKeyState(KEY_INPUT_SPACE) ||
-
-		InputCtrl::GetButtonState(XINPUT_BUTTON_A)
-	) {
+	else if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) ||InputCtrl::GetButtonState(XINPUT_BUTTON_A)) {
 		animation_time += delta_second;
 
 		if (animation_time >= (1.0f / 8.0f)) {

@@ -10,8 +10,7 @@ GameObjectBase::GameObjectBase() :
 	mobility(eMobilityType::stationary),
 	velocity(0),
 	flip_flag(false),
-	draw_collision_box(false)
-{}
+	draw_collision_box(false) {}
 
 GameObjectBase::~GameObjectBase() {}
 

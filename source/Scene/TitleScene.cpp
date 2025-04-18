@@ -17,7 +17,8 @@ void TitleScene::Initialize()
 
 eSceneType TitleScene::Update(const float& delta_second)
 {
-	if (InputCtrl::GetKeyState(KEY_INPUT_RETURN) || InputCtrl::GetButtonState(XINPUT_BUTTON_A)) return eSceneType::in_game;;
+	if (InputCtrl::GetKeyState(KEY_INPUT_RETURN) || InputCtrl::GetButtonState(XINPUT_BUTTON_A)) return eSceneType::in_game;
+	if (InputCtrl::GetKeyState(KEY_INPUT_1)) return eSceneType::debug_boss; // 島袋 デバッグ
 
 	return __super::Update(delta_second);
 }
