@@ -71,7 +71,7 @@ void SceneManager::Run()
 		if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE) || InputCtrl::GetButtonState(XINPUT_BUTTON_BACK)) break;
 #endif
 
-		//FrameControl();
+		FrameControl();
 
 		eSceneType next_scene_type = current_scene->Update(GetDeltaSecond());
 

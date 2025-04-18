@@ -25,7 +25,8 @@ private:
 	};
 
 private:
-	std::vector<int> move_animation;
+	//std::vector<int> move_animation[7];
+	int move_animation[7];
 	std::vector<int> jump_animation;
 	std::vector<int> dying_animation;
 

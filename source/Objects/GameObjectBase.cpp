@@ -24,6 +24,8 @@ void GameObjectBase::Draw(const Vector2D& screen_offset) const
 	Vector2D graph_location = this->location + screen_offset;
 
 	DrawRotaGraphF(graph_location.x, graph_location.y, 1.0, 0.0, image, TRUE, this->flip_flag);
+
+	DrawCollision(screen_offset);
 }
 
 void GameObjectBase::DrawCollision(const Vector2D& screen_offset) const
@@ -32,7 +34,7 @@ void GameObjectBase::DrawCollision(const Vector2D& screen_offset) const
 		Vector2D min = collision.GetPosition() - (collision.box_size / 2) + collision.pivot + screen_offset;
 		Vector2D max = collision.GetPosition() + (collision.box_size / 2) + collision.pivot + screen_offset;
 
-		DrawBoxAA(min.x, min.y, max.x, max.y, GetColor(255, 0, 0), false);
+		DrawBoxAA(min.x, min.y, max.x, max.y, GetColor(255, 255, 255), false);
 	}
 }
 

@@ -19,9 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\Objects\Enemy\Scarerun\Scarerun.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Objects\Boss\BossBase.cpp" />
     <ClCompile Include="source\Objects\Enemy\EnemyBase.cpp" />
+    <ClCompile Include="source\Objects\Enemy\Scarerun\Scarerun.cpp" />
     <ClCompile Include="source\Objects\GameObjectBase.cpp" />
     <ClCompile Include="source\Objects\Player.cpp" />
     <ClCompile Include="source\Scene\InGameScene.cpp" />
@@ -35,8 +36,9 @@
     <ClCompile Include="source\Utility\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\Objects\Enemy\Scarerun\Scarerun.h" />
+    <ClInclude Include="source\Objects\Boss\BossBase.h" />
     <ClInclude Include="source\Objects\Enemy\EnemyBase.h" />
+    <ClInclude Include="source\Objects\Enemy\Scarerun\Scarerun.h" />
     <ClInclude Include="source\Objects\GameObject.h" />
     <ClInclude Include="source\Objects\GameObjectBase.h" />
     <ClInclude Include="source\Objects\Player.h" />
