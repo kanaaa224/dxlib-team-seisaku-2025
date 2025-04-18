@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../GameObject.h"
-#include "../../Utility/Vector2D.h"
 
 enum class eBossBaseState
 {
@@ -15,14 +14,6 @@ class BossBase : public GameObject
 {
 private:
 	Vector2D velocity;
-
-	std::vector<int> idle_animation;
-
-	const int animation_nums[2] = { 0, 1 };
-
-	int animation_count;
-
-	float animation_time;
 
 	int state;
 
@@ -45,7 +36,7 @@ public:
 	virtual void OnHitCollision(GameObject* hit_object);
 
 public:
-	void SetVelocity(float velo);
+	void SetVelocity(float v);
 
 	static BossBase* GetInstance();
 

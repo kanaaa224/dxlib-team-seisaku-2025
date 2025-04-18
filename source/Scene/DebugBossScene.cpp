@@ -9,10 +9,10 @@ DebugBossScene::~DebugBossScene() {}
 
 void DebugBossScene::Initialize()
 {
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 1; i++) {
 		float x, y;
 
-		x = (i + 1) * 100 + 200;
+		x = (i + 1) * 100;
 		y = 430;
 
 		bosses.push_back(CreateObject<BossBase>(Vector2D(x, y)));
@@ -30,7 +30,7 @@ eSceneType DebugBossScene::Update(const float& delta_second)
 
 void DebugBossScene::Draw() const
 {
-	DrawBox(0, 200, 1280, 520, GetColor(100, 100, 100), true);
+	DrawBox(0, 0, 1280, 720, GetColor(100, 100, 100), true);
 
 	return __super::Draw();
 }

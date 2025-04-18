@@ -1,14 +1,10 @@
 #include "BossBase.h"
-#include "../../Utility/ResourceManager.h"
 #include "DxLib.h"
 
 BossBase* BossBase::instance = nullptr;
 
 BossBase::BossBase() :
 	velocity(0.0f),
-	idle_animation(),
-	animation_count(0),
-	animation_time(0.0f),
 	state(0),
 	bossBase(nullptr),
 	bossBase_state(eBossBaseState::idle) {}
@@ -17,41 +13,34 @@ BossBase::~BossBase() {}
 
 void BossBase::Initialize()
 {
-	ResourceManager* rm = ResourceManager::GetInstance();
-
-	idle_animation = rm->GetImages("resource/images/boss/boss1/idle/dark fantasy big boss idle.png", 16, 16, 1, 64, 64);
-
-	image = idle_animation[0];
-
-	if (image == -1) throw("アセットのロードに失敗\n");
-
+	float size = D_OBJECT_SIZE * 4;
 
 	collision.is_blocking = true;
-	collision.SetSize(D_OBJECT_SIZE + 10, D_OBJECT_SIZE + 10);
-	collision.pivot = Vector2D(6.0f);
+	collision.SetSize(size, size);
+	//collision.pivot = Vector2D(6.0f);
 	collision.SetObjectType(eObjectType::enemy);
 	collision.SetHitObjectType({ eObjectType::player, eObjectType::enemy, eObjectType::ground });
 
 
-	//SetDrawCollisionBox(true);
+	SetDrawCollisionBox(true);
 }
 
 void BossBase::Update(float delta_second)
 {
-	//velocity.x = -0.1;
+	//Animation(delta_second);
+
+	Movement(delta_second);
 
 	location += velocity;
 
 	Vector2D collisionPosition = collision.GetPosition();
 
 	collision.SetPosition(location);
-
-	//Animation(delta_second);
 }
 
 void BossBase::Draw(const Vector2D& screen_offset) const
 {
-	DrawBox(location.x - 32, location.y - 32, location.x + 32, location.y + 32, GetColor(255, 255, 255), false);
+	DrawBox(location.x, location.y, location.x, location.y, GetColor(255, 255, 255), false);
 
 	__super::Draw(screen_offset);
 }
@@ -71,18 +60,6 @@ void BossBase::Animation(float delta_second)
 	case eBossBaseState::move:
 	case eBossBaseState::damage:
 	case eBossBaseState::die:
-		animation_time += delta_second;
-
-		if (animation_time >= (1.0f / 8.0f)) {
-			animation_time = 0.0f;
-
-			animation_count++;
-
-			if (animation_count >= 16) animation_count = 0;
-
-			image = idle_animation[/*animation_nums[*/animation_count/*]*/];
-		}
-
 		break;
 
 	default:
@@ -90,7 +67,10 @@ void BossBase::Animation(float delta_second)
 	}
 }
 
-void BossBase::Movement(float delta_second) {}
+void BossBase::Movement(float delta_second)
+{
+	//velocity.x = -0.1;
+}
 
 BossBase* BossBase::GetInstance()
 {
