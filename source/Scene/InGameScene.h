@@ -10,6 +10,8 @@ private:
 	int hp_ber;     //HPバー
 	int hp_frame;   //HPフレーム
 
+	std::vector<class BossBase*> bosses; // 島袋 デバッグ
+
 public:
 	InGameScene();
 	virtual ~InGameScene();
