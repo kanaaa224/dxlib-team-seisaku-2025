@@ -5,7 +5,7 @@
 
 #define D_OBJECT_SIZE (32.0f)
 
-enum eMobilityType
+enum class eMobilityType
 {
 	stationary,
 	movable,
@@ -20,7 +20,7 @@ enum class eCollisionSide
 	none
 };
 
-enum eType
+enum class eType
 {
 	player,
 	enemy
@@ -34,30 +34,24 @@ protected:
 	Vector2D location;
 	Vector2D velocity;
 
-	Collision collision;
-
 	int image;
 	int z_layer;
-	int type;
 
 	eMobilityType mobility;
 
 	bool flip_flag;
 	bool draw_collision_box;
-	bool flag;
+
+	Collision collision;
 
 public:
 	GameObjectBase();
 	virtual ~GameObjectBase();
 
 	virtual void Initialize();
-
 	virtual void Update(float delta_second);
-
 	virtual void Draw(const Vector2D& screen_offset) const;
-
 	virtual void DrawCollision(const Vector2D& screen_offset) const;
-
 	virtual void Finalize();
 
 
