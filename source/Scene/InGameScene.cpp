@@ -15,11 +15,9 @@ void InGameScene::Initialize()
 {
 	ResourceManager* rm = ResourceManager::GetInstance();
 
-	hp_ber = LoadGraph("resource/images/ui/hp_bar_back.png");
-	if (hp_ber == -1)
-	{
-		throw("resource/images/ui/hp_bar_back.pngがありません\n");
-	}
+	hp_ber = LoadGraph("resource/images/ui/hp_bar_backA.png");
+	hp_frame = LoadGraph("resource/images/ui/hp_frameA.png");
+	
 
 	player = CreateObject<Player>(Vector2D(100, 403));
 
@@ -35,11 +33,12 @@ void InGameScene::Draw() const
 {
 	SetFontSize(16);
 
-	DrawFormatString(10, 40, GetColor(255, 255, 255), "This is the GameMain.");
+	DrawFormatString(10, 400, GetColor(255, 255, 255), "This is the GameMain.");
 
 	//HPフレーム表示
-
+	DrawGraph(25, 30, hp_frame, FALSE);
 	//HPバー表示
+	DrawGraph(20, 40, hp_ber, FALSE);
 
 	return __super::Draw();
 }
