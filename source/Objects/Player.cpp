@@ -167,7 +167,7 @@ void Player::Update(float delta_second)
 		g_velocity += D_GRAVITY / 444.0f;
 		velocity.y += g_velocity;
 
-		this->velocity.y -= 1.0f; //ジャンプ力
+		//this->velocity.y -= 1.0f; //ジャンプ力
 
 		if (location.y + velocity.y * delta_second > ground_y) {
 
