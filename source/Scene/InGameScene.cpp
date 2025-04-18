@@ -6,6 +6,8 @@
 #include "../Objects/Boss/BossBase.h"
 #include "../Objects/Player.h"
 
+#include "../Objects/Stage.h"
+
 #include "DxLib.h"
 
 InGameScene::InGameScene() : hp_ber(NULL),hp_frame(NULL){}
@@ -31,6 +33,9 @@ void InGameScene::Initialize()
 
 		bosses.push_back(CreateObject<BossBase>(Vector2D(x, y)));
 	}
+
+	//player = CreateObject<Player>(Vector2D(100, 403));
+	stage = CreateObject<Stage>(Vector2D(0, 0));
 
 	return __super::Initialize();
 }

@@ -24,6 +24,7 @@
     <ClCompile Include="source\Objects\Enemy\EnemyBase.cpp" />
     <ClCompile Include="source\Objects\GameObjectBase.cpp" />
     <ClCompile Include="source\Objects\Player.cpp" />
+    <ClCompile Include="source\Objects\Stage.cpp" />
     <ClCompile Include="source\Scene\InGameScene.cpp" />
     <ClCompile Include="source\Scene\SceneManager.cpp" />
     <ClCompile Include="source\Scene\TitleScene.cpp" />
@@ -40,6 +41,7 @@
     <ClInclude Include="source\Objects\GameObject.h" />
     <ClInclude Include="source\Objects\GameObjectBase.h" />
     <ClInclude Include="source\Objects\Player.h" />
+    <ClInclude Include="source\Objects\Stage.h" />
     <ClInclude Include="source\Scene\InGameScene.h" />
     <ClInclude Include="source\Scene\SceneBase.h" />
     <ClInclude Include="source\Scene\SceneManager.h" />
