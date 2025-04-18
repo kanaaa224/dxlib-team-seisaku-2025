@@ -10,7 +10,7 @@
 
 #include "DxLib.h"
 
-InGameScene::InGameScene() : hp_ber(NULL),hp_frame(NULL){}
+InGameScene::InGameScene() :player(NULL),stage(NULL),hp_ber(NULL),hp_frame(NULL){}
 
 InGameScene::~InGameScene() {}
 
@@ -34,7 +34,6 @@ void InGameScene::Initialize()
 		bosses.push_back(CreateObject<BossBase>(Vector2D(x, y)));
 	}
 
-	//player = CreateObject<Player>(Vector2D(100, 403));
 	stage = CreateObject<Stage>(Vector2D(0, 0));
 
 	return __super::Initialize();
