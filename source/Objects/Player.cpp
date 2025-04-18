@@ -66,7 +66,16 @@ void Player::Initialize()
 
 void Player::Update(float delta_second)
 {
-	if (!is_on_ground) velocity.y += D_GRAVITY * delta_second;
+	if (!is_on_ground) velocity.y += D_GRAVITY* delta_second;
+
+	//重力速度の計算
+	g_velocity += D_GRAVITY / 444.0f;
+	velocity.y += g_velocity;
+
+	if (player_state == ePlayerState::jump)
+	{
+		this->velocity.y -= 1.0f; //ジャンプ力
+	}
 
 	if (location.y + velocity.y * delta_second >= ground_y) {
 		location.y = ground_y;
@@ -226,6 +235,7 @@ bool Player::GetDestroy() const
 
 void Player::Movement(float delta_second)
 {
+	
 	if (
 		InputCtrl::GetKeyState(KEY_INPUT_A) ||
 		InputCtrl::GetKeyState(KEY_INPUT_LEFT) ||
@@ -242,8 +252,9 @@ void Player::Movement(float delta_second)
 			InputCtrl::GetButtonState(XINPUT_BUTTON_A)
 		) {
 			player_state = ePlayerState::jump;
-
 			animation_time += delta_second;
+
+
 
 			if (animation_time >= (1.0f / 8.0f)) {
 				animation_time = 0.0f;
