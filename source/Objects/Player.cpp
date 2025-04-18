@@ -66,16 +66,21 @@ void Player::Initialize()
 
 void Player::Update(float delta_second)
 {
+	if (player_state == ePlayerState::jump)
+	{
+		JumpMoment(delta_second);
+	}
+
 	if (!is_on_ground) velocity.y += D_GRAVITY* delta_second;
 
 	//重力速度の計算
 	g_velocity += D_GRAVITY / 444.0f;
 	velocity.y += g_velocity;
 
-	if (player_state == ePlayerState::jump)
-	{
-		this->velocity.y -= 1.0f; //ジャンプ力
-	}
+	//if (player_state == ePlayerState::jump)
+	//{
+	//	this->velocity.y -= 1.0f; //ジャンプ力
+	//}
 
 	if (location.y + velocity.y * delta_second >= ground_y) {
 		location.y = ground_y;
@@ -358,6 +363,11 @@ void Player::JumpMoment(float delta_second)
 		player_state = ePlayerState::jump;
 
 		is_on_ground = false;
+
+		if (player_state == ePlayerState::jump)
+		{
+			this->velocity.y -= 1.0f; //ジャンプ力
+		}
 
 		//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 	}
