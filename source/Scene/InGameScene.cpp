@@ -22,7 +22,7 @@ void InGameScene::Initialize()
 	hp_frame = LoadGraph("resource/images/ui/hp_frameA.png");
 	
 
-	player = CreateObject<Player>(Vector2D(100, 403));
+	player = CreateObject<Player>(Vector2D(100, 400));
 
 	// 島袋 デバッグ
 	for (int i = 0; i < 3; i++) {
