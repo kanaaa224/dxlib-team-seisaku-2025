@@ -5,7 +5,7 @@
 class InGameScene : public SceneBase
 {
 private:
-	//class Player* player;
+	class Player* player;
 
 	int hp_ber;     //HPバー
 	int hp_frame;   //HPフレーム

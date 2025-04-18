@@ -1,5 +1,5 @@
 #include "Player.h"
-//#include "../Utility/ResourceManager.h"
+#include "../Utility/ResourceManager.h"
 //#include "../Utility/StageData.h"
 #include "../Utility/InputCtrl.h"
 #include "DxLib.h"
@@ -28,8 +28,16 @@ Player::~Player() {}
 
 void Player::Initialize()
 {
-	//ResourceManager* rm = ResourceManager::GetInstance();
+	ResourceManager* rm = ResourceManager::GetInstance();
 
+	move_animation[0] = LoadGraph("resource/images/player/idle/01_idle_1.png");
+	//move_animation[0] = rm->GetImages("resource/images/player/idle/01_idle_1.png", 9, 9, 1, 32, 32);
+	//move_animation[1] = rm->GetImages("resource/images/player/01_idle_2.png", 9, 9, 1, 32, 32)[1];
+	//move_animation[2] = rm->GetImages("resource/images/player/01_idle_3.png", 9, 9, 1, 32, 32);
+	//move_animation[3] = rm->GetImages("resource/images/player/01_idle_4.png", 9, 9, 1, 32, 32);
+	//move_animation[4] = rm->GetImages("resource/images/player/01_idle_5.png", 9, 9, 1, 32, 32);
+	//move_animation[5] = rm->GetImages("resource/images/player/01_idle_6.png", 9, 9, 1, 32, 32);
+	//move_animation[6] = rm->GetImages("resource/images/player/01_idle_7.png", 9, 9, 1, 32, 32);
 	//move_animation = rm->GetImages("resource/images/player/xxx.png", 9, 9, 1, 32, 32);
 	//jump_animation = rm->GetImages("resource/images/player/xxx.png", 9, 9, 1, 32, 32);
 
@@ -153,13 +161,14 @@ void Player::Update(float delta_second)
 
 void Player::Draw(const Vector2D& screen_offset) const
 {
+	//DrawRotaGraph(location.x, location.y, 1.0, image, TRUE, flip_flag);
 	__super::Draw(screen_offset);
 }
 
 void Player::Finalize()
 {
-	move_animation.clear();
-
+	//move_animation.clear();
+	DeleteGraph(move_animation[0]);
 	dying_animation.clear();
 }
 
@@ -345,17 +354,17 @@ void Player::JumpMoment(float delta_second)
 
 void Player::AnimationControl(float delta_second)
 {
-	animation_time += delta_second;
+	//animation_time += delta_second;
 
-	if (animation_time >= (1.0f / 8.0f)) {
-		animation_time = 0.0f;
+	//if (animation_time >= (1.0f / 8.0f)) {
+	//	animation_time = 0.0f;
 
-		animation_count++;
+	//	animation_count++;
 
-		if (animation_count >= 4) animation_count = 0;
+	//	if (animation_count >= 4) animation_count = 0;
 
-		image = move_animation[animation_num[animation_count]];
-	}
+	//	image = move_animation[animation_num[animation_count]];
+	//}
 }
 
 void Player::WalkAnimationControl(float delta_second)

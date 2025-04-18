@@ -3,7 +3,7 @@
 #include "../Utility/ResourceManager.h"
 #include "../Utility/InputCtrl.h"
 
-//#include "../Objects/Player.h"
+#include "../Objects/Player.h"
 
 #include "DxLib.h"
 
@@ -21,7 +21,7 @@ void InGameScene::Initialize()
 		throw("resource/images/ui/hp_bar_back.pngがありません\n");
 	}
 
-	//player = CreateObject<Player>(Vector2D(100, 403));
+	player = CreateObject<Player>(Vector2D(100, 403));
 
 	return __super::Initialize();
 }
