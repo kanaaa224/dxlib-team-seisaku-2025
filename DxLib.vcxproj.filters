@@ -15,6 +15,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Objects\Boss\BossBase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="source\Objects\Enemy\EnemyBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -56,6 +59,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Objects\Boss\BossBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
     <ClInclude Include="source\Objects\Enemy\EnemyBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

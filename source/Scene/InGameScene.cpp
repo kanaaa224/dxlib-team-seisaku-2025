@@ -3,6 +3,7 @@
 #include "../Utility/ResourceManager.h"
 #include "../Utility/InputCtrl.h"
 
+#include "../Objects/Boss/BossBase.h"
 #include "../Objects/Player.h"
 
 #include "DxLib.h"
@@ -21,6 +22,16 @@ void InGameScene::Initialize()
 
 	player = CreateObject<Player>(Vector2D(100, 403));
 
+	// 島袋 デバッグ
+	for (int i = 0; i < 3; i++) {
+		float x, y;
+
+		x = (i + 1) * 100 + 200;
+		y = 430;
+
+		bosses.push_back(CreateObject<BossBase>(Vector2D(x, y)));
+	}
+
 	return __super::Initialize();
 }
 
@@ -31,6 +42,8 @@ eSceneType InGameScene::Update(const float& delta_second)
 
 void InGameScene::Draw() const
 {
+	DrawBox(0, 200, 1280, 520, GetColor(100, 100, 100), true);
+
 	SetFontSize(16);
 
 	DrawFormatString(10, 400, GetColor(255, 255, 255), "This is the GameMain.");
