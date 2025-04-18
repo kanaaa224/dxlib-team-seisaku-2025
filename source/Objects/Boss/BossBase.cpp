@@ -51,6 +51,8 @@ void BossBase::Update(float delta_second)
 
 void BossBase::Draw(const Vector2D& screen_offset) const
 {
+	DrawBox(location.x - 32, location.y - 32, location.x + 32, location.y + 32, GetColor(255, 255, 255), false);
+
 	__super::Draw(screen_offset);
 }
 

@@ -2,18 +2,14 @@
 
 #include "SceneBase.h"
 
-class InGameScene : public SceneBase
+class DebugBossScene : public SceneBase
 {
 private:
-	class Player* player;
-	class Stage* stage;
-
-	int hp_ber;     //HPバー
-	int hp_frame;   //HPフレーム
+	std::vector<class BossBase*> bosses;
 
 public:
-	InGameScene();
-	virtual ~InGameScene();
+	DebugBossScene();
+	virtual ~DebugBossScene();
 
 	virtual void Initialize() override;
 	virtual eSceneType Update(const float& delta_second) override;

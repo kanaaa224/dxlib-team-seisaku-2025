@@ -11,6 +11,8 @@ enum class eSceneType
 	re_start,
 	result,
 	exit,
+
+	debug_boss
 };
 
 class SceneBase

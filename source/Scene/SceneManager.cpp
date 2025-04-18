@@ -9,6 +9,7 @@
 
 #include "TitleScene.h"
 #include "InGameScene.h"
+#include "DebugBossScene.h"
 
 SceneBase* SceneManager::CreateScene(eSceneType next_type)
 {
@@ -18,6 +19,9 @@ SceneBase* SceneManager::CreateScene(eSceneType next_type)
 
 	case eSceneType::in_game:
 		return dynamic_cast<SceneBase*>(new InGameScene());
+
+	case eSceneType::debug_boss:
+		return dynamic_cast<SceneBase*>(new DebugBossScene());
 
 	default:
 		return nullptr;
