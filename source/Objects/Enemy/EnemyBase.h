@@ -17,11 +17,13 @@ enum eEnemyState
 class EnemyBase : public GameObject
 {
 protected:
-	Vector2D location;   //現在の場所
-	Vector2D velocity;   //現在のベクトル
 	int nowState;        //現在の状態
+	float nowStateTime;  //現在の状態へ遷移してからの経過時間
+
 	Vector2D hitBoxSize; //当たり判定
+
 	Vector2D fov_BoxSize;//視野範囲
+	bool playerFoundFlg; //プレイヤーを発見したか
 
 public:
 	EnemyBase();
