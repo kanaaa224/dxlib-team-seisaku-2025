@@ -44,10 +44,6 @@ void InGameScene::Draw() const
 {
 	DrawBox(0, 200, 1280, 520, GetColor(100, 100, 100), true);
 
-	SetFontSize(16);
-
-	DrawFormatString(10, 400, GetColor(255, 255, 255), "This is the GameMain.");
-
 	//HPフレーム表示
 	DrawGraph(25, 30, hp_frame, FALSE);
 	//HPバー表示
