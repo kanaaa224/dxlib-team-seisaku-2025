@@ -17,7 +17,7 @@ void InGameScene::Initialize()
 	hp_frame = LoadGraph("resource/images/ui/hp_frameA.png");
 	
 	player = CreateObject<Player>(Vector2D(100, 400));
-	stage  = CreateObject<Stage>(Vector2D(0, 0));
+	stage  = CreateObject<Stage>(Vector2D(640, 360));
 
 	return __super::Initialize();
 }
