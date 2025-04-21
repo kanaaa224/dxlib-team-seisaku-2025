@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Scene\GameUI.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Objects\Boss\BossBase.cpp" />
     <ClCompile Include="source\Objects\Enemy\EnemyBase.cpp" />
@@ -38,6 +39,7 @@
     <ClCompile Include="source\Utility\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Scene\GameUI.h" />
     <ClInclude Include="source\Objects\Boss\BossBase.h" />
     <ClInclude Include="source\Objects\Enemy\EnemyBase.h" />
     <ClInclude Include="source\Objects\Enemy\Scarerun\Scarerun.h" />

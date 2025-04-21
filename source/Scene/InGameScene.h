@@ -9,9 +9,6 @@ private:
 	class Stage* stage;
 	std::vector<class Scarerun*> scareruns;
 
-	int hp_ber;     //HPバー
-	int hp_frame;   //HPフレーム
-
 public:
 	InGameScene();
 	virtual ~InGameScene();
