@@ -5,7 +5,7 @@
 class DebugBossScene : public SceneBase
 {
 private:
-	std::vector<class BossBase*> bosses;
+	std::vector<class Vaillant*> vaillants;
 
 public:
 	DebugBossScene();
