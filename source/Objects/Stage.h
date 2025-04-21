@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "GameObject.h"
 #include "../Utility/Vector2D.h"
@@ -8,6 +8,8 @@ class Stage : public GameObject
 private:
 
 	std::vector<int> stage_background;
+
+	int draw_count;
 
 public:
 
