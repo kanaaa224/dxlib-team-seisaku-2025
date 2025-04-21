@@ -1,6 +1,11 @@
 #include "EnemyBase.h"
 
-EnemyBase::EnemyBase()
+EnemyBase::EnemyBase() : 
+	move_img(), 
+	attackPosition_img(),
+	attack_img(),
+	getAttack_img(),
+	die_img()
 {
 }
 

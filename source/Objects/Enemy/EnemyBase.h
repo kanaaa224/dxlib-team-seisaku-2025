@@ -4,6 +4,8 @@
 
 #include "../GameObject.h"
 #include "../../Utility/Vector2D.h"
+#include "../../Utility/ResourceManager.h"
+
 
 enum eEnemyState
 {
@@ -25,11 +27,11 @@ protected:
 	Vector2D fov_BoxSize;//視野範囲
 	bool playerFoundFlg; //プレイヤーを発見したか
 
-	int move_img[10];          //移動時の画像
-	int attackPosition_img[10];//攻撃姿勢の画像
-	int attack_img[10];        //攻撃の画像
-	int getAttack_img[10];     //攻撃を受ける画像
-	int die_img[10];           //死亡の画像
+	std::vector<int> move_img;          //移動時の画像
+	std::vector<int> attackPosition_img;//攻撃姿勢の画像
+	std::vector<int> attack_img;        //攻撃の画像
+	std::vector<int> getAttack_img;     //攻撃を受ける画像
+	std::vector<int> die_img;           //死亡の画像
 
 public:
 	EnemyBase();
