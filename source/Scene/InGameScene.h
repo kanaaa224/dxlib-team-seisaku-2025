@@ -7,6 +7,7 @@ class InGameScene : public SceneBase
 private:
 	class Player* player;
 	class Stage* stage;
+	std::vector<class Scarerun*> scareruns;
 
 	int hp_ber;     //HPバー
 	int hp_frame;   //HPフレーム

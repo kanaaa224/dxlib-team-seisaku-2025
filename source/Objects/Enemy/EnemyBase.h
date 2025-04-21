@@ -6,6 +6,7 @@
 #include "../../Utility/Vector2D.h"
 #include "../../Utility/ResourceManager.h"
 
+#define DEBUG
 
 enum eEnemyState
 {

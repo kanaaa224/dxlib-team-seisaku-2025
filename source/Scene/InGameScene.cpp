@@ -3,6 +3,7 @@
 #include "../Utility/InputCtrl.h"
 #include "../Objects/Player.h"
 #include "../Objects/Stage.h"
+#include "../Objects/Enemy/Scarerun/Scarerun.h"
 #include "DxLib.h"
 
 InGameScene::InGameScene() : player(NULL), stage(NULL), hp_ber(NULL), hp_frame(NULL) {}
@@ -18,6 +19,8 @@ void InGameScene::Initialize()
 	
 	player = CreateObject<Player>(Vector2D(100, 400));
 	stage  = CreateObject<Stage>(Vector2D(640, 360));
+
+	scareruns.push_back(CreateObject<Scarerun>(Vector2D(200,400)));
 
 	return __super::Initialize();
 }
