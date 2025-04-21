@@ -4,19 +4,19 @@
 #include "../Utility/InputCtrl.h"
 #include "DxLib.h"
 
-#define D_PLAYER_SPEED	(50.0f)
-#define D_GRAVITY (9.807f)
+#define D_PLAYER_SPEED	(50.0f) //プレイヤー速度
+#define D_GRAVITY (9.807f) //重力
 
-Player* Player::instance = nullptr;
+Player* Player::instance = nullptr; //インスタンス生成
 
 Player::Player() :
 	move_animation(),
 	jump_animation(),
 	dying_animation(),
-	velocity(0.0f),
-	player_state(ePlayerState::idle),
-	now_direction_state(eDirectionState::left),
-	next_direction_state(eDirectionState::left),
+	velocity(0.0f), //移動量
+	player_state(ePlayerState::idle), //プレイヤーの状態
+	now_direction_state(eDirectionState::left), //現在の状態
+	next_direction_state(eDirectionState::left), //次状態
 	animation_time(0.0f),
 	player(nullptr),
 	scroll_end(false),
@@ -28,6 +28,7 @@ Player::~Player() {}
 
 void Player::Initialize()
 {
+	//インスタンス取得
 	ResourceManager* rm = ResourceManager::GetInstance();
 
 	move_animation[0] = LoadGraph("resource/images/player/idle/01_idle_1.png");
@@ -43,41 +44,36 @@ void Player::Initialize()
 
 	//jump_SE = rm->GetSounds("resource/sounds/xxx.wav");
 
-	collision.SetSize(D_OBJECT_SIZE, D_OBJECT_SIZE);
+	collision.SetSize(D_OBJECT_SIZE, D_OBJECT_SIZE);  //サイズ設定
 
-	collision.SetObjectType(eObjectType::player);
+	collision.SetObjectType(eObjectType::player);  //オブジェクト設定
 
-	collision.SetHitObjectType({ eObjectType::enemy, eObjectType::ground });
+	collision.SetHitObjectType({ eObjectType::enemy, eObjectType::ground });  //hitオブジェクトタイプ
 
-	SetDrawCollisionBox(true);
+	SetDrawCollisionBox(true);  //当たり判定大きさ取得
 
-	z_layer = 5;
+	z_layer = 5;  //レイヤー設定
 
-	mobility = eMobilityType::movable;
+	mobility = eMobilityType::movable;  //
 
-	is_on_ground = true;
+	is_on_ground = true;   //地面についたかどうか
 	scroll_offset = 0.0f;
 	ground_y = 400.0f;
 
-	image = move_animation[0];
+	image = move_animation[0];  //初期イメージ設定
 
-	if (image == -1) throw("エラー\n");
+	if (image == -1) throw("エラー\n");  //エラーチェック
 }
 
 void Player::Update(float delta_second)
 {
-	//velocity.x += location.x;
-
+	//プレイヤーがジャンプ状態のとき
 	if (player_state == ePlayerState::jump)
 	{
 		JumpMoment(delta_second);
 	}
 
-	if (!is_on_ground) velocity.y += D_GRAVITY* delta_second;
-
-	//重力速度の計算
-	g_velocity += D_GRAVITY / 444.0f;
-	velocity.y += g_velocity;
+	if (!is_on_ground) velocity.y += D_GRAVITY* delta_second;   //重力速度の計算
 
 	////後で聞くやつ
 	//if (location.y + velocity.y * delta_second >= ground_y) {
@@ -95,8 +91,9 @@ void Player::Update(float delta_second)
 
 	collision.SetPosition(location);
 
+	//プレイヤーの状態ごとの処理
 	switch (player_state) {
-	case ePlayerState::idle:
+	case ePlayerState::idle: //idle状態の処理
 		image = move_animation[0];
 
 		velocity.x = 0;
@@ -121,14 +118,14 @@ void Player::Update(float delta_second)
 
 		break;
 
-	case ePlayerState::move:
+	case ePlayerState::move: //移動処理
 		Movement(delta_second);
 
 		AnimationControl(delta_second);
 
 		break;
 
-	case ePlayerState::die:
+	case ePlayerState::die: //死亡処理
 		animation_time += delta_second;
 
 		if (animation_time >= 0.07f) {
@@ -149,19 +146,19 @@ void Player::Update(float delta_second)
 
 		break;
 
-	case ePlayerState::damage:
+	case ePlayerState::damage: //ダメージを受けた時の処理
 		animation_time += delta_second;
 
 		break;
 
-	case ePlayerState::jump:
+	case ePlayerState::jump: //ジャンプ状態の処理
 
 		//Movement(delta_second);
 		//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 
-		if (!is_on_ground) velocity.y += D_GRAVITY * delta_second;
+		if (!is_on_ground) velocity.y += D_GRAVITY * delta_second;  //重力速度計算
 
-
+		//地面についた時の処理
 		if (location.y + velocity.y * delta_second > ground_y) {
 
 			location.y = ground_y;
@@ -184,24 +181,23 @@ void Player::Update(float delta_second)
 		break;
 	}
 
-	location += velocity;
+	location += velocity; //移動量加算
 }
 
-void Player::Draw(const Vector2D& screen_offset) const
+void Player::Draw(const Vector2D& screen_offset) const  //描画処理
 {
-	//DrawRotaGraph(location.x, location.y, 1.0, image, TRUE, flip_flag);
 	DrawFormatString(0, 120, GetColor(255, 255, 255), "PlayerState: %0.0f", velocity.y);
 	__super::Draw(screen_offset);
 }
 
-void Player::Finalize()
+void Player::Finalize() //終了時処理
 {
 	//move_animation.clear();
 	DeleteGraph(move_animation[0]);
 	dying_animation.clear();
 }
 
-void Player::OnHitCollision(GameObjectBase* hit_object)
+void Player::OnHitCollision(GameObjectBase* hit_object) //当たった時
 {
 	/*
 	
@@ -255,7 +251,7 @@ bool Player::GetDestroy() const
 
 void Player::Movement(float delta_second)
 {
-	
+	//移動処理
 	if (
 		InputCtrl::GetKeyState(KEY_INPUT_A) ||
 		InputCtrl::GetKeyState(KEY_INPUT_LEFT) ||
@@ -275,7 +271,7 @@ void Player::Movement(float delta_second)
 			animation_time += delta_second;
 
 
-
+			//アニメーション設定
 			if (animation_time >= (1.0f / 8.0f)) {
 				animation_time = 0.0f;
 
@@ -357,6 +353,7 @@ void Player::Movement(float delta_second)
 
 void Player::JumpMoment(float delta_second)
 {
+	//ジャンプ移動処理
 	if ((
 		InputCtrl::GetKeyState(KEY_INPUT_SPACE) ||
 
