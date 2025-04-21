@@ -57,7 +57,6 @@ public:
 	virtual void DrawCollision(const Vector2D& screen_offset) const;
 	virtual void Finalize();
 
-
 public:
 	virtual void OnHitCollision(GameObjectBase* hit_object);
 
