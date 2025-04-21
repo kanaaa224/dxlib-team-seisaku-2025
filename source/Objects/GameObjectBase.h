@@ -23,7 +23,9 @@ enum class eCollisionSide
 enum class eType
 {
 	player,
-	enemy
+	enemy,
+
+	other
 };
 
 class GameObjectBase
@@ -38,6 +40,7 @@ protected:
 	int z_layer;
 
 	eMobilityType mobility;
+	eType type;
 
 	bool flip_flag;
 	bool draw_collision_box;
