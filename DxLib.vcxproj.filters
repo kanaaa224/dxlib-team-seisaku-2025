@@ -1,9 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="source\Objects\Boss\BossBase.cpp" />
     <ClCompile Include="source\Objects\Boss\Vaillant.cpp" />
+    <ClCompile Include="source\Objects\Enemy\Scarerun\Scarerun.cpp" />
+    <ClCompile Include="source\Objects\Enemy\EnemyBase.cpp" />
+    <ClCompile Include="source\Objects\GameObjectBase.cpp" />
+    <ClCompile Include="source\Objects\Player.cpp" />
+    <ClCompile Include="source\Objects\Stage.cpp" />
+    <ClCompile Include="source\Scene\DebugBossScene.cpp" />
+    <ClCompile Include="source\Scene\GameUI.cpp" />
+    <ClCompile Include="source\Scene\InGameScene.cpp" />
+    <ClCompile Include="source\Scene\SceneManager.cpp" />
+    <ClCompile Include="source\Scene\TitleScene.cpp" />
+    <ClCompile Include="source\Utility\Collision.cpp" />
+    <ClCompile Include="source\Utility\FPS.cpp" />
+    <ClCompile Include="source\Utility\InputCtrl.cpp" />
+    <ClCompile Include="source\Utility\ProjectConfig.cpp" />
+    <ClCompile Include="source\Utility\ResourceManager.cpp" />
+    <ClCompile Include="source\Utility\Vector2D.cpp" />
+    <ClCompile Include="source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Objects\Boss\BossBase.h" />
     <ClInclude Include="source\Objects\Boss\Vaillant.h" />
+    <ClInclude Include="source\Objects\Enemy\Scarerun\Scarerun.h" />
+    <ClInclude Include="source\Objects\Enemy\EnemyBase.h" />
+    <ClInclude Include="source\Objects\GameObject.h" />
+    <ClInclude Include="source\Objects\GameObjectBase.h" />
+    <ClInclude Include="source\Objects\Player.h" />
+    <ClInclude Include="source\Objects\Stage.h" />
+    <ClInclude Include="source\Scene\DebugBossScene.h" />
+    <ClInclude Include="source\Scene\GameUI.h" />
+    <ClInclude Include="source\Scene\InGameScene.h" />
+    <ClInclude Include="source\Scene\SceneBase.h" />
+    <ClInclude Include="source\Scene\SceneManager.h" />
+    <ClInclude Include="source\Scene\TitleScene.h" />
+    <ClInclude Include="source\Utility\Collision.h" />
+    <ClInclude Include="source\Utility\FPS.h" />
+    <ClInclude Include="source\Utility\InputCtrl.h" />
+    <ClInclude Include="source\Utility\ProjectConfig.h" />
+    <ClInclude Include="source\Utility\ResourceManager.h" />
+    <ClInclude Include="source\Utility\Vector2D.h" />
   </ItemGroup>
 </Project>
