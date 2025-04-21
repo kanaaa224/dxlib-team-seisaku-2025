@@ -8,6 +8,7 @@ GameObjectBase::GameObjectBase() :
 	image(NULL),
 	z_layer(0),
 	mobility(eMobilityType::stationary),
+	type(eType::other),
 	velocity(0),
 	flip_flag(false),
 	draw_collision_box(false) {}
