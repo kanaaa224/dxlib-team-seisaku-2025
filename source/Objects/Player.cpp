@@ -66,6 +66,8 @@ void Player::Initialize()
 
 void Player::Update(float delta_second)
 {
+	//velocity.x += location.x;
+
 	if (player_state == ePlayerState::jump)
 	{
 		JumpMoment(delta_second);
@@ -77,21 +79,17 @@ void Player::Update(float delta_second)
 	g_velocity += D_GRAVITY / 444.0f;
 	velocity.y += g_velocity;
 
-	//if (player_state == ePlayerState::jump)
-	//{
-	//	this->velocity.y -= 1.0f; //ジャンプ力
+	////後で聞くやつ
+	//if (location.y + velocity.y * delta_second >= ground_y) {
+	//	location.y = ground_y;
+
+	//	velocity.y = 0.0f;
+	//	g_velocity = 0.0f;
+
+	//	is_on_ground = true;
+
+	//	player_state = ePlayerState::idle;
 	//}
-
-	if (location.y + velocity.y * delta_second >= ground_y) {
-		location.y = ground_y;
-
-		velocity.y = 0.0f;
-		g_velocity = 0.0f;
-
-		is_on_ground = true;
-
-		player_state = ePlayerState::idle;
-	}
 
 	Vector2D collisionPosition = collision.GetPosition();
 
@@ -163,11 +161,6 @@ void Player::Update(float delta_second)
 
 		if (!is_on_ground) velocity.y += D_GRAVITY * delta_second;
 
-		//重力速度の計算
-		g_velocity += D_GRAVITY / 444.0f;
-		velocity.y += g_velocity;
-
-		//this->velocity.y -= 1.0f; //ジャンプ力
 
 		if (location.y + velocity.y * delta_second > ground_y) {
 
@@ -180,8 +173,6 @@ void Player::Update(float delta_second)
 
 			player_state = ePlayerState::idle;
 		}
-
-
 
 
 		/*Vector2D collisionPosition = collision.GetPosition();
@@ -271,7 +262,7 @@ void Player::Movement(float delta_second)
 
 		InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_LEFT)
 	) {
-		velocity.x = -0.8f;
+		velocity.x = -1.0f;
 
 		flip_flag = true;
 
@@ -302,7 +293,7 @@ void Player::Movement(float delta_second)
 	}
 
 	else if (InputCtrl::GetKeyState(KEY_INPUT_D) || InputCtrl::GetKeyState(KEY_INPUT_RIGHT) || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT)) {
-		velocity.x = 0.8f;
+		velocity.x = 1.0f;
 
 		flip_flag = false;
 
