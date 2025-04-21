@@ -1,6 +1,6 @@
 ﻿#include "DebugBossScene.h"
 #include "../Utility/InputCtrl.h"
-#include "../Objects/Boss/BossBase.h"
+#include "../Objects/Boss/Vaillant.h"
 #include "DxLib.h"
 
 DebugBossScene::DebugBossScene() {}
@@ -12,10 +12,10 @@ void DebugBossScene::Initialize()
 	for (int i = 0; i < 1; i++) {
 		float x, y;
 
-		x = (i + 1) * 100;
+		x = (i + 1) * 100.0f;
 		y = 430;
 
-		bosses.push_back(CreateObject<BossBase>(Vector2D(x, y)));
+		vaillants.push_back(CreateObject<Vaillant>(Vector2D(x, y)));
 	}
 
 	return __super::Initialize();

@@ -15,8 +15,6 @@ class BossBase : public GameObject
 private:
 	Vector2D velocity;
 
-	int state;
-
 	BossBase* bossBase;
 
 	static BossBase* instance;
@@ -35,12 +33,9 @@ public:
 
 	virtual void OnHitCollision(GameObject* hit_object);
 
-public:
-	void SetVelocity(float v);
-
 	static BossBase* GetInstance();
 
-private:
-	void Movement(float delta_second);
-	void Animation(float delta_second);
+protected:
+	virtual void Animation(float delta_second);
+	virtual void Movement(float delta_second);
 };
