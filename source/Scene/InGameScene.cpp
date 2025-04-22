@@ -1,6 +1,7 @@
 ﻿#include "InGameScene.h"
 #include "../Utility/ResourceManager.h"
 #include "../Utility/InputCtrl.h"
+#include "../Utility/ProjectConfig.h"
 #include "../Objects/Player.h"
 #include "../Objects/Stage.h"
 #include "../Objects/Enemy/Scarerun/Scarerun.h"
@@ -31,6 +32,11 @@ eSceneType InGameScene::Update(const float& delta_second)
 {
 
 	__super::Update(delta_second);
+
+	if (player->GetLocation().x >= (D_WIN_MAX_X / 2))
+	{
+		screen_offset.x = player->GetLocation().x - (D_WIN_MAX_X / 2);
+	}
 
 	return GetNowSceneType();
 }
