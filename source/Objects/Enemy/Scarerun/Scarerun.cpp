@@ -1,4 +1,4 @@
-#include "Scarerun.h"
+ï»¿#include "Scarerun.h"
 #include "DxLib.h"
 
 Scarerun::Scarerun()
@@ -13,9 +13,9 @@ void Scarerun::Initialize()
 {
 	ResourceManager* rm = ResourceManager::GetInstance();
 
-	move_img = rm->GetImages("resource/images/enemy/scarerun/idle.png", 4, 4, 1, 46, 40);
+	idle_img = rm->GetImages("resource/images/enemy/scarerun/idle.png", 4, 4, 1, 46, 40);
 
-	image = move_img[0];
+	image = idle_img[0];
 
 	z_layer = 0;
 
@@ -40,14 +40,14 @@ void Scarerun::Draw(const Vector2D& screen_offset) const
 	__super::Draw(screen_offset);
 
 #ifdef DEBUG
-	DrawBox(location.x - 23, location.y - 20, location.x + 23, location.y + 20, GetColor(255, 0, 0), FALSE);
+	
 #endif // DEBUG
 }
 
 void Scarerun::Finalize()
 {
-	//‰æ‘œ‰ğ•ú
-	move_img.clear();
+	//ç”»åƒè§£æ”¾
+	idle_img.clear();
 
 	__super::Finalize();
 }
