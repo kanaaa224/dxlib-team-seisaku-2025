@@ -16,7 +16,7 @@ private:
 	int buf_defense;  //バフ・防御力UP
 	int defense_frame;
 	int buf_HPUP;     //バフ・体力上限UP
-	int HPUP_fame;
+	int HPUP_frame;
 	int buf_recovery; //バフ・体力回復
 	int recovery_frame;
 	int buf_movement; //バフ・移動速度UP
