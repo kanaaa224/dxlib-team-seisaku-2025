@@ -18,38 +18,33 @@ void Stage::Initialize()
 {
 	ResourceManager* rm = ResourceManager::GetInstance();
 
-	stage_background = rm->GetImages("resource/images/stage/stage1/back_color.png",1);
-	std::vector<int> temp = rm->GetImages("resource/images/stage/stage1/middle.png", 1);
-	stage_background.push_back(temp[0]);
-	temp = rm->GetImages("resource/images/stage/stage1/front.png", 1);
-	stage_background.push_back(temp[0]);
+	stage_background = rm->GetImages("resource/images/stage/stage1/forest.png",1);
 
-	//image = stage_background[0];
+	image = stage_background[0];
 
-	for (int i = 0; i < 3; i++)
+	if (image == -1)
 	{
-		if (stage_background[i] == -1)
-		{
-			throw("エラー\n");
-		}
+		throw("画像Errer");
 	}
-
-	temp.clear();
 }
 
 void Stage::Update(float delta_second)
 {
 	Player* player = Player::GetInstance();
+	
+	velocity.x = player->GetVelocity().x;
 
-	//player->GetVelocity().x 
+	//velocity.x = 1;
+
+	location += velocity;
 }
 
 void Stage::Draw(const Vector2D& screen_offset) const
 {
-	DrawGraph(0, 0, stage_background[0], TRUE);
-	DrawGraph(0, 0, stage_background[1], TRUE);
-	DrawGraph(0, 0, stage_background[2], TRUE);
 	__super::Draw(screen_offset);
+
+	DrawFormatString(0, 200, GetColor(255, 255, 255), "location: %f", location.x);
+	DrawFormatString(0, 220, GetColor(255, 255, 255), "velocity: %f", velocity.x);
 }
 
 void Stage::Finalize()
