@@ -181,6 +181,15 @@ void Player::Update(float delta_second)
 		break;
 	}
 
+	if (location.x < 16.0f) location.x = 16.0f;
+
+	/*if (scroll_end == false) {
+		if (location.x >= 640.0f / 2) location.x = 640.0f / 2;
+	}
+	else {
+		if (location.x > 600.0f) location.x = 600.0f;
+	}*/
+
 	location += velocity; //移動量加算
 }
 
@@ -339,15 +348,6 @@ void Player::Movement(float delta_second)
 		velocity.x = 0;
 
 		player_state = ePlayerState::idle;
-	}
-
-	if (location.x < 16.0f) location.x = 16.0f;
-
-	if (scroll_end == false) {
-		if (location.x >= 640.0f / 2) location.x = 640.0f / 2;
-	}
-	else {
-		if (location.x > 600.0f) location.x = 600.0f;
 	}
 }
 
