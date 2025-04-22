@@ -6,10 +6,12 @@
 #include "../../Utility/Vector2D.h"
 #include "../../Utility/ResourceManager.h"
 
-#define DEBUG
+#define DEBUG //デバック表示
+#define IMG_CHANGE_TIME 0.1f //画像の切り替え速度
 
 enum eEnemyState
 {
+	NONE,           //何もなし
 	IDLE,           //待機状態
 	ATTACK_POSITION,//攻撃姿勢状態
 	ATTACK,         //攻撃状態
@@ -32,6 +34,7 @@ protected:
 	std::vector<int> attack_img;        //攻撃の画像
 	std::vector<int> getAttack_img;     //攻撃を受ける画像
 	std::vector<int> die_img;           //死亡の画像
+	int nowImageNum;                       //画像配列の現在の要素数を格納する用
 
 public:
 	EnemyBase();
@@ -45,6 +48,18 @@ public:
 	virtual void OnHitCollision(GameObjectBase* hit_object) override;
 
 protected:
+	/// <summary>
+	/// ステートに合わせて画像を切り替える
+	/// </summary>
+	/// <param name="delta_second">1フレーム何秒経過したか</param>
 	virtual void Animation(float delta_second);
+	/// <summary>
+	/// 敵のステートをセット
+	/// </summary>
+	/// <param name="setState"></param>
+	virtual void SetEnemyState(eEnemyState setState) { 
+		oldState = nowState; 
+		nowState = setState;
+	};
 };
 

@@ -14,5 +14,11 @@ public:
 	void Finalize() override;
 
 	void OnHitCollision(GameObjectBase* hit_object) override;
+
+protected:
+	//親クラスに実際の処理を書いている
+	void Animation(float delta_second) override;
+	//親クラスに実際の処理を書いている
+	void SetEnemyState(eEnemyState setState) override { __super::SetEnemyState(setState); };
 };
 
