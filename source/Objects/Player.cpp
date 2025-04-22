@@ -11,13 +11,16 @@ Player* Player::instance = nullptr; //インスタンス生成
 
 Player::Player() :
 	move_animation(),
-	jump_animation(),
-	dying_animation(),
+	idle_animation(),
+	//jump_animation(),
+	//dying_animation(),
+	attack_animation(),
 	velocity(0.0f), //移動量
 	player_state(ePlayerState::idle), //プレイヤーの状態
 	now_direction_state(eDirectionState::left), //現在の状態
 	next_direction_state(eDirectionState::left), //次状態
 	animation_time(0.0f),
+	animation_count(0),
 	player(nullptr),
 	scroll_end(false),
 	jump_location(Vector2D(0.0f)),
@@ -31,7 +34,7 @@ void Player::Initialize()
 	//インスタンス取得
 	ResourceManager* rm = ResourceManager::GetInstance();
 
-	move_animation[0] = LoadGraph("resource/images/player/idle/01_idle_1.png");
+	//move_animation[0] = LoadGraph("resource/images/player/idle/01_idle_1.png");
 	//move_animation[0] = rm->GetImages("resource/images/player/idle/01_idle_1.png", 9, 9, 1, 32, 32);
 	//move_animation[1] = rm->GetImages("resource/images/player/01_idle_2.png", 9, 9, 1, 32, 32)[1];
 	//move_animation[2] = rm->GetImages("resource/images/player/01_idle_3.png", 9, 9, 1, 32, 32);
@@ -41,6 +44,9 @@ void Player::Initialize()
 	//move_animation[6] = rm->GetImages("resource/images/player/01_idle_7.png", 9, 9, 1, 32, 32);
 	//move_animation = rm->GetImages("resource/images/player/xxx.png", 9, 9, 1, 32, 32);
 	//jump_animation = rm->GetImages("resource/images/player/xxx.png", 9, 9, 1, 32, 32);
+
+	idle_animation = rm->GetImages("resource/images/player/idle/03_idle.png", 8, 8, 1, 288, 45);
+	attack_animation = rm->GetImages("resource/images/player/attack1/atk_288_45.png", 6, 6, 1, 288, 45);
 
 	//jump_SE = rm->GetSounds("resource/sounds/xxx.wav");
 
@@ -60,41 +66,23 @@ void Player::Initialize()
 	scroll_offset = 0.0f;
 	ground_y = 400.0f;
 
-	image = move_animation[0];  //初期イメージ設定
+	image = idle_animation[0];  //初期イメージ設定
 
 	if (image == -1) throw("エラー\n");  //エラーチェック
 }
 
 void Player::Update(float delta_second)
 {
-	//プレイヤーがジャンプ状態のとき
-	if (player_state == ePlayerState::jump)
-	{
-		JumpMoment(delta_second);
-	}
+	/*Vector2D collisionPosition = collision.GetPosition();
 
-	if (!is_on_ground) velocity.y += D_GRAVITY* delta_second;   //重力速度の計算
-
-	////後で聞くやつ
-	//if (location.y + velocity.y * delta_second >= ground_y) {
-	//	location.y = ground_y;
-
-	//	velocity.y = 0.0f;
-	//	g_velocity = 0.0f;
-
-	//	is_on_ground = true;
-
-	//	player_state = ePlayerState::idle;
-	//}
-
-	Vector2D collisionPosition = collision.GetPosition();
-
-	collision.SetPosition(location);
+	collision.SetPosition(location);*/
 
 	//プレイヤーの状態ごとの処理
 	switch (player_state) {
 	case ePlayerState::idle: //idle状態の処理
-		image = move_animation[0];
+		//image = move_animation[0];
+
+		AnimationControl(idle_animation, delta_second, 8, idle);
 
 		velocity.x = 0;
 
@@ -115,18 +103,23 @@ void Player::Update(float delta_second)
 
 			//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 		}
+		else if (InputCtrl::GetKeyState(KEY_INPUT_E) || InputCtrl::GetButtonState(XINPUT_BUTTON_X))
+		{
+			//image = attack_animation[0];
+			player_state = ePlayerState::attack;
+		}
 
 		break;
 
 	case ePlayerState::move: //移動処理
 		Movement(delta_second);
 
-		AnimationControl(delta_second);
+		//AnimationControl(delta_second);
 
 		break;
 
 	case ePlayerState::die: //死亡処理
-		animation_time += delta_second;
+		/*animation_time += delta_second;
 
 		if (animation_time >= 0.07f) {
 			animation_time = 0.0f;
@@ -140,14 +133,14 @@ void Player::Update(float delta_second)
 
 				is_destroy = true;
 			}
-		}
+		}*/
 
 		//image = dying_animation[animation_count];
 
 		break;
 
 	case ePlayerState::damage: //ダメージを受けた時の処理
-		animation_time += delta_second;
+		//animation_time += delta_second;
 
 		break;
 
@@ -155,6 +148,12 @@ void Player::Update(float delta_second)
 
 		//Movement(delta_second);
 		//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
+
+		//プレイヤーがジャンプ状態のとき
+		if (player_state == ePlayerState::jump)
+		{
+			JumpMoment(delta_second);
+		}
 
 		if (!is_on_ground) velocity.y += D_GRAVITY * delta_second;  //重力速度計算
 
@@ -177,18 +176,19 @@ void Player::Update(float delta_second)
 
 		break;
 
+	case ePlayerState::attack: //攻撃処理
+
+		if (player_state = ePlayerState::attack)
+		{
+			AnimationControl( attack_animation, delta_second, 6, idle);
+
+		}
+
 	default:
 		break;
 	}
 
 	if (location.x < 16.0f) location.x = 16.0f;
-
-	/*if (scroll_end == false) {
-		if (location.x >= 640.0f / 2) location.x = 640.0f / 2;
-	}
-	else {
-		if (location.x > 600.0f) location.x = 600.0f;
-	}*/
 
 	location += velocity; //移動量加算
 }
@@ -201,9 +201,11 @@ void Player::Draw(const Vector2D& screen_offset) const  //描画処理
 
 void Player::Finalize() //終了時処理
 {
+	//dying_animation.clear();
 	//move_animation.clear();
-	DeleteGraph(move_animation[0]);
-	dying_animation.clear();
+	attack_animation.clear();
+	idle_animation.clear();
+	//DeleteGraph(move_animation[0]);
 }
 
 void Player::OnHitCollision(GameObjectBase* hit_object) //当たった時
@@ -361,7 +363,7 @@ void Player::JumpMoment(float delta_second)
 	) && is_on_ground == true) {
 		velocity.y = -4.0f;
 
-		JumpAnimationControl(delta_second);
+		//JumpAnimationControl(delta_second);
 
 		player_state = ePlayerState::jump;
 
@@ -376,51 +378,22 @@ void Player::JumpMoment(float delta_second)
 	}
 }
 
-void Player::AnimationControl(float delta_second)
-{
-	//animation_time += delta_second;
-
-	//if (animation_time >= (1.0f / 8.0f)) {
-	//	animation_time = 0.0f;
-
-	//	animation_count++;
-
-	//	if (animation_count >= 4) animation_count = 0;
-
-	//	image = move_animation[animation_num[animation_count]];
-	//}
-}
-
-void Player::WalkAnimationControl(float delta_second)
+void Player::AnimationControl(std::vector<int> image_container, float delta_second, int image_count, ePlayerState state)
 {
 	animation_time += delta_second;
 
-	if (animation_time >= (1.0f / 8.0f)) {
+	if (animation_time >= (1.0f / 10.0f)) {
 		animation_time = 0.0f;
 
 		animation_count++;
 
-		if (animation_count >= 4) animation_count = 0;
+		if (animation_count >= image_count) {
+			animation_count = 0;
+			player_state = state;
+		}
 
-		//image = move_animation[animation_num[animation_count]];
+		image = image_container[animation_count];
 	}
-}
-
-void Player::JumpAnimationControl(float delta_second)
-{
-	animation_time += delta_second;
-
-	if (animation_time >= (1.0f / 8.0f)) {
-		animation_time = 0.0f;
-
-		animation_count++;
-
-		if (animation_count >= 2) animation_count = 0;
-
-		//image = jump_animation[jump_animation_num[animation_count]];
-	}
-
-	//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 }
 
 Player* Player::GetInstance()
