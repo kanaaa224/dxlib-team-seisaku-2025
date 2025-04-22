@@ -17,16 +17,6 @@ enum ePlayerState
 class Player : public GameObject
 {
 private:
-	enum eDirectionState : unsigned char
-	{
-		up,
-		right,
-		down,
-		left,
-		none,
-	};
-
-private:
 	//std::vector<int> move_animation[7];
 	int move_animation[7];
 	//std::vector<int> jump_animation;
@@ -40,8 +30,6 @@ private:
 	Vector2D jump_location;
 	Vector2D jump_velocity;
 
-	eDirectionState now_direction_state;
-	eDirectionState next_direction_state;
 	float animation_time;
 
 	bool is_power_up;

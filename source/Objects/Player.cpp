@@ -17,14 +17,10 @@ Player::Player() :
 	attack_animation(),
 	velocity(0.0f), //移動量
 	player_state(ePlayerState::idle), //プレイヤーの状態
-	now_direction_state(eDirectionState::left), //現在の状態
-	next_direction_state(eDirectionState::left), //次状態
 	animation_time(0.0f),
 	animation_count(0),
 	player(nullptr),
-	scroll_end(false),
-	jump_location(Vector2D(0.0f)),
-	jump_velocity(Vector2D(0.0f))
+	scroll_end(false)	
 {}
 
 Player::~Player() {}
@@ -33,17 +29,6 @@ void Player::Initialize()
 {
 	//インスタンス取得
 	ResourceManager* rm = ResourceManager::GetInstance();
-
-	//move_animation[0] = LoadGraph("resource/images/player/idle/01_idle_1.png");
-	//move_animation[0] = rm->GetImages("resource/images/player/idle/01_idle_1.png", 9, 9, 1, 32, 32);
-	//move_animation[1] = rm->GetImages("resource/images/player/01_idle_2.png", 9, 9, 1, 32, 32)[1];
-	//move_animation[2] = rm->GetImages("resource/images/player/01_idle_3.png", 9, 9, 1, 32, 32);
-	//move_animation[3] = rm->GetImages("resource/images/player/01_idle_4.png", 9, 9, 1, 32, 32);
-	//move_animation[4] = rm->GetImages("resource/images/player/01_idle_5.png", 9, 9, 1, 32, 32);
-	//move_animation[5] = rm->GetImages("resource/images/player/01_idle_6.png", 9, 9, 1, 32, 32);
-	//move_animation[6] = rm->GetImages("resource/images/player/01_idle_7.png", 9, 9, 1, 32, 32);
-	//move_animation = rm->GetImages("resource/images/player/xxx.png", 9, 9, 1, 32, 32);
-	//jump_animation = rm->GetImages("resource/images/player/xxx.png", 9, 9, 1, 32, 32);
 
 	idle_animation = rm->GetImages("resource/images/player/idle/03_idle.png", 8, 8, 1, 288, 45);
 	attack_animation = rm->GetImages("resource/images/player/attack1/atk_288_45.png", 6, 6, 1, 288, 45);
@@ -66,6 +51,8 @@ void Player::Initialize()
 	scroll_offset = 0.0f;
 	ground_y = 400.0f;
 
+	location = Vector2D(100, 400);
+
 	image = idle_animation[0];  //初期イメージ設定
 
 	if (image == -1) throw("エラー\n");  //エラーチェック
@@ -87,23 +74,23 @@ void Player::Update(float delta_second)
 		velocity.x = 0;
 
 		if (
-			InputCtrl::GetKeyState(KEY_INPUT_A) ||
-			InputCtrl::GetKeyState(KEY_INPUT_D) ||
-			InputCtrl::GetKeyState(KEY_INPUT_LEFT) ||
-			InputCtrl::GetKeyState(KEY_INPUT_RIGHT)||
+			InputCtrl::GetKeyState(KEY_INPUT_A) == PRESS ||
+			InputCtrl::GetKeyState(KEY_INPUT_D) == PRESS ||
+			InputCtrl::GetKeyState(KEY_INPUT_LEFT) == PRESS ||
+			InputCtrl::GetKeyState(KEY_INPUT_RIGHT) == PRESS ||
 
-			InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_LEFT) ||
-			InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT)
+			InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == PRESS ||
+			InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == PRESS
 		) {
 			player_state = ePlayerState::move;
 		}
-		else if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) || InputCtrl::GetButtonState(XINPUT_BUTTON_A)) 
+		else if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 		{
 			player_state = ePlayerState::jump;
 
 			//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 		}
-		else if (InputCtrl::GetKeyState(KEY_INPUT_E) || InputCtrl::GetButtonState(XINPUT_BUTTON_X))
+		else if (InputCtrl::GetKeyState(KEY_INPUT_E) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
 		{
 			//image = attack_animation[0];
 			player_state = ePlayerState::attack;
@@ -170,17 +157,13 @@ void Player::Update(float delta_second)
 			player_state = ePlayerState::idle;
 		}
 
-
-		/*Vector2D collisionPosition = collision.GetPosition();
-		collision.SetPosition(location);*/
-
 		break;
 
 	case ePlayerState::attack: //攻撃処理
 
 		if (player_state = ePlayerState::attack)
 		{
-			AnimationControl( attack_animation, delta_second, 6, idle);
+			AnimationControl(attack_animation, delta_second, 6, idle);
 
 		}
 
@@ -195,17 +178,15 @@ void Player::Update(float delta_second)
 
 void Player::Draw(const Vector2D& screen_offset) const  //描画処理
 {
-	DrawFormatString(0, 120, GetColor(255, 255, 255), "PlayerState: %0.0f", velocity.y);
+	//DrawRotaGraphF(location.x, location.y, 5.0, 0.0, image, TRUE, this->flip_flag);
+	DrawFormatString(0, 120, GetColor(255, 255, 255), "Player velocaty.y: %0.0f", velocity.y);
 	__super::Draw(screen_offset);
 }
 
 void Player::Finalize() //終了時処理
 {
-	//dying_animation.clear();
-	//move_animation.clear();
 	attack_animation.clear();
 	idle_animation.clear();
-	//DeleteGraph(move_animation[0]);
 }
 
 void Player::OnHitCollision(GameObjectBase* hit_object) //当たった時
@@ -382,7 +363,7 @@ void Player::AnimationControl(std::vector<int> image_container, float delta_seco
 {
 	animation_time += delta_second;
 
-	if (animation_time >= (1.0f / 10.0f)) {
+	if (animation_time >= 0.08f) {
 		animation_time = 0.0f;
 
 		animation_count++;
