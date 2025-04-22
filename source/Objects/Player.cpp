@@ -142,7 +142,7 @@ void Player::Update(float delta_second)
 			}
 		}
 
-		image = dying_animation[animation_count];
+		//image = dying_animation[animation_count];
 
 		break;
 
@@ -288,7 +288,7 @@ void Player::Movement(float delta_second)
 
 				if (animation_count >= 2) animation_count = 0;
 
-				image = jump_animation[jump_animation_num[animation_count]];
+				//image = jump_animation[jump_animation_num[animation_count]];
 			}
 
 			//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
@@ -318,7 +318,7 @@ void Player::Movement(float delta_second)
 
 				if (animation_count >= 2) animation_count = 0;
 
-				image = jump_animation[jump_animation_num[animation_count]];
+				//image = jump_animation[jump_animation_num[animation_count]];
 			}
 
 			//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
@@ -337,7 +337,7 @@ void Player::Movement(float delta_second)
 
 			if (animation_count >= 2) animation_count = 0;
 
-			image = jump_animation[jump_animation_num[animation_count]];
+			//image = jump_animation[jump_animation_num[animation_count]];
 		}
 
 		player_state = ePlayerState::jump;
@@ -402,7 +402,7 @@ void Player::WalkAnimationControl(float delta_second)
 
 		if (animation_count >= 4) animation_count = 0;
 
-		image = move_animation[animation_num[animation_count]];
+		//image = move_animation[animation_num[animation_count]];
 	}
 }
 
@@ -417,7 +417,7 @@ void Player::JumpAnimationControl(float delta_second)
 
 		if (animation_count >= 2) animation_count = 0;
 
-		image = jump_animation[jump_animation_num[animation_count]];
+		//image = jump_animation[jump_animation_num[animation_count]];
 	}
 
 	//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
