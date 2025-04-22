@@ -29,6 +29,7 @@ private:
 	int move_animation[7];
 	std::vector<int> jump_animation;
 	std::vector<int> dying_animation;
+	std::vector<int> idle_animation;
 
 	Vector2D old_location;
 	Vector2D velocity;
@@ -46,7 +47,7 @@ private:
 	bool is_on_ground;
 	float ground_y;
 
-	const int animation_num[4] = { 1, 2, 3, 2, };
+	const int animation_num[8] = { 1, 2, 3, 2, };
 	const int jump_animation_num[2] = { 1,5 };
 
 	int animation_count;
