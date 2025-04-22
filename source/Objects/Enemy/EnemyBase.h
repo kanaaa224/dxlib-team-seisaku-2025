@@ -39,7 +39,7 @@ protected:
 
 	Vector2D spawnPosition;             //スポーン位置を格納
 
-	bool initUpdateFlg;
+	bool initUpdateFlg;                 //Update内で初期化したか
 
 public:
 	EnemyBase();
@@ -75,7 +75,7 @@ protected:
 	/// <param name="distance"></param>
 	virtual void Movement(float distance);
 	/// <summary>
-	/// Update内で１回のみ初期化したい変数
+	/// Update内で１回のみ初期化したい変数を関数内に入れる
 	/// </summary>
 	virtual void InitUpdate();
 };
