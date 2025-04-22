@@ -21,12 +21,9 @@ void Scarerun::Initialize()
 	//画像の描画順番
 	z_layer = 0;
 
-	//当たり判定
-	collision.is_blocking = true;
+	//当たり判定の大きさ
 	collision.SetSize(46, 40);
 	//collision.pivot = Vector2D(6.0f);
-	collision.SetObjectType(eObjectType::enemy);
-	collision.SetHitObjectType({ eObjectType::player, eObjectType::enemy, eObjectType::ground });
 	
 #ifdef DEBUG
 	//当たり判定を表示
@@ -42,8 +39,12 @@ void Scarerun::Initialize()
 
 void Scarerun::Update(float delta_second)
 {
-	Animation(delta_second);
 	__super::Update(delta_second);
+
+	if (nowState == IDLE) {
+		Movement(30.0f);
+	}
+	Animation(delta_second);
 }
 
 void Scarerun::Draw(const Vector2D& screen_offset) const
@@ -66,4 +67,14 @@ void Scarerun::OnHitCollision(GameObjectBase* hit_object)
 void Scarerun::Animation(float delta_second)
 {
 	__super::Animation(delta_second);
+}
+
+void Scarerun::Movement(float distance)
+{
+	__super::Movement(distance);
+}
+
+void Scarerun::InitUpdate()
+{
+	__super::InitUpdate();
 }

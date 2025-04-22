@@ -11,7 +11,9 @@ EnemyBase::EnemyBase() :
 	oldState(eEnemyState::NONE),
 	nowStateTime(0.0f),
 	fov_BoxSize(Vector2D(0.0f)),
-	playerFoundFlg(false)
+	playerFoundFlg(false),
+	spawnPosition(Vector2D(0.0f)),
+	initUpdateFlg(false)
 {
 }
 
@@ -21,10 +23,22 @@ EnemyBase::~EnemyBase()
 
 void EnemyBase::Initialize()
 {
+	//スポーン位置を設定
+	spawnPosition = location;
+
+	//当たり判定
+	collision.is_blocking = true;
+	collision.SetObjectType(eObjectType::enemy);
+	collision.SetHitObjectType({ eObjectType::player, eObjectType::enemy, eObjectType::ground });
 }
 
 void EnemyBase::Update(float delta_second)
 {
+	if (initUpdateFlg == false) {
+		InitUpdate();
+		initUpdateFlg = true;
+	}
+
 	location += velocity;
 
 	Vector2D collisionPosition = collision.GetPosition();
@@ -167,4 +181,22 @@ void EnemyBase::Animation(float delta_second)
 	default:
 		break;
 	}
+}
+
+void EnemyBase::Movement(float distance)
+{
+	if (spawnPosition.x <= location.x) {
+		velocity.x = -MOVE_SPEED;
+		flip_flag = true;
+	}
+	if (spawnPosition.x - distance >= location.x) {
+		velocity.x = MOVE_SPEED;
+		flip_flag = false;
+	}
+}
+
+void EnemyBase::InitUpdate()
+{
+	//スポーン位置を設定
+	spawnPosition = location;
 }

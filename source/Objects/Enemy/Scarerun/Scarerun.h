@@ -20,5 +20,9 @@ protected:
 	void Animation(float delta_second) override;
 	//親クラスに実際の処理を書いている
 	void SetEnemyState(eEnemyState setState) override { __super::SetEnemyState(setState); };
+	//
+	void Movement(float distance) override;
+
+	void InitUpdate() override;
 };
 
