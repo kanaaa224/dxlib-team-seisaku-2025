@@ -10,26 +10,19 @@ enum ePlayerState
 	die,
 	damage,
 	jump,
+	attack,
+	none,
 };
 
 class Player : public GameObject
 {
 private:
-	enum eDirectionState : unsigned char
-	{
-		up,
-		right,
-		down,
-		left,
-		none,
-	};
-
-private:
 	//std::vector<int> move_animation[7];
 	int move_animation[7];
-	std::vector<int> jump_animation;
-	std::vector<int> dying_animation;
+	//std::vector<int> jump_animation;
+	//std::vector<int> dying_animation;
 	std::vector<int> idle_animation;
+	std::vector<int> attack_animation;
 
 	Vector2D old_location;
 	Vector2D velocity;
@@ -37,8 +30,6 @@ private:
 	Vector2D jump_location;
 	Vector2D jump_velocity;
 
-	eDirectionState now_direction_state;
-	eDirectionState next_direction_state;
 	float animation_time;
 
 	bool is_power_up;
@@ -91,8 +82,6 @@ public:
 
 private:
 	void Movement(float delta_second);
-	void AnimationControl(float delta_second);
+	void AnimationControl(std::vector<int> image_container, float delta_second, int image_count, ePlayerState state);
 	void JumpMoment(float delta_second);
-	void WalkAnimationControl(float delta_second);
-	void JumpAnimationControl(float delta_second);
 };
