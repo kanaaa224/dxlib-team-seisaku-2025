@@ -7,6 +7,14 @@
 #define D_PLAYER_SPEED	(50.0f) //プレイヤー速度
 #define D_GRAVITY (9.807f) //重力
 
+#define IDLE_ANIMATION_RATE (0.01f)
+#define MOVE_ANIMATION_RATE (0.03f)
+#define ROLL_ANIMATION_RATE
+#define ATTACK_ANIMATION_RATE (0.01f)
+
+#define VELOCITY (4.0f)
+#define ADDJUMP (2)
+
 Player* Player::instance = nullptr; //インスタンス生成
 
 Player::Player() :
@@ -71,7 +79,7 @@ void Player::Update(float delta_second)
 	case ePlayerState::idle: //idle状態の処理
 		//image = move_animation[0];
 
-		AnimationControl(idle_animation, delta_second, 8, idle);
+		AnimationControl(idle_animation, IDLE_ANIMATION_RATE, delta_second, 8, idle);
 
 		velocity.x = 0;
 
@@ -106,7 +114,7 @@ void Player::Update(float delta_second)
 
 	case ePlayerState::move: //移動処理
 		Movement(delta_second);
-		AnimationControl(run_animation, delta_second, 8, idle);
+		AnimationControl(run_animation, MOVE_ANIMATION_RATE, delta_second, 8, idle);
 
 		break;
 
@@ -147,7 +155,7 @@ void Player::Update(float delta_second)
 			JumpMoment(delta_second);
 		}
 
-		if (!is_on_ground) velocity.y += D_GRAVITY * delta_second;  //重力速度計算
+		if (!is_on_ground) velocity.y += D_GRAVITY * delta_second * ADDJUMP;  //重力速度計算
 
 		//地面についた時の処理
 		if (location.y + velocity.y * delta_second > ground_y) {
@@ -168,7 +176,7 @@ void Player::Update(float delta_second)
 
 		if (player_state = ePlayerState::attack)
 		{
-			AnimationControl(attack_animation, delta_second, 6, idle);
+			AnimationControl(attack_animation, ATTACK_ANIMATION_RATE, delta_second, 6, idle);
 
 		}
 		break;
@@ -264,7 +272,7 @@ void Player::Movement(float delta_second)
 
 		InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_LEFT)
 	) {
-		velocity.x = -2.0f;
+		velocity.x = -VELOCITY;
 
 		flip_flag = true;
 
@@ -283,7 +291,7 @@ void Player::Movement(float delta_second)
 	}
 
 	else if (InputCtrl::GetKeyState(KEY_INPUT_D) || InputCtrl::GetKeyState(KEY_INPUT_RIGHT) || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT)) {
-		velocity.x = 2.0f;
+		velocity.x = VELOCITY;
 
 		flip_flag = false;
 
@@ -305,15 +313,17 @@ void Player::Movement(float delta_second)
 	else if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) ||InputCtrl::GetButtonState(XINPUT_BUTTON_A)) {
 		animation_time += delta_second;
 
-		if (animation_time >= (1.0f / 8.0f)) {
-			animation_time = 0.0f;
+		//if (animation_time >= (1.0f / 8.0f)) {
+		//	animation_time = 0.0f;
 
-			animation_count++;
+		//	animation_count++;
 
-			if (animation_count >= 2) animation_count = 0;
+		//	if (animation_count >= 2) animation_count = 0;
 
-			//image = jump_animation[jump_animation_num[animation_count]];
-		}
+		//	//image = jump_animation[jump_animation_num[animation_count]];
+		//}
+
+		AnimationControl(attack_animation, ATTACK_ANIMATION_RATE, delta_second, 6, idle);
 
 		player_state = ePlayerState::jump;
 
@@ -331,6 +341,8 @@ void Player::JumpMoment(float delta_second)
 	//ジャンプ移動処理
 	if ((
 		InputCtrl::GetKeyState(KEY_INPUT_SPACE) ||
+
+
 
 		InputCtrl::GetButtonState(XINPUT_BUTTON_A)
 	) && is_on_ground == true) {
@@ -351,11 +363,11 @@ void Player::JumpMoment(float delta_second)
 	}
 }
 
-void Player::AnimationControl(std::vector<int> image_container, float delta_second, int image_count, ePlayerState state)
+void Player::AnimationControl(std::vector<int> image_container, float frame, float delta_second, int image_count, ePlayerState state)
 {
 	animation_time += delta_second;
 
-	if (animation_time >= 0.08f) {
+	if (animation_time >= frame) {
 		animation_time = 0.0f;
 
 		animation_count++;
