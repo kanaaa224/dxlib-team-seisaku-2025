@@ -45,6 +45,11 @@ void BossBase::Draw(const Vector2D& screen_offset) const
 
 void BossBase::Finalize() {}
 
+void BossBase::SetVelocity(const Vector2D& v)
+{
+	location -= v;
+}
+
 BossBase* BossBase::GetInstance()
 {
 	if (instance == nullptr) instance = new BossBase();

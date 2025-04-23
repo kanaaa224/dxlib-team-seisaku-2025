@@ -33,6 +33,8 @@ public:
 
 	virtual void OnHitCollision(GameObject* hit_object);
 
+	void SetVelocity(const Vector2D& v);
+
 	static BossBase* GetInstance();
 
 protected:
