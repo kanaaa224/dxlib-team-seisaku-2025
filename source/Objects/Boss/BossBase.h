@@ -13,8 +13,6 @@ enum class eBossBaseState
 class BossBase : public GameObject
 {
 private:
-	Vector2D velocity;
-
 	BossBase* bossBase;
 
 	static BossBase* instance;
@@ -33,7 +31,7 @@ public:
 
 	virtual void OnHitCollision(GameObject* hit_object);
 
-	void SetVelocity(const Vector2D& v);
+	void AddVelocity(const Vector2D& v);
 
 	static BossBase* GetInstance();
 

@@ -9,7 +9,7 @@ GameObjectBase::GameObjectBase() :
 	z_layer(0),
 	mobility(eMobilityType::stationary),
 	type(eType::other),
-	velocity(0),
+	velocity(0.0f),
 	flip_flag(false),
 	draw_collision_box(false) {}
 

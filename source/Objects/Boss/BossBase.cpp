@@ -4,7 +4,6 @@
 BossBase* BossBase::instance = nullptr;
 
 BossBase::BossBase() :
-	velocity(0.0f),
 	bossBase(nullptr),
 	bossBase_state(eBossBaseState::idle) {}
 
@@ -45,7 +44,7 @@ void BossBase::Draw(const Vector2D& screen_offset) const
 
 void BossBase::Finalize() {}
 
-void BossBase::SetVelocity(const Vector2D& v)
+void BossBase::AddVelocity(const Vector2D& v)
 {
 	location -= v;
 }
