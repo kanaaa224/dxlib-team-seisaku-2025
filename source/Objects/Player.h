@@ -83,6 +83,6 @@ public:
 
 private:
 	void Movement(float delta_second);
-	void AnimationControl(std::vector<int> image_container, float delta_second, int image_count, ePlayerState state);
+	void AnimationControl(std::vector<int> image_container, float frame, float delta_second, int image_count, ePlayerState state);
 	void JumpMoment(float delta_second);
 };
