@@ -19,7 +19,8 @@ GameUI::GameUI() :  hp_ber(NULL),
 					buf_recovery(NULL),
 					recovery_frame(NULL),
 					buf_movement(NULL),
-					movement_frame(NULL)
+					movement_frame(NULL),
+					avoidance_button(NULL)
 {
 }
 
@@ -58,6 +59,9 @@ void GameUI::Initialize()
 	buf_movement = LoadGraph("resource/images/ui/buf_icons/buf_movement_speed_up.png");
 	movement_frame = LoadGraph("resource/images/ui/buf_frames/frame_movement_speed.png");
 
+	//回避ボタン
+	avoidance_button = LoadGraph("resource/images/ui/button/short_button_animation1.png");
+
 }
 
 void GameUI::Update()
@@ -66,9 +70,15 @@ void GameUI::Update()
 
 void GameUI::Draw()
 { 
-
 	/* 座標 x, y, 拡大率 2.0, 回転率 0.0, 画像ハンドル, 透過フラグ TRUE, 画像を反転するか */
 	//DrawRotaGraphF(45,5,2.0,0.0,hp_frame,TRUE,0);
+
+	/*int size = 50;
+	int width = size;
+	int height = size;
+	int a = 0;
+	int b = 0;
+	DrawExtendGraph(a,b,a+width,b+height,hp_frame, true);*/
 
 	//HPフレーム表示
 	/* 座標 x, y, 拡大率 2.0, 回転率 0.0, 画像ハンドル, 透過フラグ TRUE, 画像を反転するか */
@@ -84,6 +94,7 @@ void GameUI::Draw()
 	//タイムフレーム
 	DrawRotaGraphF(240, 74,5.0,0.0, time_frame, TRUE,FALSE);
 	DrawFormatString(155, 74, GetColor(255, 255, 255), "タイム表示させる00:00");
+
 
 	//画像の大きさの半分
 	int frame_size = 32;
@@ -111,6 +122,8 @@ void GameUI::Draw()
 	//バフ・移動速度UP
 	DrawRotaGraphF(x, 74, 1.5, 0.0, movement_frame, TRUE, FALSE);
 	DrawRotaGraphF(x, 74, 1.5, 0.0, buf_movement, TRUE, FALSE);
+
+	DrawRotaGraph(1150, 650, 3.5, 0.0, avoidance_button, TRUE, FALSE);
 	
 }
 
