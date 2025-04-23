@@ -31,8 +31,9 @@ void Player::Initialize()
 	ResourceManager* rm = ResourceManager::GetInstance();
 
 	idle_animation = rm->GetImages("resource/images/player/idle/03_idle.png", 8, 8, 1, 288, 45);
+	run_animation = rm->GetImages("resource/images/player/run/run_288_45_8.png", 8, 8, 1, 288, 45);
 	attack_animation = rm->GetImages("resource/images/player/attack1/atk_288_45.png", 6, 6, 1, 288, 45);
-	//avoidance_animation = rm->GetImages("resource/images/player/attack1/atk_288_45.png", 6, 6, 1, 288, 45); //回避アニメーション
+	//avoidance_animation = rm->GetImages("resource/images/player/run/run_288_45_8.png", 8, 8, 1, 288, 45); //回避アニメーション
 
 	//jump_SE = rm->GetSounds("resource/sounds/xxx.wav");
 
@@ -75,13 +76,13 @@ void Player::Update(float delta_second)
 		velocity.x = 0;
 
 		if (
-			InputCtrl::GetKeyState(KEY_INPUT_A) == PRESS ||
-			InputCtrl::GetKeyState(KEY_INPUT_D) == PRESS ||
-			InputCtrl::GetKeyState(KEY_INPUT_LEFT) == PRESS ||
-			InputCtrl::GetKeyState(KEY_INPUT_RIGHT) == PRESS ||
+			InputCtrl::GetKeyState(KEY_INPUT_A) == PRESSED ||
+			InputCtrl::GetKeyState(KEY_INPUT_D) == PRESSED ||
+			InputCtrl::GetKeyState(KEY_INPUT_LEFT) == PRESSED ||
+			InputCtrl::GetKeyState(KEY_INPUT_RIGHT) == PRESSED ||
 
-			InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == PRESS ||
-			InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == PRESS
+			InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == PRESSED ||
+			InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == PRESSED
 		) {
 			player_state = ePlayerState::move;
 		}
@@ -105,8 +106,7 @@ void Player::Update(float delta_second)
 
 	case ePlayerState::move: //移動処理
 		Movement(delta_second);
-
-		//AnimationControl(delta_second);
+		AnimationControl(run_animation, delta_second, 8, idle);
 
 		break;
 
@@ -176,8 +176,8 @@ void Player::Update(float delta_second)
 
 		if (player_state = ePlayerState::avoidance)
 		{
-			//AnimationControl(avoidance_animation, delta_second, 6, idle);
-
+			//AnimationControl(avoidance_animation, delta_second, 8, idle);
+			//後でアニメーション割込み聞く
 		}
 		break;
 
