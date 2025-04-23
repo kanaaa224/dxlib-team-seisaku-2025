@@ -82,17 +82,17 @@ void GameUI::Draw()
 
 	//HPフレーム表示
 	/* 座標 x, y, 拡大率 2.0, 回転率 0.0, 画像ハンドル, 透過フラグ TRUE, 画像を反転するか */
-	DrawRotaGraphF(255, 30, 1.0, 0.0, hp_frame, TRUE, FALSE);
+	DrawRotaGraph(255, 30, 1.0, 0.0, hp_frame, TRUE, FALSE);
 	//HPバー表示
-	DrawRotaGraphF(251, 30,0.9,0.0, hp_ber, TRUE,FALSE);
+	DrawRotaGraph(251, 30,0.9,0.0, hp_ber, TRUE,FALSE);
 
 	//playerフレーム
-	DrawRotaGraphF(72,75,5.5,0.0, player_frame,TRUE,FALSE);
+	DrawRotaGraph(72,75,5.5,0.0, player_frame,TRUE,FALSE);
 	//playerアイコン
-	DrawRotaGraphF(72,70,1.8,0.0, player_icon, TRUE,FALSE);
+	DrawRotaGraph(72,70,1.8,0.0, player_icon, TRUE,FALSE);
 
 	//タイムフレーム
-	DrawRotaGraphF(240, 74,5.0,0.0, time_frame, TRUE,FALSE);
+	DrawRotaGraph(240, 74,5.0,0.0, time_frame, TRUE,FALSE);
 	DrawFormatString(155, 74, GetColor(255, 255, 255), "タイム表示させる00:00");
 
 
@@ -104,25 +104,26 @@ void GameUI::Draw()
 	int x = 460 + frame_size/2;
 
 	//バフ・攻撃力UP
-	DrawRotaGraphF(x, 74, 1.5, 0.0, attack_frame, TRUE, FALSE);//0
-	DrawRotaGraphF(x, 74, 1.5, 0.0, buf_attack, TRUE, FALSE);//0
+	DrawRotaGraph(x, 74, 1.5, 0.0, attack_frame, TRUE, FALSE);//0
+	DrawRotaGraph(x, 74, 1.5, 0.0, buf_attack, TRUE, FALSE);//0
 	x += pading_size;
 	//バフ・防御力UP
-	DrawRotaGraphF(x, 74, 1.5, 0.0, defense_frame, TRUE, FALSE);//0
-	DrawRotaGraphF(x, 74, 1.5, 0.0, buf_defense, TRUE, FALSE);//0
+	DrawRotaGraph(x, 74, 1.5, 0.0, defense_frame, TRUE, FALSE);//0
+	DrawRotaGraph(x, 74, 1.5, 0.0, buf_defense, TRUE, FALSE);//0
 	x += pading_size;
 	//バフ・体力上限
-	DrawRotaGraphF(x, 74, 1.5, 0.0, HPUP_frame, TRUE, FALSE);
-	DrawRotaGraphF(x, 74, 1.5, 0.0, buf_HPUP, TRUE, FALSE);
+	DrawRotaGraph(x, 74, 1.5, 0.0, HPUP_frame, TRUE, FALSE);
+	DrawRotaGraph(x, 74, 1.5, 0.0, buf_HPUP, TRUE, FALSE);
 	x += pading_size;
 	//バフ・体力回復
-	DrawRotaGraphF(x, 74, 1.5, 0.0, recovery_frame, TRUE, FALSE);
-	DrawRotaGraphF(x, 74, 1.5, 0.0, buf_recovery, TRUE, FALSE);//0
+	DrawRotaGraph(x, 74, 1.5, 0.0, recovery_frame, TRUE, FALSE);
+	DrawRotaGraph(x, 74, 1.5, 0.0, buf_recovery, TRUE, FALSE);//0
 	x += pading_size;
 	//バフ・移動速度UP
-	DrawRotaGraphF(x, 74, 1.5, 0.0, movement_frame, TRUE, FALSE);
-	DrawRotaGraphF(x, 74, 1.5, 0.0, buf_movement, TRUE, FALSE);
+	DrawRotaGraph(x, 74, 1.5, 0.0, movement_frame, TRUE, FALSE);
+	DrawRotaGraph(x, 74, 1.5, 0.0, buf_movement, TRUE, FALSE);
 
+	//回避UI
 	DrawRotaGraph(1150, 650, 3.5, 0.0, avoidance_button, TRUE, FALSE);
 	
 }
