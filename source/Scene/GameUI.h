@@ -22,6 +22,8 @@ private:
 	int buf_movement; //バフ・移動速度UP
 	int movement_frame;
 
+	int avoidance_button;//回避UI
+
 
 	static GameUI* instance;
 	GameUI* gameui;
