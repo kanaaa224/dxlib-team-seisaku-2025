@@ -11,18 +11,20 @@ enum ePlayerState
 	damage,
 	jump,
 	attack,
+	avoidance, //‰ñ”ð
 	none,
 };
 
 class Player : public GameObject
 {
 private:
-	//std::vector<int> move_animation[7];
-	int move_animation[7];
+	//std::vector<int> move_animation;
+	//int move_animation[7];
 	//std::vector<int> jump_animation;
 	//std::vector<int> dying_animation;
 	std::vector<int> idle_animation;
 	std::vector<int> attack_animation;
+	std::vector<int> avoidance_animation;
 
 	Vector2D old_location;
 	Vector2D velocity;

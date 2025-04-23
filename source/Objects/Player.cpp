@@ -10,7 +10,7 @@
 Player* Player::instance = nullptr; //インスタンス生成
 
 Player::Player() :
-	move_animation(),
+	//move_animation(),
 	idle_animation(),
 	//jump_animation(),
 	//dying_animation(),
@@ -32,6 +32,7 @@ void Player::Initialize()
 
 	idle_animation = rm->GetImages("resource/images/player/idle/03_idle.png", 8, 8, 1, 288, 45);
 	attack_animation = rm->GetImages("resource/images/player/attack1/atk_288_45.png", 6, 6, 1, 288, 45);
+	//avoidance_animation = rm->GetImages("resource/images/player/attack1/atk_288_45.png", 6, 6, 1, 288, 45); //回避アニメーション
 
 	//jump_SE = rm->GetSounds("resource/sounds/xxx.wav");
 
@@ -94,6 +95,10 @@ void Player::Update(float delta_second)
 		{
 			//image = attack_animation[0];
 			player_state = ePlayerState::attack;
+		}
+		else if (InputCtrl::GetKeyState(KEY_INPUT_Q) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
+		{
+			player_state = ePlayerState::avoidance;
 		}
 
 		break;
@@ -166,6 +171,15 @@ void Player::Update(float delta_second)
 			AnimationControl(attack_animation, delta_second, 6, idle);
 
 		}
+		break;
+	case ePlayerState::avoidance: //回避処理
+
+		if (player_state = ePlayerState::avoidance)
+		{
+			//AnimationControl(avoidance_animation, delta_second, 6, idle);
+
+		}
+		break;
 
 	default:
 		break;
@@ -250,7 +264,7 @@ void Player::Movement(float delta_second)
 
 		InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_LEFT)
 	) {
-		velocity.x = -1.0f;
+		velocity.x = -2.0f;
 
 		flip_flag = true;
 
@@ -262,18 +276,6 @@ void Player::Movement(float delta_second)
 			player_state = ePlayerState::jump;
 			animation_time += delta_second;
 
-
-			//アニメーション設定
-			if (animation_time >= (1.0f / 8.0f)) {
-				animation_time = 0.0f;
-
-				animation_count++;
-
-				if (animation_count >= 2) animation_count = 0;
-
-				//image = jump_animation[jump_animation_num[animation_count]];
-			}
-
 			//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 		}
 
@@ -281,7 +283,7 @@ void Player::Movement(float delta_second)
 	}
 
 	else if (InputCtrl::GetKeyState(KEY_INPUT_D) || InputCtrl::GetKeyState(KEY_INPUT_RIGHT) || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT)) {
-		velocity.x = 1.0f;
+		velocity.x = 2.0f;
 
 		flip_flag = false;
 
@@ -293,16 +295,6 @@ void Player::Movement(float delta_second)
 			player_state = ePlayerState::jump;
 
 			animation_time += delta_second;
-
-			if (animation_time >= (1.0f / 8.0f)) {
-				animation_time = 0.0f;
-
-				animation_count++;
-
-				if (animation_count >= 2) animation_count = 0;
-
-				//image = jump_animation[jump_animation_num[animation_count]];
-			}
 
 			//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 		}
