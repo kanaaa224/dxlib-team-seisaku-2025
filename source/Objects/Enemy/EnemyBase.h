@@ -8,7 +8,8 @@
 
 #define DEBUG                 //デバック表示
 #define IMG_CHANGE_TIME 0.05f //画像の切り替え速度
-#define MOVE_SPEED 1.0f       //移動速度
+#define MOVE_SPEED      1.0f  //移動速度
+#define FALLING_SPEED   4.0f  //落下速度
 
 enum eEnemyState
 {
@@ -27,7 +28,8 @@ protected:
 	eEnemyState oldState;               //1フレーム前の状態
 	float nowStateTime;                 //現在の状態へ遷移してからの経過時間
 
-	Vector2D fov_BoxSize;               //視野範囲
+	Vector2D playerLocation;            //プレイヤーの現在地
+	Vector2D playerVelocity;            //プレイヤーの現在の移動量
 	bool playerFoundFlg;                //プレイヤーを発見したか
 
 	std::vector<int> idle_img;          //移動時の画像
@@ -51,6 +53,8 @@ public:
 	virtual void Finalize() override;
 
 	virtual void OnHitCollision(GameObjectBase* hit_object) override;
+
+	virtual void AddVelocity(const Vector2D& v) { location -= v; };
 
 protected:
 	/// <summary>
@@ -78,5 +82,19 @@ protected:
 	/// Update内で１回のみ初期化したい変数を関数内に入れる
 	/// </summary>
 	virtual void InitUpdate();
+	/// <summary>
+	/// ダメージを受けた時の移動
+	/// </summary>
+	virtual void GetDamageMovement(GameObjectBase* hit_object);
+	/// <summary>
+	/// InGameScene内でPlayerのLocationを毎フレームセットする
+	/// </summary>
+	/// <param name="pL">PlayerLocation</param>
+	virtual void PlayerSetLocation(Vector2D pL) { playerLocation = pL; };
+	/// <summary>
+	/// InGameScene内でPlayerのVelocityを毎フレームセットする
+	/// </summary>
+	/// <param name="pV">PlayerVelocity</param>
+	virtual void PlayerSetVelocity(Vector2D pV) { playerVelocity = pV; };
 };
 
