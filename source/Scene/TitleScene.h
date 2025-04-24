@@ -4,6 +4,12 @@
 
 class TitleScene : public SceneBase
 {
+private:
+	int background_image1;
+	int background_image2;
+	int background_image3;
+	int background_image4;
+
 public:
 	TitleScene();
 	virtual ~TitleScene();
