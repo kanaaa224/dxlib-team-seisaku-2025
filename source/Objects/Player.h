@@ -11,7 +11,7 @@ enum ePlayerState
 	damage,
 	jump,
 	attack,
-	avoidance, //‰ñ”ğ
+	avoidance, // å›é¿
 	none,
 };
 
