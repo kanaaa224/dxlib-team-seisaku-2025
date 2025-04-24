@@ -31,6 +31,8 @@ private:
 	Vector2D jump_location;
 	Vector2D jump_velocity;
 
+	int HP;
+
 	float animation_time;
 
 	bool is_power_up;

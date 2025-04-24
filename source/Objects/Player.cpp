@@ -28,7 +28,8 @@ Player::Player() :
 	animation_time(0.0f),
 	animation_count(0),
 	player(nullptr),
-	scroll_end(false)	
+	scroll_end(false),
+	HP(100)
 {}
 
 Player::~Player() {}
@@ -115,7 +116,10 @@ void Player::Update(float delta_second)
 	case ePlayerState::move: //移動処理
 		Movement(delta_second);
 		AnimationControl(run_animation, MOVE_ANIMATION_RATE, delta_second, 8, idle);
-
+		if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
+		{
+			player_state = ePlayerState::jump;
+		}
 		break;
 
 	case ePlayerState::die: //死亡処理
@@ -146,7 +150,6 @@ void Player::Update(float delta_second)
 
 	case ePlayerState::jump: //ジャンプ状態の処理
 
-		//Movement(delta_second);
 		//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 
 		//プレイヤーがジャンプ状態のとき
@@ -276,16 +279,16 @@ void Player::Movement(float delta_second)
 
 		flip_flag = true;
 
-		if (
-			InputCtrl::GetKeyState(KEY_INPUT_SPACE) ||
+		//if (
+		//	InputCtrl::GetKeyState(KEY_INPUT_SPACE) ||
 
-			InputCtrl::GetButtonState(XINPUT_BUTTON_A)
-		) {
-			player_state = ePlayerState::jump;
-			animation_time += delta_second;
+		//	InputCtrl::GetButtonState(XINPUT_BUTTON_A)
+		//) {
+		//	player_state = ePlayerState::jump;
+		//	animation_time += delta_second;
 
-			//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
-		}
+		//	//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
+		//}
 
 		player_state = ePlayerState::move;
 	}
@@ -312,16 +315,6 @@ void Player::Movement(float delta_second)
 
 	else if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) ||InputCtrl::GetButtonState(XINPUT_BUTTON_A)) {
 		animation_time += delta_second;
-
-		//if (animation_time >= (1.0f / 8.0f)) {
-		//	animation_time = 0.0f;
-
-		//	animation_count++;
-
-		//	if (animation_count >= 2) animation_count = 0;
-
-		//	//image = jump_animation[jump_animation_num[animation_count]];
-		//}
 
 		AnimationControl(attack_animation, ATTACK_ANIMATION_RATE, delta_second, 6, idle);
 
