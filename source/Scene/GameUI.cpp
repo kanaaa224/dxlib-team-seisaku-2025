@@ -104,12 +104,12 @@ void GameUI::Draw()
 	int x = 460 + frame_size/2;
 
 	//バフ・攻撃力UP
-	DrawRotaGraph(x, 74, 1.5, 0.0, attack_frame, TRUE, FALSE);//0
-	DrawRotaGraph(x, 74, 1.5, 0.0, buf_attack, TRUE, FALSE);//0
+	DrawRotaGraph(x, 74, 1.5, 0.0, attack_frame, TRUE, FALSE);
+	DrawRotaGraph(x, 74, 1.5, 0.0, buf_attack, TRUE, FALSE);
 	x += pading_size;
 	//バフ・防御力UP
-	DrawRotaGraph(x, 74, 1.5, 0.0, defense_frame, TRUE, FALSE);//0
-	DrawRotaGraph(x, 74, 1.5, 0.0, buf_defense, TRUE, FALSE);//0
+	DrawRotaGraph(x, 74, 1.5, 0.0, defense_frame, TRUE, FALSE);
+	DrawRotaGraph(x, 74, 1.5, 0.0, buf_defense, TRUE, FALSE);
 	x += pading_size;
 	//バフ・体力上限
 	DrawRotaGraph(x, 74, 1.5, 0.0, HPUP_frame, TRUE, FALSE);
@@ -117,7 +117,7 @@ void GameUI::Draw()
 	x += pading_size;
 	//バフ・体力回復
 	DrawRotaGraph(x, 74, 1.5, 0.0, recovery_frame, TRUE, FALSE);
-	DrawRotaGraph(x, 74, 1.5, 0.0, buf_recovery, TRUE, FALSE);//0
+	DrawRotaGraph(x, 74, 1.5, 0.0, buf_recovery, TRUE, FALSE);
 	x += pading_size;
 	//バフ・移動速度UP
 	DrawRotaGraph(x, 74, 1.5, 0.0, movement_frame, TRUE, FALSE);
