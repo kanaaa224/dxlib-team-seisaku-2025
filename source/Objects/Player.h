@@ -11,6 +11,7 @@ enum ePlayerState
 	damage,
 	jump,
 	attack,
+	jump_attack,
 	avoidance, // 回避
 	none,
 };
@@ -48,6 +49,8 @@ private:
 	bool scroll_end;
 	int g_velocity;
 	int jump_SE;
+
+	bool jump_attack_flg;
 
 	Player* player;
 

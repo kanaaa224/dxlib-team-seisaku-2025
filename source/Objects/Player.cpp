@@ -13,16 +13,17 @@
 #define ATTACK_ANIMATION_RATE (0.01f)
 
 #define VELOCITY (4.0f)
-#define ADDJUMP (2)
+#define ADDJUMP (1)
 
 Player* Player::instance = nullptr; //インスタンス生成
 
 Player::Player() :
-	//move_animation(),
+	run_animation(),
 	idle_animation(),
 	//jump_animation(),
 	//dying_animation(),
 	attack_animation(),
+	jump_attack_flg(false),
 	velocity(0.0f), //移動量
 	player_state(ePlayerState::idle), //プレイヤーの状態
 	animation_time(0.0f),
@@ -116,10 +117,7 @@ void Player::Update(float delta_second)
 	case ePlayerState::move: //移動処理
 		Movement(delta_second);
 		AnimationControl(run_animation, MOVE_ANIMATION_RATE, delta_second, 8, idle);
-		if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
-		{
-			player_state = ePlayerState::jump;
-		}
+
 		break;
 
 	case ePlayerState::die: //死亡処理
@@ -153,12 +151,16 @@ void Player::Update(float delta_second)
 		//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 
 		//プレイヤーがジャンプ状態のとき
-		if (player_state == ePlayerState::jump)
-		{
-			JumpMoment(delta_second);
-		}
+		JumpMoment(delta_second);
 
 		if (!is_on_ground) velocity.y += D_GRAVITY * delta_second * ADDJUMP;  //重力速度計算
+
+		/* ジャンプ中に2回攻撃させないため */
+		if (InputCtrl::GetKeyState(KEY_INPUT_E) == PRESS && jump_attack_flg == false || 
+			InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS && jump_attack_flg == false)
+		{
+			player_state = ePlayerState::jump_attack;		
+		}
 
 		//地面についた時の処理
 		if (location.y + velocity.y * delta_second > ground_y) {
@@ -169,6 +171,7 @@ void Player::Update(float delta_second)
 			g_velocity = 0.0f;
 
 			is_on_ground = true;
+			jump_attack_flg = false;
 
 			player_state = ePlayerState::idle;
 		}
@@ -177,11 +180,16 @@ void Player::Update(float delta_second)
 
 	case ePlayerState::attack: //攻撃処理
 
-		if (player_state = ePlayerState::attack)
-		{
-			AnimationControl(attack_animation, ATTACK_ANIMATION_RATE, delta_second, 6, idle);
+		AnimationControl(attack_animation, ATTACK_ANIMATION_RATE, delta_second, 6, idle);
+		
+		break;
+	case ePlayerState::jump_attack:
 
-		}
+		AnimationControl(attack_animation, ATTACK_ANIMATION_RATE, delta_second, 6, jump);
+
+		//if (jump_attack_flg == false) jump_attack_flg = true;
+		if (!is_on_ground) velocity.y += D_GRAVITY * delta_second * ADDJUMP;  //重力速度計算
+
 		break;
 	case ePlayerState::avoidance: //回避処理
 
@@ -279,18 +287,19 @@ void Player::Movement(float delta_second)
 
 		flip_flag = true;
 
-		//if (
-		//	InputCtrl::GetKeyState(KEY_INPUT_SPACE) ||
-
-		//	InputCtrl::GetButtonState(XINPUT_BUTTON_A)
-		//) {
-		//	player_state = ePlayerState::jump;
-		//	animation_time += delta_second;
-
-		//	//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
-		//}
-
-		player_state = ePlayerState::move;
+		//移動状態のときボタンを押されたら
+		if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
+		{
+			player_state = ePlayerState::jump; //ジャンプ状態に遷移
+		}
+		if (InputCtrl::GetKeyState(KEY_INPUT_E) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
+		{
+			player_state = ePlayerState::attack; //攻撃状態に遷移
+		}
+		if (InputCtrl::GetKeyState(KEY_INPUT_Q) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
+		{
+			//player_state = ePlayerState::avoidance; //回避状態に遷移
+		}
 	}
 
 	else if (InputCtrl::GetKeyState(KEY_INPUT_D) || InputCtrl::GetKeyState(KEY_INPUT_RIGHT) || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT)) {
@@ -298,30 +307,21 @@ void Player::Movement(float delta_second)
 
 		flip_flag = false;
 
-		if (
-			InputCtrl::GetKeyState(KEY_INPUT_SPACE) ||
-
-			InputCtrl::GetButtonState(XINPUT_BUTTON_A)
-		) {
-			player_state = ePlayerState::jump;
-
-			animation_time += delta_second;
-
-			//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
+		//移動状態のときボタンを押されたら
+		if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
+		{
+			player_state = ePlayerState::jump; //ジャンプ状態に遷移
 		}
-
-		player_state = ePlayerState::move;
+		if (InputCtrl::GetKeyState(KEY_INPUT_E) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
+		{
+			//player_state = ePlayerState::attack; //攻撃状態に遷移
+		}
+		if (InputCtrl::GetKeyState(KEY_INPUT_Q) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_B) == PRESS)
+		{
+			//player_state = ePlayerState::avoidance; //回避状態に遷移
+		}
 	}
 
-	else if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) ||InputCtrl::GetButtonState(XINPUT_BUTTON_A)) {
-		animation_time += delta_second;
-
-		AnimationControl(attack_animation, ATTACK_ANIMATION_RATE, delta_second, 6, idle);
-
-		player_state = ePlayerState::jump;
-
-		//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
-	}
 	else {
 		velocity.x = 0;
 
@@ -332,25 +332,10 @@ void Player::Movement(float delta_second)
 void Player::JumpMoment(float delta_second)
 {
 	//ジャンプ移動処理
-	if ((
-		InputCtrl::GetKeyState(KEY_INPUT_SPACE) ||
-
-
-
-		InputCtrl::GetButtonState(XINPUT_BUTTON_A)
-	) && is_on_ground == true) {
+	if ((InputCtrl::GetKeyState(KEY_INPUT_SPACE) || InputCtrl::GetButtonState(XINPUT_BUTTON_A)) && is_on_ground == true) {
 		velocity.y = -4.0f;
 
-		//JumpAnimationControl(delta_second);
-
-		player_state = ePlayerState::jump;
-
 		is_on_ground = false;
-
-		if (player_state == ePlayerState::jump)
-		{
-			this->velocity.y -= 1.0f; //ジャンプ力
-		}
 
 		//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 	}
@@ -367,6 +352,10 @@ void Player::AnimationControl(std::vector<int> image_container, float frame, flo
 
 		if (animation_count >= image_count) {
 			animation_count = 0;
+			if (state == jump && jump_attack_flg == false)
+			{
+				jump_attack_flg = true;
+			}
 			player_state = state;
 		}
 
