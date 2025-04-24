@@ -10,7 +10,7 @@ EnemyBase::EnemyBase() :
 	nowState(eEnemyState::IDLE),
 	oldState(eEnemyState::NONE),
 	nowStateTime(0.0f),
-	fov_BoxSize(Vector2D(0.0f)),
+	playerLocation(Vector2D(0.0f)),
 	playerFoundFlg(false),
 	spawnPosition(Vector2D(0.0f)),
 	initUpdateFlg(false)
@@ -23,9 +23,6 @@ EnemyBase::~EnemyBase()
 
 void EnemyBase::Initialize()
 {
-	//スポーン位置を設定
-	spawnPosition = location;
-
 	//当たり判定
 	collision.is_blocking = true;
 	collision.SetObjectType(eObjectType::enemy);
@@ -34,11 +31,25 @@ void EnemyBase::Initialize()
 
 void EnemyBase::Update(float delta_second)
 {
+	//初期化
 	if (initUpdateFlg == false) {
 		InitUpdate();
 		initUpdateFlg = true;
 	}
 
+	//重力
+	if (location.y <= 720 - 40) {//縦の画面サイズー適当な数字
+		velocity.y = FALLING_SPEED;
+	}
+	else {
+		velocity.y = 0;
+	}
+
+#ifdef DEBUG
+
+#endif // DEBUG
+
+	//locationを更新
 	location += velocity;
 
 	Vector2D collisionPosition = collision.GetPosition();
@@ -57,6 +68,9 @@ void EnemyBase::Finalize()
 
 void EnemyBase::OnHitCollision(GameObjectBase* hit_object)
 {
+	if (false) {//当たったのがプレイヤーand攻撃中
+		GetDamageMovement(hit_object);
+	}
 }
 
 void EnemyBase::Animation(float delta_second)
@@ -200,3 +214,28 @@ void EnemyBase::InitUpdate()
 	//スポーン位置を設定
 	spawnPosition = location;
 }
+
+void EnemyBase::GetDamageMovement(GameObjectBase* hit_object)
+{
+	switch (GetCollisionSide(*hit_object))
+	{
+	case eCollisionSide::top://上方向
+		break;
+	case eCollisionSide::bottom://下方向
+		break;
+	case eCollisionSide::left://左方向
+		velocity.x = 2.0f;
+		velocity.y = 1.0f;
+		break;
+	case eCollisionSide::right://右方向
+		velocity.x = -2.0f;
+		velocity.y = 1.0f;
+		break;
+	default:
+		break;
+	}
+
+	velocity.x = 2.0f;
+	velocity.y = 1.0f;
+}
+
