@@ -37,13 +37,15 @@ void EnemyBase::Update(float delta_second)
 		initUpdateFlg = true;
 	}
 
+	collision.SetPosition(location);
+
 	//重力
-	if (location.y <= 720 - 40) {//縦の画面サイズー適当な数字
-		velocity.y = FALLING_SPEED;
-	}
-	else {
-		velocity.y = 0;
-	}
+	//if (location.y <= 720 - 40) {//縦の画面サイズー適当な数字
+	//	velocity.y = FALLING_SPEED;
+	//}
+	//else {
+	//	velocity.y = 0;
+	//}
 
 #ifdef DEBUG
 

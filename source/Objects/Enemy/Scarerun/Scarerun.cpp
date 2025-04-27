@@ -23,6 +23,8 @@ void Scarerun::Initialize()
 
 	//当たり判定の大きさ
 	collision.SetSize(46, 40);
+
+	collision.radius = 23;
 	//collision.pivot = Vector2D(6.0f);
 	
 #ifdef DEBUG

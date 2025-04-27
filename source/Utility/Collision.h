@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vector2D.h"
 #include <vector>
@@ -25,8 +25,13 @@ public:
 	eObjectType object_type;
 	std::vector<eObjectType> hit_object_type;
 
+	float radius;//半径
+	void CalcRadius() { radius = box_size.x / 2; };
+	float GetRadius() { return radius; };
 private:
 	Vector2D position;
+
+	float CalcSegmentSegmentDist(const Vector2D& other_pivot, const float& other_boxSize_y);
 
 public:
 	Collision();

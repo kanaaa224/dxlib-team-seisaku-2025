@@ -1,6 +1,19 @@
 ﻿#include "Collision.h"
 #include <math.h>
 
+float Collision::CalcSegmentSegmentDist(const Vector2D& other_pivot, const float& other_boxSize_y)
+{
+	Vector2D a, b;
+	a = this->pivot + (box_size.y / 2);
+	b = other_pivot + (other_boxSize_y / 2);
+
+	//チェック１(垂線を引いて比のベクトルが０～１の範囲か？)
+	float m = Vector2D::Dot(a, b) / sqrtf(a.Length());
+	Vector2D mp = a * m;
+
+	return mp.Length();
+}
+
 Collision::Collision() :
 	is_blocking(false),
 	object_type(eObjectType::none),
@@ -52,18 +65,31 @@ bool Collision::IsCheckHitTarget(eObjectType FUNC_hitobject) const
 
 bool Collision::CheckCollision(const Collision& other) const
 {
-	Vector2D A_min = position - (box_size / 2) + pivot;
-	Vector2D A_max = position + (box_size / 2) + pivot;
-
-	Vector2D B_min = other.position - (other.box_size / 2) + other.pivot;
-	Vector2D B_max = other.position + (other.box_size / 2) + other.pivot;
-
-	if (A_min.x < B_max.x &&
-		A_max.x > B_min.x &&
-		A_min.y < B_max.y &&
-		A_max.y > B_min.y) {
-		return true;
+	//Objectが当たり判定をONにしているか？
+	if (other.is_blocking == false) {
+		return false;
 	}
 
+	//下のコードは円で当たり判定を取る(カプセルで計算するコードができ次第消す)
+	Vector2D a = this->GetPosition();
+	Vector2D b = other.GetPosition();
+
+	float tmp = sqrtf(pow(b.x - a.x, 2) + pow(b.y - a.y, 2));
+
+	if (tmp <= this->radius + other.radius) {
+		return true;
+	}
 	return false;
+
+	//カプセルで計算するコードの試し（未完成）
+	/*Vector2D a = this->GetPosition() + (box_size.y / 2);
+	Vector2D b = other.GetPosition() + (other.box_size.y / 2);
+
+	float m = Vector2D::Dot(a, b) / pow(a.Length(),2);
+	Vector2D mp = a * m;
+
+	if (m <= 1.0f) {
+		return true;
+	}
+	return false;*/
 }

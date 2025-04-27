@@ -111,7 +111,12 @@ public:
 
 	virtual const eSceneType GetNowSceneType() const = 0;
 
-	virtual void CheckCollision(GameObjectBase* target, GameObjectBase* partner) {}
+	virtual void CheckCollision(GameObjectBase* target, GameObjectBase* partner) 
+	{
+		if (target->GetCollision().CheckCollision(partner->GetCollision())) {
+			target->OnHitCollision(partner);
+		}
+	}
 
 public:
 	template <class OBJECT>
