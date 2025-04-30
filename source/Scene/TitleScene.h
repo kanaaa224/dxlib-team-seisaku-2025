@@ -5,10 +5,13 @@
 class TitleScene : public SceneBase
 {
 private:
+	//背景
 	int background_image1;
 	int background_image2;
 	int background_image3;
 	int background_image4;
+	//SE
+	int kettei;   //決定ボタンSE
 
 	bool is_fading = false;
 	float fade_alpha = 0.0f;

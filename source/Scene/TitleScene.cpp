@@ -23,6 +23,9 @@ void TitleScene::Initialize()
 
 	if (AddFontResourceEx("resource/fonts/PressStart2P-Regular.ttf", FR_PRIVATE, NULL) <= 0) throw;
 
+	kettei = LoadSoundMem("resource/sounds/decision_button.mp3");
+	ChangeVolumeSoundMem(250,kettei);
+
 	return __super::Initialize();
 }
 
@@ -32,6 +35,9 @@ eSceneType TitleScene::Update(const float& delta_second)
 	{
 		if (InputCtrl::GetKeyState(KEY_INPUT_RETURN) || InputCtrl::GetButtonState(XINPUT_BUTTON_A))
 		{
+			// 読みこんだ音をノーマル再生
+			PlaySoundMem(kettei, DX_PLAYTYPE_NORMAL);
+
 			is_fading = true;
 			next_scene = eSceneType::in_game;
 		}
@@ -90,6 +96,9 @@ void TitleScene::Draw() const
 void TitleScene::Finalize()
 {
 	RemoveFontResourceEx("resource/fonts/PressStart2P-Regular.ttf", FR_PRIVATE, NULL);
+
+	// サウンドハンドルの削除
+	DeleteSoundMem(kettei);
 
 	return __super::Finalize();
 }
