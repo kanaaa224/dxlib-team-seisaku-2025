@@ -16,8 +16,8 @@
 #define PRESSED 2 // 押されている間
 #define RELEASE 3 // 離した瞬間
 
-#define L 0 // 左
-#define R 1 // 右
+#define LEFT 0  // 左
+#define RIGHT 1 // 右
 
 // スティック入力 構造体
 struct PadStick {
