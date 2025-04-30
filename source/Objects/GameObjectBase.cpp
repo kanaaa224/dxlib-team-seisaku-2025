@@ -36,6 +36,10 @@ void GameObjectBase::DrawCollision(const Vector2D& screen_offset) const
 
 		DrawBoxAA(min.x, min.y, max.x, max.y, GetColor(255, 255, 255), false);
 	}
+
+	if (draw_collision_circle) {
+		DrawCircle(collision.GetPosition().x, collision.GetPosition().y, collision.radius, GetColor(255, 255, 255), FALSE);
+	}
 }
 
 void GameObjectBase::Finalize() {}

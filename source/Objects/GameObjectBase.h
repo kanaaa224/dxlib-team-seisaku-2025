@@ -43,7 +43,8 @@ protected:
 	eType type;
 
 	bool flip_flag;
-	bool draw_collision_box;
+	bool draw_collision_box;//“–‚½‚è”»’è‚Ì‹éŒ`•\Ž¦
+	bool draw_collision_circle;//“–‚½‚è”»’è‚Ì‰~•\Ž¦
 
 	Collision collision;
 
@@ -76,4 +77,6 @@ public:
 	const eMobilityType GetMobility() const;
 
 	void SetDrawCollisionBox(bool flag);
+
+	void SetDrawCollisionCircle(bool flag) { draw_collision_circle = flag; };
 };

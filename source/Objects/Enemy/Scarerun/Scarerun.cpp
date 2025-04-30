@@ -29,7 +29,8 @@ void Scarerun::Initialize()
 	
 #ifdef DEBUG
 	//当たり判定を表示
-	SetDrawCollisionBox(true);
+	SetDrawCollisionBox(false);
+	SetDrawCollisionCircle(true);
 #endif // DEBUG
 
 	//現在のステートを設定
