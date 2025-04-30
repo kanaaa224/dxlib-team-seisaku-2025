@@ -10,6 +10,10 @@ private:
 	int background_image3;
 	int background_image4;
 
+	bool is_fading = false;
+	float fade_alpha = 0.0f;
+	eSceneType next_scene = eSceneType::title;
+
 public:
 	TitleScene();
 	virtual ~TitleScene();
