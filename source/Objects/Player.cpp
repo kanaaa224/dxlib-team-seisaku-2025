@@ -30,7 +30,7 @@ Player::Player() :
 	animation_count(0),
 	player(nullptr),
 	scroll_end(false),
-	HP(100)
+	p_hp(100)
 {}
 
 Player::~Player() {}
@@ -43,25 +43,30 @@ void Player::Initialize()
 	idle_animation = rm->GetImages("resource/images/player/idle/03_idle.png", 8, 8, 1, 288, 45);
 	run_animation = rm->GetImages("resource/images/player/run/run_288_45_8.png", 8, 8, 1, 288, 45);
 	attack_animation = rm->GetImages("resource/images/player/attack1/atk_288_45.png", 6, 6, 1, 288, 45);
-	//avoidance_animation = rm->GetImages("resource/images/player/run/run_288_45_8.png", 8, 8, 1, 288, 45); //回避アニメーション
+	jump_animation = rm->GetImages("resource/images/player/jump_up/jump_up2.png", 7, 7, 1, 288, 45);
+	avoidance_animation = rm->GetImages("resource/images/player/roll/roll_288_45_7.png", 7, 7, 1, 288, 45); //回避アニメーション
 
 	//jump_SE = rm->GetSounds("resource/sounds/xxx.wav");
 
-	collision.SetSize(D_OBJECT_SIZE, D_OBJECT_SIZE);  //サイズ設定
+	//collision.SetSize(D_OBJECT_SIZE, D_OBJECT_SIZE);  //サイズ設定
+
+	collision.is_blocking = true;
 
 	collision.SetObjectType(eObjectType::player);  //オブジェクト設定
 
 	collision.SetHitObjectType({ eObjectType::enemy, eObjectType::ground });  //hitオブジェクトタイプ
 
-	SetDrawCollisionBox(true);  //当たり判定大きさ取得
+	//SetDrawCollisionBox(true);  //当たり判定大きさ取得
+
+	collision.radius = 25;
 
 	z_layer = 5;  //レイヤー設定
 
 	mobility = eMobilityType::movable;  //
 
 	is_on_ground = true;   //地面についたかどうか
-	scroll_offset = 0.0f;
-	ground_y = 400.0f;
+	scroll_offset = 0.0f; //スクロール値
+	ground_y = 400.0f;  //地面のlocation
 
 	location = Vector2D(100, 400);
 
@@ -72,9 +77,9 @@ void Player::Initialize()
 
 void Player::Update(float delta_second)
 {
-	/*Vector2D collisionPosition = collision.GetPosition();
+	/*Vector2D collisionPosition = collision.GetPosition();*/
 
-	collision.SetPosition(location);*/
+	collision.SetPosition(location);
 
 	//プレイヤーの状態ごとの処理
 	switch (player_state) {
@@ -148,6 +153,7 @@ void Player::Update(float delta_second)
 
 	case ePlayerState::jump: //ジャンプ状態の処理
 
+
 		//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 
 		//プレイヤーがジャンプ状態のとき
@@ -176,6 +182,8 @@ void Player::Update(float delta_second)
 			player_state = ePlayerState::idle;
 		}
 
+		
+
 		break;
 
 	case ePlayerState::attack: //攻撃処理
@@ -193,11 +201,9 @@ void Player::Update(float delta_second)
 		break;
 	case ePlayerState::avoidance: //回避処理
 
-		if (player_state = ePlayerState::avoidance)
-		{
-			//AnimationControl(avoidance_animation, delta_second, 8, idle);
+		AnimationControl(avoidance_animation, ATTACK_ANIMATION_RATE, delta_second, 7, idle);
+			
 			//後でアニメーション割込み聞く
-		}
 		break;
 
 	default:
@@ -224,34 +230,34 @@ void Player::Finalize() //終了時処理
 
 void Player::OnHitCollision(GameObjectBase* hit_object) //当たった時
 {
-	/*
 	
-	if (hit_object->GetCollision().object_type == eObjectType::wall) {
-		CapsuleCollision hc = hit_object->GetCollision();
+	//
+	//if (hit_object->GetCollision().object_type == eObjectType::wall) {
+	//	CapsuleCollision hc = hit_object->GetCollision();
 
-		hc.point[0] += hit_object->GetLocation();
-		hc.point[1] += hit_object->GetLocation();
+	//	hc.point[0] += hit_object->GetLocation();
+	//	hc.point[1] += hit_object->GetLocation();
 
-		Vector2D near_point = NearPointCheck(hc, this->location);
+	//	Vector2D near_point = NearPointCheck(hc, this->location);
 
-		Vector2D dv2 = near_point - this->location;
-		Vector2D dv = this->location - near_point;
+	//	Vector2D dv2 = near_point - this->location;
+	//	Vector2D dv = this->location - near_point;
 
-		float diff = (this->GetCollision().radius + hc.radius) - dv.Length();
+	//	float diff = (this->GetCollision().radius + hc.radius) - dv.Length();
 
-		location += dv.Normalize() * diff;
-	}
+	//	location += dv.Normalize() * diff;
+	//}
 
-	if (hit_object->GetCollision().object_type == eObjectType::food) food_count++;
+	//if (hit_object->GetCollision().object_type == eObjectType::food) food_count++;
 
-	if (hit_object->GetCollision().object_type == eObjectType::power_food) {
-		food_count++;
-		is_power_up = true;
-	}
+	//if (hit_object->GetCollision().object_type == eObjectType::power_food) {
+	//	food_count++;
+	//	is_power_up = true;
+	//}
 
-	if (hit_object->GetCollision().object_type == eObjectType::enemy) {}
+	//if (hit_object->GetCollision().object_type == eObjectType::enemy) {}
 
-	*/
+	//
 }
 
 ePlayerState Player::GetPlayerState() const
@@ -321,7 +327,6 @@ void Player::Movement(float delta_second)
 			//player_state = ePlayerState::avoidance; //回避状態に遷移
 		}
 	}
-
 	else {
 		velocity.x = 0;
 
