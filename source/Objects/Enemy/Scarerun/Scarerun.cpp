@@ -65,6 +65,7 @@ void Scarerun::Finalize()
 
 void Scarerun::OnHitCollision(GameObjectBase* hit_object)
 {
+	__super::OnHitCollision(hit_object);
 }
 
 void Scarerun::Animation(float delta_second)

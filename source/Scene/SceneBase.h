@@ -115,6 +115,7 @@ public:
 	{
 		if (target->GetCollision().CheckCollision(partner->GetCollision())) {
 			target->OnHitCollision(partner);
+			partner->OnHitCollision(target);
 		}
 	}
 

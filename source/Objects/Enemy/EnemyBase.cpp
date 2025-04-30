@@ -70,7 +70,7 @@ void EnemyBase::Finalize()
 
 void EnemyBase::OnHitCollision(GameObjectBase* hit_object)
 {
-	if (false) {//当たったのがプレイヤーand攻撃中
+	if (eObjectType::player == hit_object->GetCollision().object_type) {//プレイヤー
 		GetDamageMovement(hit_object);
 	}
 }
