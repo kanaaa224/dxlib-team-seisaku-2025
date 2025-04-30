@@ -24,6 +24,7 @@ private:
 	std::vector<int> idle_animation;
 	std::vector<int> run_animation;
 	std::vector<int> attack_animation;
+	std::vector<int> jump_animation;
 	std::vector<int> avoidance_animation;
 
 	Vector2D old_location;
@@ -32,8 +33,7 @@ private:
 	Vector2D jump_location;
 	Vector2D jump_velocity;
 
-	int HP;
-
+	
 	float animation_time;
 
 	bool is_power_up;
@@ -53,6 +53,9 @@ private:
 	bool jump_attack_flg;
 
 	Player* player;
+
+protected:
+	int p_hp;   //プレイヤーHP
 
 public:
 	int screenoffset;
