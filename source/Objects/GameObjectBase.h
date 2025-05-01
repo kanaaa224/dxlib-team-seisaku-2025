@@ -45,8 +45,11 @@ protected:
 	bool flip_flag;
 	bool draw_collision_box;//当たり判定の矩形表示
 	bool draw_collision_circle;//当たり判定の円表示
+	bool draw_collision_capsule;//当たり判定のカプセル表示
 
 	Collision collision;
+
+	Vector2D img_size;
 
 public:
 	GameObjectBase();
@@ -79,4 +82,6 @@ public:
 	void SetDrawCollisionBox(bool flag);
 
 	void SetDrawCollisionCircle(bool flag) { draw_collision_circle = flag; };
+
+	void SetDarwCollisionCapsule(bool flag) { draw_collision_capsule = flag; };
 };

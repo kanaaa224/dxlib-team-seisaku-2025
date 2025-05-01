@@ -1,19 +1,6 @@
 ﻿#include "Collision.h"
 #include <math.h>
 
-float Collision::CalcSegmentSegmentDist(const Vector2D& other_pivot, const float& other_boxSize_y)
-{
-	Vector2D a, b;
-	a = this->pivot + (box_size.y / 2);
-	b = other_pivot + (other_boxSize_y / 2);
-
-	//チェック１(垂線を引いて比のベクトルが０～１の範囲か？)
-	float m = Vector2D::Dot(a, b) / sqrtf(a.Length());
-	Vector2D mp = a * m;
-
-	return mp.Length();
-}
-
 Collision::Collision() :
 	is_blocking(false),
 	object_type(eObjectType::none),
@@ -71,25 +58,63 @@ bool Collision::CheckCollision(const Collision& other) const
 	}
 
 	//下のコードは円で当たり判定を取る(カプセルで計算するコードができ次第消す)
-	Vector2D a = this->GetPosition();
-	Vector2D b = other.GetPosition();
+	/*Vector2D vecA = this->GetPosition();
+	Vector2D Vecb = other.GetPosition();
 
-	float tmp = sqrtf(pow(b.x - a.x, 2) + pow(b.y - a.y, 2));
+	float tmp = sqrtf(pow(Vecb.x - vecA.x, 2) + pow(Vecb.y - vecA.y, 2));
 
 	if (tmp <= this->radius + other.radius) {
 		return true;
 	}
-	return false;
+	return false;*/
 
-	//カプセルで計算するコードの試し（未完成）
-	/*Vector2D a = this->GetPosition() + (box_size.y / 2);
-	Vector2D b = other.GetPosition() + (other.box_size.y / 2);
+	//カプセルで計算する
+	//線分ベクトル
+	Vector2D u = this->endPoint - this->startPoint;  //カプセルAの方向ベクトル
+	Vector2D v = other.endPoint - this->startPoint;  //カプセルBの方向ベクトル
+	Vector2D w = this->startPoint - other.startPoint;//始点同士の差ベクトル
 
-	float m = Vector2D::Dot(a, b) / pow(a.Length(),2);
-	Vector2D mp = a * m;
+	//スカラー値の計算
+	float a = u.Dot(u);
+	float b = u.Dot(v);
+	float c = v.Dot(v);
+	float d = u.Dot(w);
+	float e = v.Dot(w);
 
-	if (m <= 1.0f) {
+	//
+	float denom = a * c - b * b;
+
+	float s, t;//線分上の最近傍点のパラメータ
+
+	if (denom == 0.0f) {
+		//線分がほぼ平行→とりあえずAの始点を使う
+		s = 0.0f;
+	}
+	else {
+		//線分A上のパラメータｓを求めて[0,1]に制限
+		s = fmax(0.0f, fmin(1.0f, (b * e - c * d) / denom));//クランプ
+	}
+
+	//線分B上の対応するｔを計算し、[0,1]に制限
+	if (c != 0.0f) {
+		t = (b * s + e) / c;
+		t = fmax(0.0f, fmin(1.0f, t));
+	}
+	else {
+		//Bが点
+		t = 0.0f;
+	}
+
+	//線分AとBの最近傍点
+	Vector2D Pc = this->startPoint + u * s;
+	Vector2D Qc = other.startPoint + v * t;
+
+	//その２点間の距離
+	float dist = (Pc - Qc).Length();
+
+	//距離が半径の合計以下なら、カプセル同士が当たっている
+	if (dist <= (this->radius + other.radius)) {
 		return true;
 	}
-	return false;*/
+	return false;
 }

@@ -40,6 +40,15 @@ void GameObjectBase::DrawCollision(const Vector2D& screen_offset) const
 	if (draw_collision_circle) {
 		DrawCircle(collision.GetPosition().x, collision.GetPosition().y, collision.radius, GetColor(255, 255, 255), FALSE);
 	}
+
+	if (draw_collision_capsule) {
+		DrawBox(collision.GetStartPoint().x - collision.radius, collision.GetStartPoint().y,
+			    collision.GetEndPoint().x + collision.radius, collision.GetEndPoint().y,
+			    GetColor(255, 255, 255), FALSE);
+		DrawCircle(collision.GetStartPoint().x, collision.GetStartPoint().y, collision.radius, GetColor(255, 255, 255), FALSE);
+		DrawCircle(collision.GetEndPoint().x, collision.GetEndPoint().y, collision.radius, GetColor(255, 255, 255), FALSE);
+		DrawLine(collision.GetStartPoint().x, collision.GetStartPoint().y, collision.GetEndPoint().x, collision.GetEndPoint().y,GetColor(255, 255, 255), 1);
+	}
 }
 
 void GameObjectBase::Finalize() {}

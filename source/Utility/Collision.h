@@ -26,12 +26,11 @@ public:
 	std::vector<eObjectType> hit_object_type;
 
 	float radius;//半径
-	void CalcRadius() { radius = box_size.x / 2; };
 	float GetRadius() { return radius; };
+
 private:
 	Vector2D position;
-
-	float CalcSegmentSegmentDist(const Vector2D& other_pivot, const float& other_boxSize_y);
+	Vector2D startPoint, endPoint;//カプセルの始点と終点
 
 public:
 	Collision();
@@ -39,6 +38,11 @@ public:
 
 	void SetPosition(const Vector2D& pos);
 	const Vector2D& GetPosition() const;
+
+	const Vector2D& GetStartPoint() const { return startPoint; };
+	const Vector2D& GetEndPoint() const { return endPoint; };
+	void SetStartPoint(Vector2D sp) { startPoint = sp; };
+	void SetEndPoint(Vector2D ep) { endPoint = ep; };
 
 	void SetSize(const float& width, const float& height);
 	Vector2D GetSize();

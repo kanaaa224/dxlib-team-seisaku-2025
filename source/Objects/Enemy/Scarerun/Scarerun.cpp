@@ -23,6 +23,10 @@ void Scarerun::Initialize()
 	//getAttack_img = rm->GetImages("");//攻撃を受けた時の画像が用意できたらここに入れる
 	//die_imgコンテナに画像を格納
 	//die_img = rm->GetImages("");//死んだ時の画像が用意できたらここに入れる
+	
+	//画像サイズ
+	img_size = Vector2D(26, 20);
+
 	//現在の画像を設定
 	image = idle_img[0];
 
@@ -38,7 +42,8 @@ void Scarerun::Initialize()
 #ifdef DEBUG
 	//当たり判定を表示
 	SetDrawCollisionBox(false);
-	SetDrawCollisionCircle(true);
+	SetDrawCollisionCircle(false);
+	SetDarwCollisionCapsule(true);
 #endif // DEBUG
 
 	//現在のステートを設定
@@ -74,6 +79,8 @@ void Scarerun::Finalize()
 void Scarerun::OnHitCollision(GameObjectBase* hit_object)
 {
 	__super::OnHitCollision(hit_object);
+
+	DrawFormatString(400, 400, GetColor(255, 0, 0), "当たり判定機能してるよ！");
 }
 
 void Scarerun::Movement(float distance)

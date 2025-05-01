@@ -57,6 +57,8 @@ void EnemyBase::Update(float delta_second)
 	Vector2D collisionPosition = collision.GetPosition();
 
 	collision.SetPosition(location);
+	collision.SetStartPoint(Vector2D(location.x, location.y - img_size.y));
+	collision.SetEndPoint(Vector2D(location.x, location.y + img_size.y));
 }
 
 void EnemyBase::Draw(const Vector2D& screen_offset) const
