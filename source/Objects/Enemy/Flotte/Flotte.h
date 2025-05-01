@@ -2,11 +2,11 @@
 
 #include "../EnemyBase.h"
 
-class Scarerun : public EnemyBase
+class Flotte : public EnemyBase
 {
 public:
-	Scarerun();
-	~Scarerun();
+	Flotte();
+	~Flotte();
 
 	void Initialize() override;
 	void Update(float delta_second) override;

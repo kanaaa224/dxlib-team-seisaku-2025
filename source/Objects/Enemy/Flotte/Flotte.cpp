@@ -1,20 +1,19 @@
-﻿#include "Scarerun.h"
-#include "DxLib.h"
+﻿#include "Flotte.h"
 
-Scarerun::Scarerun()
+Flotte::Flotte()
 {
 }
 
-Scarerun::~Scarerun()
+Flotte::~Flotte()
 {
 }
 
-void Scarerun::Initialize()
+void Flotte::Initialize()
 {
 	//ResourceManagerのインスタンスを取得
 	ResourceManager* rm = ResourceManager::GetInstance();
 	//idle_imgコンテナに画像を格納
-	idle_img = rm->GetImages("resource/images/enemy/scarerun/idle.png", 4, 4, 1, 46, 40);
+	idle_img = rm->GetImages("resource/images/enemy/flotte/idle.png", 4, 4, 1, 20, 20);
 	//attackPoition_imgコンテナに画像を格納
 	//attackPosition_img = rm->GetImages("");//攻撃姿勢時の画像が用意できたらここに入れる
 	//attack_imgコンテナに画像を格納
@@ -30,11 +29,11 @@ void Scarerun::Initialize()
 	z_layer = 0;
 
 	//当たり判定の大きさ
-	collision.SetSize(46, 40);
+	collision.SetSize(20, 20);
 
-	collision.radius = 23;
+	collision.radius = 10;
 	//collision.pivot = Vector2D(6.0f);
-	
+
 #ifdef DEBUG
 	//当たり判定を表示
 	SetDrawCollisionBox(false);
@@ -48,35 +47,22 @@ void Scarerun::Initialize()
 	__super::Initialize();
 }
 
-void Scarerun::Update(float delta_second)
+void Flotte::Update(float delta_second)
 {
-	__super::Update(delta_second);
-
-	if (nowState == IDLE) {
-		Movement(30.0f);
-	}
-	Animation(delta_second);
 }
 
-void Scarerun::Draw(const Vector2D& screen_offset) const
+void Flotte::Draw(const Vector2D& screen_offset) const
 {
-	__super::Draw(screen_offset);
 }
 
-void Scarerun::Finalize()
+void Flotte::Finalize()
 {
-	//画像解放
-	idle_img.clear();
-
-	__super::Finalize();
 }
 
-void Scarerun::OnHitCollision(GameObjectBase* hit_object)
+void Flotte::OnHitCollision(GameObjectBase* hit_object)
 {
-	__super::OnHitCollision(hit_object);
 }
 
-void Scarerun::Movement(float distance)
+void Flotte::Movement(float distance)
 {
-	__super::Movement(distance);
 }

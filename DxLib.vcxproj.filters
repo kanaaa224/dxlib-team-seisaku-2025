@@ -20,6 +20,7 @@
     <ClCompile Include="source\Utility\ResourceManager.cpp" />
     <ClCompile Include="source\Utility\Vector2D.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Objects\Enemy\Flotte\Flotte.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Objects\Boss\BossBase.h" />
@@ -42,5 +43,6 @@
     <ClInclude Include="source\Utility\ProjectConfig.h" />
     <ClInclude Include="source\Utility\ResourceManager.h" />
     <ClInclude Include="source\Utility\Vector2D.h" />
+    <ClInclude Include="source\Objects\Enemy\Flotte\Flotte.h" />
   </ItemGroup>
 </Project>
