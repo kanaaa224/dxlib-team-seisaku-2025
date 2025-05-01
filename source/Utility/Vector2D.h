@@ -95,4 +95,6 @@ public:
 	static Vector2D Lerp(const Vector2D& a, const Vector2D& b, const float t);
 
 	static float Distance(const Vector2D& a, const Vector2D& b);
+
+	float Clamp(float x, float minVal, float maxVal);
 };

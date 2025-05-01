@@ -50,7 +50,7 @@ float Vector2D::SqrLength() const
 
 float Vector2D::Length() const
 {
-	return sqrtf(SqrLength());
+	return sqrtf(x * x + y * y);
 }
 
 Vector2D Vector2D::Normalize() const
@@ -81,4 +81,9 @@ Vector2D Vector2D::Lerp(const Vector2D& a, const Vector2D& b, const float t)
 float Vector2D::Distance(const Vector2D& a, const Vector2D& b)
 {
 	return Vector2D(a - b).SqrLength();
+}
+
+float Vector2D::Clamp(float x, float minVal, float maxVal)
+{
+	return fmax(minVal,fmin(maxVal,x));
 }
