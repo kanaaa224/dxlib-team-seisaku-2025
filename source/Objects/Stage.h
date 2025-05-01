@@ -27,6 +27,8 @@ public:
 	virtual void Finalize() override;
 
 	virtual void OnHitCollision(GameObjectBase* hit_object) override;
+
+	void AddVelocity(const Vector2D& v) { location -= v; };
 };
 
 

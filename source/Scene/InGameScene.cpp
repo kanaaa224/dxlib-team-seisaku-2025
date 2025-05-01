@@ -19,7 +19,14 @@ void InGameScene::Initialize()
 	player = CreateObject<Player>(Vector2D(100, 400));
 	stage  = CreateObject<Stage>(Vector2D(640, 360));
 
-	scareruns.push_back(CreateObject<Scarerun>(Vector2D(200,400)));
+	for (int i = 0; i < 50; i++) {
+		float x, y;
+
+		x = (i + 1) * 25.0f;
+		y = 430;
+
+		scareruns.push_back(CreateObject<Scarerun>(Vector2D(x, y)));
+	}
 
 	//ui初期化処理
 	GameUI* gameui = GameUI::GetInstance();
@@ -35,7 +42,17 @@ eSceneType InGameScene::Update(const float& delta_second)
 
 	if (player->GetLocation().x >= (D_WIN_MAX_X / 2))
 	{
-		screen_offset.x = player->GetLocation().x - (D_WIN_MAX_X / 2);
+		Vector2D v = player->GetVelocity();
+
+		//screen_offset.x = player->GetLocation().x - (D_WIN_MAX_X / 2);
+
+		stage->AddVelocity(Vector2D(v.x, 0.0f));
+
+		for (int i = 0; i < scareruns.size(); i++) {
+			scareruns[i]->AddVelocity(Vector2D(v.x, 0.0f));
+		}
+
+		player->SetLocation(player->GetLocation() - player->GetVelocity());
 	}
 
 	return GetNowSceneType();
