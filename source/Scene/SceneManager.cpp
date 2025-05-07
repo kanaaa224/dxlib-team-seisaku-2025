@@ -73,6 +73,9 @@ void SceneManager::Run()
 
 #if DEBUG
 		if (InputCtrl::GetKeyState(KEY_INPUT_ESCAPE) || InputCtrl::GetButtonState(XINPUT_BUTTON_BACK)) break;
+
+		if (InputCtrl::GetKeyState(KEY_INPUT_F) && InputCtrl::GetKeyState(KEY_INPUT_3)) FPS::SetLimitRate(30);
+		if (InputCtrl::GetKeyState(KEY_INPUT_F) && InputCtrl::GetKeyState(KEY_INPUT_6)) FPS::SetLimitRate(60);
 #endif
 
 		FrameControl();
