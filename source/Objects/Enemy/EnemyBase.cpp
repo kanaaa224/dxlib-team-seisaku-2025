@@ -75,6 +75,10 @@ void EnemyBase::OnHitCollision(GameObjectBase* hit_object)
 	if (eObjectType::player == hit_object->GetCollision().object_type) {//プレイヤー
 		GetDamageMovement(hit_object);
 	}
+
+	if (eObjectType::enemy == hit_object->GetCollision().object_type) {//敵
+		HitEnemyMovement(hit_object);
+	}
 }
 
 void EnemyBase::Animation(float delta_second)
@@ -241,5 +245,26 @@ void EnemyBase::GetDamageMovement(GameObjectBase* hit_object)
 
 	velocity.x = 2.0f;
 	velocity.y = 1.0f;
+}
+
+void EnemyBase::HitEnemyMovement(GameObjectBase* hit_object)
+{
+	switch (GetCollisionSide(*hit_object))
+	{
+	case eCollisionSide::top://上方向
+		break;
+	case eCollisionSide::bottom://下方向
+		break;
+	case eCollisionSide::left://左方向
+		velocity.x = 2.0f;
+		velocity.y = 1.0f;
+		break;
+	case eCollisionSide::right://右方向
+		velocity.x = -2.0f;
+		velocity.y = 1.0f;
+		break;
+	default:
+		break;
+	}
 }
 

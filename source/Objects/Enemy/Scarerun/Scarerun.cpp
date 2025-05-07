@@ -58,7 +58,7 @@ void Scarerun::Update(float delta_second)
 	__super::Update(delta_second);
 
 	if (nowState == IDLE) {
-		Movement(30.0f);
+		Movement(30.0f);//左右移動
 	}
 	Animation(delta_second);
 }

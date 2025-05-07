@@ -2,6 +2,8 @@
 //敵の親クラス
 //これを継承して敵を作っていく
 
+#include "DxLib.h"
+
 #include "../GameObject.h"
 #include "../../Utility/Vector2D.h"
 #include "../../Utility/ResourceManager.h"
@@ -54,7 +56,7 @@ public:
 
 	virtual void OnHitCollision(GameObjectBase* hit_object) override;
 
-	virtual void AddVelocity(const Vector2D& v) { location -= v; };
+	virtual void AddVelocity(const Vector2D& v) { location -= v; spawnPosition -= v; };
 
 protected:
 	/// <summary>
@@ -82,10 +84,18 @@ protected:
 	/// Update内で１回のみ初期化したい変数を関数内に入れる
 	/// </summary>
 	virtual void InitUpdate();
+
 	/// <summary>
 	/// ダメージを受けた時の移動
 	/// </summary>
+	/// <param name="hit_object">当たったオブジェクト</param>
 	virtual void GetDamageMovement(GameObjectBase* hit_object);
+	/// <summary>
+	/// 敵同士が当たった時の動き・反応
+	/// </summary>
+	/// <param name="hit_object">当たったオブジェクト</param>
+	virtual void HitEnemyMovement(GameObjectBase* hit_object);
+
 	/// <summary>
 	/// InGameScene内でPlayerのLocationを毎フレームセットする
 	/// </summary>
