@@ -40,7 +40,7 @@ eSceneType InGameScene::Update(const float& delta_second)
 
 	__super::Update(delta_second);
 
-	if (player->GetLocation().x >= (D_WIN_MAX_X / 2))
+	if (player->GetLocation().x >= (D_WIN_MAX_X / 2) || player->GetLocation().x <= 100)
 	{
 		Vector2D v = player->GetVelocity();
 
