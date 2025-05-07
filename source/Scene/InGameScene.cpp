@@ -52,7 +52,9 @@ eSceneType InGameScene::Update(const float& delta_second)
 			scareruns[i]->AddVelocity(Vector2D(v.x, 0.0f));
 		}
 
-		player->SetLocation(player->GetLocation() - player->GetVelocity());
+		v = player->GetLocation() - player->GetVelocity();
+
+		player->SetLocation(Vector2D(v.x, player->GetLocation().y));
 	}
 
 	return GetNowSceneType();
