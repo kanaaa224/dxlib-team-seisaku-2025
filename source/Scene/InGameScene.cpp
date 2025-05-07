@@ -40,11 +40,9 @@ eSceneType InGameScene::Update(const float& delta_second)
 
 	__super::Update(delta_second);
 
-	if (player->GetLocation().x >= (D_WIN_MAX_X / 2) || player->GetLocation().x <= 100)
+	if ((player->GetLocation().x >= (D_WIN_MAX_X / 2) || player->GetLocation().x <= 100.0f)/* && stage->GetLocation().x <= (D_WIN_MAX_X / 2)*/)
 	{
 		Vector2D v = player->GetVelocity();
-
-		//screen_offset.x = player->GetLocation().x - (D_WIN_MAX_X / 2);
 
 		stage->AddVelocity(Vector2D(v.x, 0.0f));
 
