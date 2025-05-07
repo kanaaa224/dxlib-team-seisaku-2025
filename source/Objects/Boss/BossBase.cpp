@@ -3,9 +3,7 @@
 
 BossBase* BossBase::instance = nullptr;
 
-BossBase::BossBase() :
-	bossBase(nullptr),
-	bossBase_state(eBossBaseState::idle) {}
+BossBase::BossBase() : bossBase(nullptr) {}
 
 BossBase::~BossBase() {}
 
@@ -20,8 +18,6 @@ void BossBase::Update(float delta_second)
 {
 	location += velocity;
 
-	Vector2D collisionPosition = collision.GetPosition();
-
 	collision.SetPosition(location);
 
 	Animation(delta_second);
@@ -32,10 +28,7 @@ void BossBase::Animation(float delta_second) {}
 
 void BossBase::Movement(float delta_second) {}
 
-void BossBase::OnHitCollision(GameObject* hit_object)
-{
-	if (hit_object->GetCollision().object_type == eObjectType::player) owner_scene->DestroyObject(this);
-}
+void BossBase::OnHitCollision(GameObject* hit_object) {}
 
 void BossBase::Draw(const Vector2D& screen_offset) const
 {

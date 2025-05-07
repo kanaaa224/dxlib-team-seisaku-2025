@@ -2,8 +2,30 @@
 
 #include "BossBase.h"
 
+enum class VaillantState
+{
+	idle,
+	walk,
+	damage,
+	die
+};
+
 class Vaillant : public BossBase
 {
+private:
+	std::vector<int> idle_images;
+	std::vector<int> walk_images;
+
+	int idle_animation_state;
+	int walk_animation_state;
+
+	float idle_animation_time;
+	float walk_animation_time;
+
+	VaillantState state;
+
+	float debug[2];
+
 public:
 	Vaillant();
 	~Vaillant();

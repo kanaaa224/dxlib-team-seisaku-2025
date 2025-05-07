@@ -9,10 +9,10 @@ DebugBossScene::~DebugBossScene() {}
 
 void DebugBossScene::Initialize()
 {
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 3; i++) {
 		float x, y;
 
-		x = (i + 1) * 100.0f;
+		x = (i + 1) * 220.0f;
 		y = 430;
 
 		vaillants.push_back(CreateObject<Vaillant>(Vector2D(x, y)));

@@ -2,23 +2,12 @@
 
 #include "../GameObject.h"
 
-enum class eBossBaseState
-{
-	idle,
-	move,
-	damage,
-	die
-};
-
 class BossBase : public GameObject
 {
 private:
 	BossBase* bossBase;
 
 	static BossBase* instance;
-
-public:
-	eBossBaseState bossBase_state;
 
 public:
 	BossBase();
