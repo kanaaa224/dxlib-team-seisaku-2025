@@ -16,13 +16,16 @@ void TitleScene::Initialize()
 {
 	ResourceManager* rm = ResourceManager::GetInstance();
 
+	//背景
 	background_image1 = LoadGraph("resource/images/title/j1.png");
 	background_image2 = LoadGraph("resource/images/title/j2.png");
 	background_image3 = LoadGraph("resource/images/title/j3.png");
 	background_image4 = LoadGraph("resource/images/title/j4.png");
 
+	//フォント
 	if (AddFontResourceEx("resource/fonts/PressStart2P-Regular.ttf", FR_PRIVATE, NULL) <= 0) throw;
 
+	//SE
 	kettei = LoadSoundMem("resource/sounds/decision_button.mp3");
 	ChangeVolumeSoundMem(250,kettei);
 
