@@ -9,7 +9,7 @@
 TitleScene::TitleScene() :background_image1(NULL),
 background_image2(NULL),
 background_image3(NULL),
-background_image4(NULL) {}
+background_image4(NULL){}
 TitleScene::~TitleScene() {}
 
 void TitleScene::Initialize()
@@ -38,9 +38,8 @@ eSceneType TitleScene::Update(const float& delta_second)
 	{
 		if (InputCtrl::GetKeyState(KEY_INPUT_RETURN) || InputCtrl::GetButtonState(XINPUT_BUTTON_A))
 		{
-			// 読みこんだ音をノーマル再生
+			// 決定音
 			PlaySoundMem(kettei, DX_PLAYTYPE_NORMAL);
-
 			is_fading = true;
 			next_scene = eSceneType::in_game;
 		}
@@ -52,7 +51,14 @@ eSceneType TitleScene::Update(const float& delta_second)
 	}
 	else
 	{
-		// フェード処理（1秒で255まで増加）
+		//フェード中ボタンが押されたら即遷移_SPACEまたはBボタン
+		if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) || InputCtrl::GetButtonState(XINPUT_BUTTON_B))
+		{
+			fade_alpha = 255.0f;
+			return next_scene;
+		}
+
+		// フェード処理
 		fade_alpha += 255.0f * delta_second;
 		if (fade_alpha >= 255.0f)
 		{
@@ -63,6 +69,7 @@ eSceneType TitleScene::Update(const float& delta_second)
 
 	return __super::Update(delta_second);
 }
+
 
 
 void TitleScene::Draw() const
