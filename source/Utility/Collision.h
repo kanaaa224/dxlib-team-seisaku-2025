@@ -11,7 +11,9 @@ enum class eObjectType : unsigned char
 	item,
 	buff,
 	player,
-	enemy
+	player_attack,
+	enemy,
+	enemy_attack
 };
 
 class Collision
