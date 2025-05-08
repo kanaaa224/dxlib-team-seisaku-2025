@@ -13,6 +13,9 @@
 #define MOVE_SPEED      1.0f  //移動速度
 #define FALLING_SPEED   4.0f  //落下速度
 
+#define HP_X_MAXSIZE 50      //HPバーX軸の最大サイズ
+#define HP_Y_SIZE 10         //HPバーY軸の大きさ
+
 enum eEnemyState
 {
 	NONE,           //何もなし
@@ -26,6 +29,9 @@ enum eEnemyState
 class EnemyBase : public GameObject
 {
 protected:
+	float hp;                           //体力
+	float max_hp;                       //体力の最大値
+
 	eEnemyState nowState;               //現在の状態
 	eEnemyState oldState;               //1フレーム前の状態
 	float nowStateTime;                 //現在の状態へ遷移してからの経過時間
@@ -106,5 +112,10 @@ protected:
 	/// </summary>
 	/// <param name="pV">PlayerVelocity</param>
 	virtual void PlayerSetVelocity(Vector2D pV) { playerVelocity = pV; };
+
+	/// <summary>
+	/// デバッグ用のHP表示
+	/// </summary>
+	void DrawHP() const;
 };
 

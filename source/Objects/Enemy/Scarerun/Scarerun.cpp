@@ -25,7 +25,7 @@ void Scarerun::Initialize()
 	//die_img = rm->GetImages("");//死んだ時の画像が用意できたらここに入れる
 	
 	//画像サイズ
-	img_size = Vector2D(26, 20);
+	img_size = Vector2D(10, 5);
 
 	//現在の画像を設定
 	image = idle_img[0];
@@ -36,7 +36,7 @@ void Scarerun::Initialize()
 	//当たり判定の大きさ
 	collision.SetSize(46, 40);
 
-	collision.radius = 23;
+	collision.radius = 20;
 	//collision.pivot = Vector2D(6.0f);
 	
 #ifdef DEBUG
@@ -60,6 +60,10 @@ void Scarerun::Update(float delta_second)
 	if (nowState == IDLE) {
 		Movement(30.0f);//左右移動
 	}
+	//if (hp <= 0) {//hpが０の時
+	//	nowState = DIE;
+	//}
+
 	Animation(delta_second);
 }
 
@@ -79,8 +83,6 @@ void Scarerun::Finalize()
 void Scarerun::OnHitCollision(GameObjectBase* hit_object)
 {
 	__super::OnHitCollision(hit_object);
-
-	DrawFormatString(400, 400, GetColor(255, 0, 0), "当たり判定機能してるよ！");
 }
 
 void Scarerun::Movement(float distance)

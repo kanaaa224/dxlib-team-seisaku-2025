@@ -1,4 +1,5 @@
 ﻿#include "EnemyBase.h"
+#include "../../Utility/InputCtrl.h"//デバック用で入れている（主にデバックキーで）
 
 EnemyBase::EnemyBase() : 
 	idle_img(), 
@@ -13,7 +14,9 @@ EnemyBase::EnemyBase() :
 	playerLocation(Vector2D(0.0f)),
 	playerFoundFlg(false),
 	spawnPosition(Vector2D(0.0f)),
-	initUpdateFlg(false)
+	initUpdateFlg(false),
+	max_hp(100.0f),
+	hp(100.0f)
 {
 }
 
@@ -48,7 +51,12 @@ void EnemyBase::Update(float delta_second)
 	//}
 
 #ifdef DEBUG
-
+	if (InputCtrl::GetKeyState(KEY_INPUT_E) == PRESSED && InputCtrl::GetKeyState(KEY_INPUT_0) == PRESSED) {//(E + 0)でhpを0にする
+		hp = 0;
+	}
+	if (InputCtrl::GetKeyState(KEY_INPUT_E) == PRESSED && InputCtrl::GetKeyState(KEY_INPUT_1) == PRESSED) {//(E + 0)でhpを10減らす
+		hp -= 10;
+	}
 #endif // DEBUG
 
 	//locationを更新
@@ -64,6 +72,11 @@ void EnemyBase::Update(float delta_second)
 void EnemyBase::Draw(const Vector2D& screen_offset) const
 {
 	__super::Draw(screen_offset);
+
+#ifdef DEBUG
+	DrawHP();
+#endif // DEBUG
+
 }
 
 void EnemyBase::Finalize()
@@ -73,11 +86,7 @@ void EnemyBase::Finalize()
 void EnemyBase::OnHitCollision(GameObjectBase* hit_object)
 {
 	if (eObjectType::player == hit_object->GetCollision().object_type) {//プレイヤー
-		GetDamageMovement(hit_object);
-	}
-
-	if (eObjectType::enemy == hit_object->GetCollision().object_type) {//敵
-		HitEnemyMovement(hit_object);
+		GetDamageMovement(hit_object);//ダメージを受けた時のノックバック処理 ※現在はプレイヤーと当たったらにしているが攻撃判定ができた場合は攻撃中か？の判定も追加する
 	}
 }
 
@@ -266,5 +275,17 @@ void EnemyBase::HitEnemyMovement(GameObjectBase* hit_object)
 	default:
 		break;
 	}
+}
+
+void EnemyBase::DrawHP() const
+{
+	//現在のHP割合
+	float hp_rate = hp / max_hp;
+	float hp_x_size = HP_X_MAXSIZE * hp_rate;
+
+	//
+	DrawBox(location.x - img_size.x - (HP_X_MAXSIZE / 3), location.y - img_size.y - collision.radius,
+		    (location.x - img_size.x - (HP_X_MAXSIZE / 3)) + hp_x_size, location.y - img_size.y - collision.radius - HP_Y_SIZE,
+		    GetColor(255, 0, 0), TRUE);
 }
 
