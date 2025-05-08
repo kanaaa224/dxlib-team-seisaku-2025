@@ -27,8 +27,12 @@ void Vaillant::Initialize()
 
 	img_size = Vector2D(200.0f, 220.0f);
 
-	//SetDrawCollisionBox(true);
-	//SetDrawCollisionCircle(true);
+	collision.radius = 80.0f;
+
+#ifdef DEBUG
+	SetDrawCollisionBox(true);
+	SetDarwCollisionCapsule(true);
+#endif
 }
 
 void Vaillant::Update(float delta_second)
@@ -36,7 +40,7 @@ void Vaillant::Update(float delta_second)
 	__super::Update(delta_second);
 
 	if (true) {
-		debug[0] += delta_second;
+		debug[0] += delta_second * (60.0f / GetFPS());
 
 		if (debug[0] >= 1.0f) {
 			debug[0] = 0.0f;
@@ -47,14 +51,14 @@ void Vaillant::Update(float delta_second)
 		}
 
 		if (debug[1] > 0 && debug[1] <= 3) velocity.x = -0.25f;
-		if (debug[1] > 3 && debug[1] <= 7) velocity.x = 0.25f;
+		if (debug[1] > 3 && debug[1] <= 7) velocity.x =  0.25f;
 
 		if (debug[1] == 8) flip_flag = true;
 		if (debug[1] == 9) flip_flag = false;
 	}
 
-	collision.SetStartPoint(Vector2D(location.x, location.y - img_size.y));
-	collision.SetEndPoint(Vector2D(location.x, location.y + img_size.y));
+	collision.SetStartPoint(Vector2D(location.x, location.y - (img_size.y / 2.0f)));
+	collision.SetEndPoint(Vector2D(location.x, location.y + (img_size.y / 2.0f)));
 
 	if (flip_flag) {
 		collision.SetSize(200.0f, 220.0f);
@@ -76,7 +80,7 @@ void Vaillant::Animation(float delta_second)
 	switch (state)
 	{
 	case VaillantState::idle:
-		idle_animation_time += delta_second;
+		idle_animation_time += delta_second * (60.0f / GetFPS());
 
 		if (idle_animation_time >= 0.075f) {
 			idle_animation_time = 0.0f;
@@ -90,7 +94,7 @@ void Vaillant::Animation(float delta_second)
 		break;
 
 	case VaillantState::walk:
-		walk_animation_time += delta_second;
+		walk_animation_time += delta_second * (60.0f / GetFPS());
 
 		if (walk_animation_time >= 0.1f) {
 			walk_animation_time = 0.0f;
@@ -119,8 +123,10 @@ void Vaillant::Movement(float delta_second)
 {
 	__super::Movement(delta_second);
 
+#ifdef DEBUG
 	if (InputCtrl::GetKeyState(KEY_INPUT_A)) velocity.x = -0.25f;
-	if (InputCtrl::GetKeyState(KEY_INPUT_D)) velocity.x = 0.25f;
+	if (InputCtrl::GetKeyState(KEY_INPUT_D)) velocity.x =  0.25f;
+#endif
 }
 
 void Vaillant::OnHitCollision(GameObject* hit_object)
@@ -142,4 +148,7 @@ void Vaillant::Finalize()
 	//ResourceManager* rm = ResourceManager::GetInstance();
 
 	//rm->UnLoadImages();
+
+	idle_images.clear();
+	walk_images.clear();
 }

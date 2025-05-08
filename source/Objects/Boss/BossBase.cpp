@@ -16,7 +16,7 @@ void BossBase::Initialize()
 
 void BossBase::Update(float delta_second)
 {
-	location += velocity;
+	location += (velocity * (60.0f / GetFPS()));
 
 	collision.SetPosition(location);
 

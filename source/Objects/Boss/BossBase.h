@@ -2,6 +2,8 @@
 
 #include "../GameObject.h"
 
+//#define DEBUG
+
 class BossBase : public GameObject
 {
 private:
