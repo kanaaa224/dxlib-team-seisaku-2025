@@ -22,7 +22,7 @@ void Scarerun::Initialize()
 	//getAttack_imgコンテナに画像を格納
 	//getAttack_img = rm->GetImages("");//攻撃を受けた時の画像が用意できたらここに入れる
 	//die_imgコンテナに画像を格納
-	//die_img = rm->GetImages("");//死んだ時の画像が用意できたらここに入れる
+	die_img = rm->GetImages("resource/images/enemy/scarerun/idle.png", 4, 4, 1, 46, 40);//死んだ時の画像が用意できたらここに入れる
 	
 	//画像サイズ
 	img_size = Vector2D(10, 5);
