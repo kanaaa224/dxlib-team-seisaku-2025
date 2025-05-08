@@ -55,9 +55,20 @@ void EnemyBase::Update(float delta_second)
 		hp = 0;
 	}
 	if (InputCtrl::GetKeyState(KEY_INPUT_E) == PRESSED && InputCtrl::GetKeyState(KEY_INPUT_1) == PRESSED) {//(E + 0)でhpを10減らす
-		hp -= 10;
+		GetDamage(10);
 	}
 #endif // DEBUG
+
+	//ダメージストップ処理
+	//Flgが経って何秒経過しているか
+	if (damageStopFlg == true) {
+		damageStop_ct += delta_second;
+		//設定した時間になったらFlgをFalseにする
+		if (damageStop_ct >= DAMAGE_STOP_TIME) {
+			damageStopFlg = false;
+			damageStop_ct = 0;
+		}
+	}
 
 	//locationを更新
 	location += velocity;
@@ -287,5 +298,19 @@ void EnemyBase::DrawHP() const
 	DrawBox(location.x - img_size.x - (HP_X_MAXSIZE / 3), location.y - img_size.y - collision.radius,
 		    (location.x - img_size.x - (HP_X_MAXSIZE / 3)) + hp_x_size, location.y - img_size.y - collision.radius - HP_Y_SIZE,
 		    GetColor(255, 0, 0), TRUE);
+}
+
+void EnemyBase::GetDamage(float damage)
+{
+	//設定した時間経過後またダメージを受ける
+	if (damageStopFlg == false) {
+		hp -= damage;
+		damageStopFlg = true;
+	}
+
+	//HPが０以下なら０にする
+	if (hp <= 0) {
+		hp = 0;
+	}
 }
 

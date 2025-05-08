@@ -34,25 +34,12 @@ void TitleScene::Initialize()
 
 eSceneType TitleScene::Update(const float& delta_second)
 {
-	if (!is_fading)
-	{
-		if (InputCtrl::GetKeyState(KEY_INPUT_RETURN) || InputCtrl::GetButtonState(XINPUT_BUTTON_A))
-		{
-			// 決定音
-			PlaySoundMem(kettei, DX_PLAYTYPE_NORMAL);
-			is_fading = true;
-			next_scene = eSceneType::in_game;
-		}
-		else if (InputCtrl::GetKeyState(KEY_INPUT_1))
-		{
-			is_fading = true;
-			next_scene = eSceneType::debug_boss;
-		}
-	}
-	else
+	//フェード中の処理
+	if (is_fading)
 	{
 		//フェード中ボタンが押されたら即遷移_SPACEまたはBボタン
-		if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) || InputCtrl::GetButtonState(XINPUT_BUTTON_B))
+		//0以外の判定取っちゃうから押した瞬間（1）の判定の時にする
+		if (InputCtrl::GetKeyState(KEY_INPUT_RETURN) == 1 || InputCtrl::GetButtonState(XINPUT_BUTTON_B))
 		{
 			fade_alpha = 255.0f;
 			return next_scene;
@@ -64,6 +51,23 @@ eSceneType TitleScene::Update(const float& delta_second)
 		{
 			fade_alpha = 255.0f;
 			return next_scene;
+		}
+	}
+	//フェードしてないときの処理
+	else
+	{
+		if (InputCtrl::GetKeyState(KEY_INPUT_RETURN) || InputCtrl::GetButtonState(XINPUT_BUTTON_A))
+		{
+			// 決定音
+			PlaySoundMem(kettei, DX_PLAYTYPE_NORMAL);
+			is_fading = true;
+			fade_alpha = 0.0f;
+			next_scene = eSceneType::in_game;
+		}
+		else if (InputCtrl::GetKeyState(KEY_INPUT_1))
+		{
+			is_fading = true;
+			next_scene = eSceneType::debug_boss;
 		}
 	}
 
@@ -99,7 +103,9 @@ void TitleScene::Draw() const
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 
-	return __super::Draw();
+	DrawFormatString(1000, 10, GetColor(255, 255, 255), "%f",fade_alpha);
+
+	DrawFormatString(10, 100, GetColor(0, 255, 255), "エンター二回押したらスキップされます");
 }
 
 

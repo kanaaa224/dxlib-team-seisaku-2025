@@ -8,13 +8,15 @@
 #include "../../Utility/Vector2D.h"
 #include "../../Utility/ResourceManager.h"
 
-#define DEBUG                 //デバック表示
-#define IMG_CHANGE_TIME 0.05f //画像の切り替え速度
-#define MOVE_SPEED      1.0f  //移動速度
-#define FALLING_SPEED   4.0f  //落下速度
+#define DEBUG                  //デバック表示
+#define IMG_CHANGE_TIME 0.05f  //画像の切り替え速度
+#define MOVE_SPEED      1.0f   //移動速度
+#define FALLING_SPEED   4.0f   //落下速度
 
-#define HP_X_MAXSIZE 50      //HPバーX軸の最大サイズ
-#define HP_Y_SIZE 10         //HPバーY軸の大きさ
+#define HP_X_MAXSIZE 50       //HPバーX軸の最大サイズ
+#define HP_Y_SIZE 10          //HPバーY軸の大きさ
+
+#define DAMAGE_STOP_TIME 0.1f //ダメージストップ時間
 
 enum eEnemyState
 {
@@ -50,6 +52,9 @@ protected:
 	Vector2D spawnPosition;             //スポーン位置を格納
 
 	bool initUpdateFlg;                 //Update内で初期化したか
+
+	float damageStop_ct;                //ダメージを受けてから何秒経過しているか
+	bool damageStopFlg;                 //ダメージを受けるのを止めるか止めないか
 
 public:
 	EnemyBase();
@@ -117,5 +122,12 @@ protected:
 	/// デバッグ用のHP表示
 	/// </summary>
 	void DrawHP() const;
+
+	/// <summary>
+	/// ダメージを受けた時にダメージ数を入れる関数
+	/// ダメージストップも担う
+	/// </summary>
+	/// <param name="damage">ダメージ数</param>
+	void GetDamage(float damage);
 };
 
