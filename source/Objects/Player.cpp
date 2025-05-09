@@ -7,9 +7,10 @@
 #define D_PLAYER_SPEED	(50.0f) //プレイヤー速度
 #define D_GRAVITY (9.807f) //重力
 
-#define IDLE_ANIMATION_RATE (0.01f)
-#define MOVE_ANIMATION_RATE (0.03f)
-#define ROLL_ANIMATION_RATE
+#define IDLE_ANIMATION_RATE (0.1f)
+#define MOVE_ANIMATION_RATE (0.3f)
+#define ROLL_ANIMATION_RATE (0.01f)
+#define JUMP_ANIMATION_RATE (0.01f)
 #define ATTACK_ANIMATION_RATE (0.01f)
 
 #define VELOCITY (4.0f)
@@ -43,7 +44,7 @@ void Player::Initialize()
 	idle_animation = rm->GetImages("resource/images/player/idle/03_idle.png", 8, 8, 1, 288, 45);
 	run_animation = rm->GetImages("resource/images/player/run/run_288_45_8.png", 8, 8, 1, 288, 45);
 	attack_animation = rm->GetImages("resource/images/player/attack1/atk_288_45.png", 6, 6, 1, 288, 45);
-	jump_animation = rm->GetImages("resource/images/player/jump_up/jump_up2.png", 7, 7, 1, 288, 45);
+	jump_animation = rm->GetImages("resource/images/player/jump_up/jump_up2.png", 7, 7, 1, 288, 60);
 	avoidance_animation = rm->GetImages("resource/images/player/roll/roll_288_45_7.png", 7, 7, 1, 288, 45); //回避アニメーション
 
 	//jump_SE = rm->GetSounds("resource/sounds/xxx.wav");
@@ -56,7 +57,9 @@ void Player::Initialize()
 
 	collision.SetHitObjectType({ eObjectType::enemy, eObjectType::ground });  //hitオブジェクトタイプ
 
-	//SetDrawCollisionBox(true);  //当たり判定大きさ取得
+	SetDrawCollisionBox(true);  //当たり判定大きさ取得
+
+	img_size = Vector2D(100, 100);
 
 	collision.radius = 25;
 
@@ -73,13 +76,22 @@ void Player::Initialize()
 	image = idle_animation[0];  //初期イメージ設定
 
 	if (image == -1) throw("エラー\n");  //エラーチェック
+
 }
 
 void Player::Update(float delta_second)
 {
-	/*Vector2D collisionPosition = collision.GetPosition();*/
+	Vector2D collisionPosition = collision.GetPosition();
 
 	collision.SetPosition(location);
+
+	collision.SetStartPoint(Vector2D(location.x, location.y - img_size.y));
+	collision.SetEndPoint(Vector2D(location.x, location.y + img_size.y));
+
+	if (GetCollision().object_type == eObjectType::enemy)
+	{
+		player_state = ePlayerState::damage;
+	}
 
 	//プレイヤーの状態ごとの処理
 	switch (player_state) {
@@ -98,12 +110,15 @@ void Player::Update(float delta_second)
 
 			InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == PRESSED ||
 			InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == PRESSED
-		) {
+			) {
 			player_state = ePlayerState::move;
 		}
 		else if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 		{
 			player_state = ePlayerState::jump;
+
+			//プレイヤーがジャンプ状態のとき
+			JumpMoment(delta_second);
 
 			//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 		}
@@ -126,6 +141,9 @@ void Player::Update(float delta_second)
 		break;
 
 	case ePlayerState::die: //死亡処理
+
+		is_destroy = true;
+		//velocity.x = 0.0f;
 		/*animation_time += delta_second;
 
 		if (animation_time >= 0.07f) {
@@ -142,12 +160,17 @@ void Player::Update(float delta_second)
 			}
 		}*/
 
-		//image = dying_animation[animation_count];
+		//image = attack_animation[];
 
 		break;
 
 	case ePlayerState::damage: //ダメージを受けた時の処理
 		//animation_time += delta_second;
+		p_hp -= 10;
+		if (p_hp == 0)
+		{
+			player_state = ePlayerState::die;
+		}
 
 		break;
 
@@ -162,10 +185,10 @@ void Player::Update(float delta_second)
 		if (!is_on_ground) velocity.y += D_GRAVITY * delta_second * ADDJUMP;  //重力速度計算
 
 		/* ジャンプ中に2回攻撃させないため */
-		if (InputCtrl::GetKeyState(KEY_INPUT_E) == PRESS && jump_attack_flg == false || 
+		if (InputCtrl::GetKeyState(KEY_INPUT_E) == PRESS && jump_attack_flg == false ||
 			InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS && jump_attack_flg == false)
 		{
-			player_state = ePlayerState::jump_attack;		
+			player_state = ePlayerState::jump_attack;
 		}
 
 		//地面についた時の処理
@@ -173,7 +196,7 @@ void Player::Update(float delta_second)
 
 			location.y = ground_y;
 
-			velocity.y = 0.0f;
+ 			velocity.y = 0.0f;
 			g_velocity = 0.0f;
 
 			is_on_ground = true;
@@ -182,14 +205,14 @@ void Player::Update(float delta_second)
 			player_state = ePlayerState::idle;
 		}
 
-		
+
 
 		break;
 
 	case ePlayerState::attack: //攻撃処理
 
 		AnimationControl(attack_animation, ATTACK_ANIMATION_RATE, delta_second, 6, idle);
-		
+
 		break;
 	case ePlayerState::jump_attack:
 
@@ -201,9 +224,9 @@ void Player::Update(float delta_second)
 		break;
 	case ePlayerState::avoidance: //回避処理
 
-		AnimationControl(avoidance_animation, ATTACK_ANIMATION_RATE, delta_second, 7, idle);
-			
-			//後でアニメーション割込み聞く
+		AnimationControl(avoidance_animation, ROLL_ANIMATION_RATE, delta_second, 7, idle);
+
+		//後でアニメーション割込み聞く
 		break;
 
 	default:
@@ -218,19 +241,24 @@ void Player::Update(float delta_second)
 void Player::Draw(const Vector2D& screen_offset) const  //描画処理
 {
 	//DrawRotaGraphF(location.x, location.y, 5.0, 0.0, image, TRUE, this->flip_flag);
+	DrawFormatString(0, 180, GetColor(255, 255, 255), "Player HP: %d", p_hp);
+	DrawFormatString(0, 160, GetColor(255, 255, 255), "Player: %d", player_state);
 	DrawFormatString(0, 120, GetColor(255, 255, 255), "Player velocaty.y: %0.0f", velocity.y);
 	__super::Draw(screen_offset);
 }
 
 void Player::Finalize() //終了時処理
 {
-	attack_animation.clear();
 	idle_animation.clear();
+	attack_animation.clear();
+	run_animation.clear();
+	jump_animation.clear();
+	avoidance_animation.clear();
 }
 
 void Player::OnHitCollision(GameObjectBase* hit_object) //当たった時
 {
-	
+
 	//
 	//if (hit_object->GetCollision().object_type == eObjectType::wall) {
 	//	CapsuleCollision hc = hit_object->GetCollision();
@@ -255,9 +283,12 @@ void Player::OnHitCollision(GameObjectBase* hit_object) //当たった時
 	//	is_power_up = true;
 	//}
 
-	//if (hit_object->GetCollision().object_type == eObjectType::enemy) {}
+	if (hit_object->GetCollision().object_type == eObjectType::enemy) 
+	{
+		player_state = ePlayerState::damage;
+	}
 
-	//
+	
 }
 
 ePlayerState Player::GetPlayerState() const
@@ -275,10 +306,10 @@ void Player::SetPowerDown()
 	is_power_up = false;
 }
 
-bool Player::GetDestroy() const
-{
-	return is_destroy;
-}
+//bool Player::GetDestroy() const
+//{
+//	return is_destroy;
+//}
 
 void Player::Movement(float delta_second)
 {
@@ -288,7 +319,7 @@ void Player::Movement(float delta_second)
 		InputCtrl::GetKeyState(KEY_INPUT_LEFT) ||
 
 		InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_LEFT)
-	) {
+		) {
 		velocity.x = -VELOCITY;
 
 		flip_flag = true;
@@ -337,10 +368,12 @@ void Player::Movement(float delta_second)
 void Player::JumpMoment(float delta_second)
 {
 	//ジャンプ移動処理
-	if ((InputCtrl::GetKeyState(KEY_INPUT_SPACE) || InputCtrl::GetButtonState(XINPUT_BUTTON_A)) && is_on_ground == true) {
+	if ((InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS && is_on_ground == true || InputCtrl::GetButtonState(XINPUT_BUTTON_A)) && is_on_ground == true) {
 		velocity.y = -4.0f;
 
 		is_on_ground = false;
+
+		//AnimationControl(jump_animation, JUMP_ANIMATION_RATE, delta_second, 7, idle);
 
 		//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 	}
