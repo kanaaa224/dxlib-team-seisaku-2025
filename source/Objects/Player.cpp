@@ -57,7 +57,10 @@ void Player::Initialize()
 
 	collision.SetHitObjectType({ eObjectType::enemy, eObjectType::ground });  //hitオブジェクトタイプ
 
-	SetDrawCollisionBox(true);  //当たり判定大きさ取得
+	collision.SetSize(46, 40);
+
+	SetDrawCollisionBox(true);  //当たり判定大きさ取得3
+	SetDarwCollisionCapsule(true);
 
 	img_size = Vector2D(100, 100);
 
@@ -85,8 +88,8 @@ void Player::Update(float delta_second)
 
 	collision.SetPosition(location);
 
-	collision.SetStartPoint(Vector2D(location.x, location.y - img_size.y));
-	collision.SetEndPoint(Vector2D(location.x, location.y + img_size.y));
+	collision.SetStartPoint(Vector2D(location.x, location.y - (img_size.y / 2.0f)));
+	collision.SetEndPoint(Vector2D(location.x, location.y + (img_size.y / 2.0f)));
 
 	if (GetCollision().object_type == eObjectType::enemy)
 	{
@@ -115,10 +118,10 @@ void Player::Update(float delta_second)
 		}
 		else if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 		{
-			player_state = ePlayerState::jump;
+			//velocity.y = -4.0f;
 
-			//プレイヤーがジャンプ状態のとき
-			JumpMoment(delta_second);
+			//is_on_ground = false;
+			player_state = ePlayerState::jump;
 
 			//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 		}
@@ -205,8 +208,6 @@ void Player::Update(float delta_second)
 			player_state = ePlayerState::idle;
 		}
 
-
-
 		break;
 
 	case ePlayerState::attack: //攻撃処理
@@ -287,8 +288,6 @@ void Player::OnHitCollision(GameObjectBase* hit_object) //当たった時
 	{
 		player_state = ePlayerState::damage;
 	}
-
-	
 }
 
 ePlayerState Player::GetPlayerState() const
@@ -325,8 +324,11 @@ void Player::Movement(float delta_second)
 		flip_flag = true;
 
 		//移動状態のときボタンを押されたら
-		if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
+		if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS  || InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS && is_on_ground == true)
 		{
+			//velocity.y = -4.0f;
+
+			//is_on_ground = false;
 			player_state = ePlayerState::jump; //ジャンプ状態に遷移
 		}
 		if (InputCtrl::GetKeyState(KEY_INPUT_E) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
@@ -338,7 +340,6 @@ void Player::Movement(float delta_second)
 			//player_state = ePlayerState::avoidance; //回避状態に遷移
 		}
 	}
-
 	else if (InputCtrl::GetKeyState(KEY_INPUT_D) || InputCtrl::GetKeyState(KEY_INPUT_RIGHT) || InputCtrl::GetButtonState(XINPUT_BUTTON_DPAD_RIGHT)) {
 		velocity.x = VELOCITY;
 
@@ -347,7 +348,7 @@ void Player::Movement(float delta_second)
 		//移動状態のときボタンを押されたら
 		if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS)
 		{
-			player_state = ePlayerState::jump; //ジャンプ状態に遷移
+			//player_state = ePlayerState::jump; //ジャンプ状態に遷移
 		}
 		if (InputCtrl::GetKeyState(KEY_INPUT_E) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
 		{
@@ -368,7 +369,7 @@ void Player::Movement(float delta_second)
 void Player::JumpMoment(float delta_second)
 {
 	//ジャンプ移動処理
-	if ((InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS && is_on_ground == true || InputCtrl::GetButtonState(XINPUT_BUTTON_A)) && is_on_ground == true) {
+	if ((InputCtrl::GetKeyState(KEY_INPUT_SPACE) || InputCtrl::GetButtonState(XINPUT_BUTTON_A))) {
 		velocity.y = -4.0f;
 
 		is_on_ground = false;

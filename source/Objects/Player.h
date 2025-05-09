@@ -51,6 +51,7 @@ private:
 	int jump_SE;
 
 	bool jump_attack_flg;
+	//bool jump_flg;
 
 	Player* player;
 
