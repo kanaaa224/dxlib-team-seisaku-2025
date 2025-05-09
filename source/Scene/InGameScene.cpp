@@ -54,13 +54,16 @@ eSceneType InGameScene::Update(const float& delta_second)
 
 		player->SetLocation(Vector2D(v.x, player->GetLocation().y));
 	}
+	if (player->player_state == die)
+	{
+		DestroyObject(player);
+	}
 
 	return GetNowSceneType();
 }
 
 void InGameScene::Draw() const
 {
-
 	__super::Draw();
 
 	//UIのインスタンスを取得
