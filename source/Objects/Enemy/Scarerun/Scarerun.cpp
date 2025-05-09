@@ -60,9 +60,11 @@ void Scarerun::Update(float delta_second)
 	if (nowState == IDLE) {
 		Movement(30.0f);//左右移動
 	}
-	//if (hp <= 0) {//hpが０の時
-	//	nowState = DIE;
-	//}
+	if (hp <= 0) {//hpが０の時
+		SetEnemyState(DIE);
+		velocity = 0.0f;
+		//ここに自分自身を削除することを書く
+	}
 
 	Animation(delta_second);
 }
