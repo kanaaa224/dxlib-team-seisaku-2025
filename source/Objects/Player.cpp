@@ -41,28 +41,29 @@ void Player::Initialize()
 	//インスタンス取得
 	ResourceManager* rm = ResourceManager::GetInstance();
 
+	//image画像
 	idle_animation = rm->GetImages("resource/images/player/idle/03_idle.png", 8, 8, 1, 288, 45);
 	run_animation = rm->GetImages("resource/images/player/run/run_288_45_8.png", 8, 8, 1, 288, 45);
 	attack_animation = rm->GetImages("resource/images/player/attack1/atk_288_45.png", 6, 6, 1, 288, 45);
 	jump_animation = rm->GetImages("resource/images/player/jump_up/jump_up2.png", 7, 7, 1, 288, 60);
-	avoidance_animation = rm->GetImages("resource/images/player/roll/roll_288_45_7.png", 7, 7, 1, 288, 45); //回避アニメーション
+	avoidance_animation = rm->GetImages("resource/images/player/roll/roll_288_45_7.png", 7, 7, 1, 288, 45);
 
 	//jump_SE = rm->GetSounds("resource/sounds/xxx.wav");
 
 	//collision.SetSize(D_OBJECT_SIZE, D_OBJECT_SIZE);  //サイズ設定
 
-	collision.is_blocking = true;
+	collision.is_blocking = true; //ブロックするかどうか
 
 	collision.SetObjectType(eObjectType::player);  //オブジェクト設定
 
 	collision.SetHitObjectType({ eObjectType::enemy, eObjectType::ground });  //hitオブジェクトタイプ
 
-	collision.SetSize(46, 40);
+	//collision.SetSize(46, 40);  
 
 	SetDrawCollisionBox(true);  //当たり判定大きさ取得3
 	SetDarwCollisionCapsule(true);
 
-	img_size = Vector2D(100, 100);
+	img_size = Vector2D(100, 100);   //当たり判定サイズ設定
 
 	collision.radius = 25;
 
@@ -80,11 +81,21 @@ void Player::Initialize()
 
 	if (image == -1) throw("エラー\n");  //エラーチェック
 
+
 }
 
 void Player::Update(float delta_second)
 {
 	Vector2D collisionPosition = collision.GetPosition();
+
+	velocity.y += D_GRAVITY * delta_second * ADDJUMP;  //重力速度計算
+
+	if (location.y > 400)
+	{
+		location.y = 400.0;
+		//ground_y < 400.0f;
+	}
+
 
 	collision.SetPosition(location);
 
@@ -185,7 +196,7 @@ void Player::Update(float delta_second)
 		//プレイヤーがジャンプ状態のとき
 		JumpMoment(delta_second);
 
-		if (!is_on_ground) velocity.y += D_GRAVITY * delta_second * ADDJUMP;  //重力速度計算
+		//if (!is_on_ground) velocity.y += D_GRAVITY * delta_second * ADDJUMP;  //重力速度計算
 
 		/* ジャンプ中に2回攻撃させないため */
 		if (InputCtrl::GetKeyState(KEY_INPUT_E) == PRESS && jump_attack_flg == false ||
@@ -199,7 +210,7 @@ void Player::Update(float delta_second)
 
 			location.y = ground_y;
 
- 			velocity.y = 0.0f;
+			velocity.y = 0.0f;
 			g_velocity = 0.0f;
 
 			is_on_ground = true;
@@ -220,7 +231,7 @@ void Player::Update(float delta_second)
 		AnimationControl(attack_animation, ATTACK_ANIMATION_RATE, delta_second, 6, jump);
 
 		//if (jump_attack_flg == false) jump_attack_flg = true;
-		if (!is_on_ground) velocity.y += D_GRAVITY * delta_second * ADDJUMP;  //重力速度計算
+		//if (!is_on_ground) velocity.y += D_GRAVITY * delta_second * ADDJUMP;  //重力速度計算
 
 		break;
 	case ePlayerState::avoidance: //回避処理
@@ -284,7 +295,7 @@ void Player::OnHitCollision(GameObjectBase* hit_object) //当たった時
 	//	is_power_up = true;
 	//}
 
-	if (hit_object->GetCollision().object_type == eObjectType::enemy) 
+	if (hit_object->GetCollision().object_type == eObjectType::enemy)
 	{
 		player_state = ePlayerState::damage;
 	}
@@ -324,7 +335,7 @@ void Player::Movement(float delta_second)
 		flip_flag = true;
 
 		//移動状態のときボタンを押されたら
-		if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS  || InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS && is_on_ground == true)
+		if (InputCtrl::GetKeyState(KEY_INPUT_SPACE) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_A) == PRESS && is_on_ground == true)
 		{
 			//velocity.y = -4.0f;
 
