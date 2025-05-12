@@ -7,14 +7,14 @@
 #define D_PLAYER_SPEED	(50.0f) //プレイヤー速度
 #define D_GRAVITY (9.807f) //重力
 
-#define IDLE_ANIMATION_RATE (0.1f)
+#define IDLE_ANIMATION_RATE (0.1f)  //アニメーション速度
 #define MOVE_ANIMATION_RATE (0.3f)
 #define ROLL_ANIMATION_RATE (0.01f)
 #define JUMP_ANIMATION_RATE (0.01f)
 #define ATTACK_ANIMATION_RATE (0.01f)
 
-#define VELOCITY (4.0f)
-#define ADDJUMP (1)
+#define VELOCITY (4.0f)  //移動量
+#define ADDJUMP (1) //
 
 Player* Player::instance = nullptr; //インスタンス生成
 
@@ -81,7 +81,6 @@ void Player::Initialize()
 
 	if (image == -1) throw("エラー\n");  //エラーチェック
 
-
 }
 
 void Player::Update(float delta_second)
@@ -90,10 +89,10 @@ void Player::Update(float delta_second)
 
 	velocity.y += D_GRAVITY * delta_second * ADDJUMP;  //重力速度計算
 
-	if (location.y > 400)
+	if (location.y > 400) //地面落ちないようにする
 	{
-		location.y = 400.0;
-		//ground_y < 400.0f;
+		location.y = 400;
+		velocity.y = 0.5;
 	}
 
 
@@ -194,7 +193,7 @@ void Player::Update(float delta_second)
 		//PlaySoundMem(jump_SE, DX_PLAYTYPE_BACK, TRUE);
 
 		//プレイヤーがジャンプ状態のとき
-		JumpMoment(delta_second);
+		JumpMovement(delta_second);
 
 		//if (!is_on_ground) velocity.y += D_GRAVITY * delta_second * ADDJUMP;  //重力速度計算
 
@@ -377,7 +376,7 @@ void Player::Movement(float delta_second)
 	}
 }
 
-void Player::JumpMoment(float delta_second)
+void Player::JumpMovement(float delta_second)
 {
 	//ジャンプ移動処理
 	if ((InputCtrl::GetKeyState(KEY_INPUT_SPACE) || InputCtrl::GetButtonState(XINPUT_BUTTON_A))) {
