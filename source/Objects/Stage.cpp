@@ -18,7 +18,7 @@ void Stage::Initialize()
 {
 	ResourceManager* rm = ResourceManager::GetInstance();
 
-	stage_background = rm->GetImages("resource/images/stage/stage1/forest.png",1);
+	stage_background = rm->GetImages("resource/images/stage/stage1/2forest.png",1);
 
 	image = stage_background[0];
 
@@ -42,7 +42,7 @@ void Stage::Draw(const Vector2D& screen_offset) const
 
 	__super::Draw(screen_offset);
 
-	DrawRotaGraphF(location.x + 1280, location.y, 1.0, 0.0, image, TRUE, this->flip_flag); // 仮
+	//DrawRotaGraphF(location.x + 1280, location.y, 1.0, 0.0, image, TRUE, this->flip_flag); // 仮
 
 	DrawFormatString(0, 200, GetColor(255, 255, 255), "location: %f", location.x);
 	DrawFormatString(0, 220, GetColor(255, 255, 255), "velocity: %f", velocity.x);
