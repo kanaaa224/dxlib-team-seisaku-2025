@@ -56,7 +56,7 @@ eSceneType InGameScene::Update(const float& delta_second)
 	}
 	if (player->player_state == die)
 	{
-		DestroyObject(player);
+		//DestroyObject(player);
 	}
 
 	return GetNowSceneType();

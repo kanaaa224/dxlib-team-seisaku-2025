@@ -150,6 +150,13 @@ void Player::Update(float delta_second)
 		break;
 
 	case ePlayerState::move: //移動処理
+
+		if (InputCtrl::GetKeyState(KEY_INPUT_E) == PRESS || InputCtrl::GetButtonState(XINPUT_BUTTON_X) == PRESS)
+		{
+			//image = attack_animation[0];
+			player_state = ePlayerState::attack;
+		}
+
 		Movement(delta_second);
 		AnimationControl(run_animation, MOVE_ANIMATION_RATE, delta_second, 8, idle);
 
@@ -435,6 +442,9 @@ void Player::SetScrollEnd()
 {
 	scroll_end = true;
 }
+    
+
+
 
 ePlayerState Player::PlayerState()
 {
