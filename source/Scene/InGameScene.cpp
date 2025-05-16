@@ -19,7 +19,7 @@ void InGameScene::Initialize()
 	player = CreateObject<Player>(Vector2D(100, 400));
 	stage  = CreateObject<Stage>(Vector2D(640, 360));
 
-	for (int i = 0; i < 50; i++) {
+	for (int i = 0; i < 3; i++) {
 		float x, y;
 
 		x = (i + 1) * 25.0f;
